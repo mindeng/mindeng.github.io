@@ -219,7 +219,7 @@ a:hover   { color: #000; }
   color: #33a;
   text-decoration: none;
   font-family: Monaco, "Courier New", monospace;
-  margin-right: 0.2em;
+  margin-right: 0.1em;
 }
 #alltags a:hover   { color: #000; }
 #alltags li { 
