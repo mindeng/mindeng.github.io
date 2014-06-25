@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "Ubuntu: 设置 DNS"
+date:   2012-04-12 17:39:57
+tags:   [dns, ubuntu]
+---
+
+
+在 Ubuntu 中，如果直接修改 /etc/resolv.conf，在重启机器或重启网络后，该文件会被重新覆盖。
+
+因此，如果需要修改 DNS，比较好的办法是修改配置文件 /etc/dhcp3/dhclient.conf ，在其中加入:
+
+    prepend domain-name-servers <dns1>, <dns2>;
+
+例如:
+
+    prepend domain-name-servers 8.8.8.8, 8.8.4.4;

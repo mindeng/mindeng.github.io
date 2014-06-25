@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Linux：查看进程监听的IP/Port"
+date:   2014-05-15 15:04:45
+tags:   [linux, admin]
+---
+
+Run this command as root:
+
+
+```
+ss -nlput | grep ssh
+```
+
+P.S.:
+
+
+```
+-n
+    no port to name resolution
+-l
+    only listening sockets
+-p
+    show processes listening
+-u
+    show udp sockets
+-t
+    show tcp sotckets
+```

@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Tornado & Django"
+date:   2012-10-26 08:44:10
+tags:   [python, web, tornado, django]
+---
+
+
+我喜欢 Tornado 的非阻塞框架，简单、轻量和高性能，部署也非常方便；我也喜欢 Django 的高级特性，快速开发和实用设计。
+
+怎么办？有没有办法统一起来？
+
+答案是肯定的。
+
+事实上，Tornado 不仅是一个 Web 开发框架，更是一个高性能的 Web Server，并且可以作为 WSGI Container（详情请参见 [tornado.wsgi — Interoperability with other Python frameworks and servers](http://www.tornadoweb.org/documentation/wsgi.html)）。
+
+在现实需求中，往往很多地方需要能够快速开发，或者希望能有自动的 Admin 后台，这时候 Django 将会非常有用；而有些地方则可能性能十分关键，有较大的并发访问需求，亦或是有 long polling 之类的需求，Tornado 便有其用武之地了。
+
+我的想法是，使用 Tornado 开发关键性能或需要 long polling 的应用，并利用 WSGI Container 的特性，连接 Django 应用。前端使用 nginx 做负载均衡，我觉得这样应该比较完美了。
+
+如果还有性能问题，可尝试如下改进措施：
+
+* 增加页面缓存，可用 memcached
+* 增加数据缓存，缓存查询结果及计算结果，可用 redis
+* 开多个 Tornado 实例
+
+这些缓存、实例皆可分布在多个不同的服务器上。
+
+另外，如果网站还需要为移动或PC客户端提供后台服务，我建议使用 Tornado 开发高性能的接入服务，并提供 REST 风格的 API 供客户端访问。网站本身的开发还是遵循上述规则，该 Django 的地方就 Django ，该 Tornado 的就 Tornado。 :-)

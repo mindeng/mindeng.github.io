@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Run a cron command every 15 minutes"
+date:   2012-03-06 09:20:35
+tags:   [cron, linux]
+---
+
+
+```
+0,15,30,45 * * * * /path/to/command
+
+5,20,35,50 * * * * /path/to/command
+
+# more succinct (identical with the first example)
+*/15 * * * * /path/to/command
+```

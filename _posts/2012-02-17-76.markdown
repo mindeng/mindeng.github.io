@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "Debian: Add Chinese support"
+date:   2012-02-17 08:55:26
+tags:   [debian, chinese, linux]
+---
+
+```
+# Uncomment zh_CN*
+vi /etc/locale.gen
+
+# Re-generate the locale
+locale-gen
+
+# install Chinese font
+apt-get install ttf-wqy-zenhei
+
+# install chinese input method
+apt-get install ibus-pinyin
+```

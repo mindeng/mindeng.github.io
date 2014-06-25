@@ -1,0 +1,71 @@
+---
+layout: post
+title:  "OAuth 2.0 授权类型"
+date:   2012-10-23 09:24:55
+tags:   [oauth]
+---
+
+
+**目录**
+
+[TOC]
+
+# 四种授权类型
+
+OAuth 2.0 定义了四种授权类型：authorization code, implicit, resource owner password credentials, 和 client credentials, 同时也提供扩展机制，支持自定义类型。
+
+## Authorization Code
+
+这种模式适合于网站应用和有后端服务器的客户端应用，因为需要用到开发者的密钥（client_secret），如果把密钥嵌入到发布的客户端中，将会非常的不安全。
+
+其大致工作流程如下：
+
+1. 获取 authorization code
+    
+    App Server 在需要获得授权时，跳转到开放平台提供的授权页面，用户将在该页面进行用户验证并确认是否授权，授权成功后会重定向至你指定的 redirect URI，并在参数中返回 authorization code。
+
+    参数说明：response_type 需设置为 code，redirect_uri 指定你的回调 URI。
+
+1. 获取 access token
+
+    App Server 收到 redirect URI 时，解析出 authorization code，并使用 authorization code 及其他相关信息（client_id, client_secret等）去向 token endpoint 请求 access token。
+
+1. 调用开放平台 API
+
+    拿到 access token 之后，就可以使用它来调用开放平台的 API 了。
+
+
+## Implicit
+
+这是一种简化的流程，专门为客户端应用做了优化。这种方式不需要 App 有自己的 Server 端。
+
+其大致流程如下：
+
+1. 获取 access token
+
+    App Server 在需要获得授权时，跳转到开放平台提供的授权页面，用户将在该页面进行用户验证并确认是否授权，授权成功后会重定向至你指定的 redirect URI，并在 URI Fragment 中返回 access token。
+
+    App 需要拦截这个重定向 URI，并解析出 access token。
+
+    参数说明：response_type 需设置为 token，redirect_uri 指定你的回调 URI。
+
+1. 调用开放平台 API
+
+    拿到 access token 之后，就可以使用它来调用开放平台的 API 了。
+
+## Resource Owner Password Credentials
+
+这种方式比较简单，就是直接使用用户名和密码进行验证并授权，个人觉得这种方式不太安全。
+
+## Client Credentials
+
+这种方式也比较简单，即通过密钥的方式来直接获得授权。
+
+百度开放平台有提供这种授权方式，但是有较大的限制：通过这种方式所获取的Access Token只能用于访问与用户无关的Open API，并且需要开发者提前向百度开放平台申请，审核通过后方能使用。详见 [使用应用公钥、密钥获取Access Token](http://dev.baidu.com/wiki/connect/index.php?title=%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E5%85%AC%E9%92%A5%E3%80%81%E5%AF%86%E9%92%A5%E8%8E%B7%E5%8F%96Access_Token) 。
+
+# 参考资料
+
+* [OAuth 2.0 官方网站](http://oauth.net/2/)
+* [OAuth 2.0 Spec](http://tools.ietf.org/html/draft-ietf-oauth-v2)
+* [人人网开放平台 OAuth 2.0 文档](http://wiki.dev.renren.com/wiki/Authentication)
+* [百度开放平台 OAuth2.0 文档](http://dev.baidu.com/wiki/connect/index.php?title=%E7%99%BE%E5%BA%A6OAuth2.0%E5%AE%98%E6%96%B9%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3)

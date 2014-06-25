@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "How to Install the Latest Flash for Chrome in Ubuntu"
+date:   2012-05-10 22:55:02
+tags:   [chrome, flash, ubuntu]
+---
+
+
+1. Download the appropriate version of install\_flash_player.tar.gz archive from the [official website](http://get.adobe.com/flashplayer/)
+
+1. Unpack the downloaded file, and copy the file libflashplayer.so into the Chrome plugins directory:
+
+        sudo cp libflashplayer.so /opt/google/chrome/plugins/
+
+   *Note* If the plugins directory is not existed, you should create it.
+
+1. Open the address "chrome://plugins/" in your Chrome, if all goes well, you should see the flash plugin information like this::
+  
+        Flash - Version: 11.2 r202
+        Shockwave Flash 11.2 r202
+
+  Now the latest flash has been activated in you Chrome.

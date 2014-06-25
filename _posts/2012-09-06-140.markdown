@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "Git: Detach subdirectory into separate Git repository"
+date:   2012-09-06 04:49:27
+tags:   [git]
+---
+
+
+Use command `git filter-branch` , see <http://stackoverflow.com/questions/359424/detach-subdirectory-into-separate-git-repository> .

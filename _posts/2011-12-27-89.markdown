@@ -1,0 +1,33 @@
+---
+layout: post
+title:  "How to determine if an Activity exists on the current device"
+date:   2011-12-27 23:01:43
+tags:   [android, activity]
+---
+
+
+
+This code snippet won't work since startActivity dosen't throw the exception ActivityNotFoundException:
+
+<pre class='brush: java'>
+try {
+    startActivity(new Intent(...));
+} catch (ActivityNotFoundException e) {
+    Toast.makeText(this, "Not installed.", LENGTH_SHORT).show();
+}
+</pre>
+
+
+You maybe want to try this:
+
+<pre class='brush: java'>
+public boolean isCallable(Intent intent) {
+    return getContext().getPackageManager().resolveActivity(
+            intent, PackageManager.MATCH_DEFAULT_ONLY) != null;
+
+    // or(I havn't try it):
+    // List<ResolveInfo> list = getPackageManager().queryIntentActivities(
+    //         intent, PackageManager.MATCH_DEFAULT_ONLY);
+    // return list.size() > 0;
+}
+</pre>

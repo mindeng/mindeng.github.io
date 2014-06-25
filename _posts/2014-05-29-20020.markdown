@@ -1,0 +1,10 @@
+---
+layout: post
+title:  "Bloom Filter 布隆过滤器"
+date:   2014-05-29 20:23:50
+tags:   [algorithm, hash]
+---
+
+Bloom Filter，采用多重哈希+位数组来实现在海量数据中判断一个元素是否存在。
+
+这篇文章介绍的不错： <http://www.dbafree.net/?p=36>

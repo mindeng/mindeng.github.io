@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Android: Blurring and dimming background windows from dialogs"
+date:   2012-01-20 01:34:47
+tags:   [android, gui]
+---
+
+
+
+<pre class="brush: java">
+		WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		lp.dimAmount=0.0f;
+		lp.alpha=0.5f;
+		dialog.getWindow().setAttributes(lp);
+		dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+</pre>

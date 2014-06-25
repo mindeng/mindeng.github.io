@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Java 程序指定终端输出编码"
+date:   2013-09-06 16:46:47
+tags:   [java, mac]
+---
+
+运行时后面带上 -J-Dfile.encoding=UTF-8 即可。
+
+例如：
+
+    javac -J-Dfile.encoding=UTF-8
+    keytool -J-Dfile.encoding=UTF-8

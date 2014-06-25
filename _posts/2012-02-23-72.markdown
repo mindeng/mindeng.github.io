@@ -1,0 +1,41 @@
+---
+layout: post
+title:  "Design Pattern: Double-checked locking"
+date:   2012-02-23 00:29:20
+tags:   [design-pattern, double-checked-locking]
+---
+
+
+
+<pre class="brush: java">
+// Correct but possibly expensive multithreaded version
+class Foo {
+    private Helper helper = null;
+    public synchronized Helper getHelper() {
+        if (helper == null) {
+            helper = new Helper();
+        }
+        return helper;
+    }
+ 
+    // other functions and members...
+}
+
+// Broken multithreaded version
+// "Double-Checked Locking" idiom
+class Foo {
+    private Helper helper = null;
+    public Helper getHelper() {
+        if (helper == null) {
+            synchronized(this) {
+                if (helper == null) {
+                    helper = new Helper();
+                }
+            }
+        }
+        return helper;
+    }
+ 
+    // other functions and members...
+}
+</pre>

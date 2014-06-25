@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "Ubuntu: 解决 Skype 不能输入中文的问题"
+date:   2012-04-12 17:43:37
+tags:   [skype, ubuntu, chinese]
+---
+
+在 Ubuntu 中，可能会碰到在 Skype 中不能切换输入法输入中文的问题，在 /etc/environment 中加入如下一行可解决该问题:
+
+    LC_CTYPE="zh_CN.UTF-8"
+
+P.S.: 该办法似乎也解决了 ibus 不能开机自启动的问题？待验证。

@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Debian: use apt-spy to generate the fastest source"
+date:   2012-03-10 02:39:38
+tags:   [debian, apt, linux]
+---
+
+```
+sudo apt-get install apt-spy
+
+# stable distribution, in North-America
+sudo apt-spy -d stable -a North-America -t 5
+
+# testing distribution, in Asia
+sudo apt-spy -d testing -a Asia -t 5
+```

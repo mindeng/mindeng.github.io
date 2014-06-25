@@ -1,0 +1,121 @@
+---
+layout: post
+title:  "Android: 插件机制介绍"
+date:   2014-06-01 17:23:45
+tags:   [android]
+---
+
+原理很简单，就是自定义 ClassLoader 来动态加载插件类。这里有篇文章已经介绍的挺清楚了： [Custom Class Loading in Dalvik](http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html) ，不再赘述。
+
+这里主要介绍一些上文中没有提到的，在具体操作过程中需要注意的问题，以及尝试实现一个简单的 Activity 插件。
+
+### 需要注意的细节
+#### 项目的组织
+在上面那篇文章中，作者把主程序（姑且叫做 Host 吧）和插件程序（后面称为 Plugin）两者混在一个工程当中，作为技术演示不是问题，但是要应用在实际工作中会比较麻烦。因为 Host 和 Plugin 可能是不同的团队开发和维护的，尤其是 Plugin ，可能会由多个团队、个人来开发，甚至可能有第三方的团队来开发。
+
+为了便于管理，我们需要把 Host 和 Plugin 分开。但这两者之间还是需要有一个纽带联系起来，所以我们引入了第三个组件： PluginCommon。
+
+我们把 Host 和 Plugin 之间公共的部分放到 PluginCommon 里面，并以 Android Library 的形式加以引用。另外，Plugin 本身也可以以 Android Library 的形式存在。
+#### dex 预处理
+还有一个问题需要注意的是，Eclipse 编译出来的 jar 包默认是没有经过 dx 处理的，即里面都是 class 文件，没有 dex 文件，Android 的 DexClassLoader 是无法解析的。所以，需要用 dx 工具预先处理一下：
+
+
+```
+dx --dex --output=pluginA.jar bin/pluginA.jar
+```
+这样，就可以在代码中动态加载 pluginA.jar 了。
+
+### Activity 插件的简单实现
+基本思想是:
+
+*   在 PluginCommon 中定义一个接口 ActivityInterface，里面包含 Activity 生命周期的各项回调方法的声明
+*   在 Plugin 中写一个类实现 ActivityInterface 接口，即实现 Activity 的各项回调方法。这里假设实现的类叫做 ActivityImpl
+*   在 Host 中预先放一个 ProxyActivity，ProxyActivity 在运行时动态加载指定的 ActivityImpl 实现，并通过 ActivityImpl 来实现其 Activity 生命周期的各项回调方法，以达到运行时改变 ProxyActivity 的外观和行为的目的
+
+我尝试实现了一个简单的DEMO，下面是一些核心代码示例：
+
+```java
+// in package com.example.plugincommon
+public interface ActivityInterface {
+	void setActivity(Activity activity);
+	void onCreate(Bundle savedInstanceState);
+        // Other Activity lifecycle callbacks ...
+}
+
+// in package com.example.plugin.plugina
+public class PluginAActivity implements ActivityInterface {
+	
+	private Activity activity;
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+
+	public void onCreate(Bundle savedInstanceState) {
+		LinearLayout v = new LinearLayout(activity);
+		TextView tv = new TextView(activity);
+		tv.setText("I'm plugin A");
+		v.addView(tv);
+		context.setContentView(v);
+	}
+        // Other Activity lifecycle callback implements ...
+}
+
+// in package com.example.plugintest
+public class ProxyActivity extends ActionBarActivity {
+	
+	private static ActivityInterface impl;
+	private static ClassLoader classLoader;
+	
+	public static void initClassLoader() {
+                if (classLoader == null) {
+		        // init class loader here ...
+                }
+	}
+
+	private static ActivityInterface loadPlugin(Activity activity, fullClassName) {
+		if (classLoader == null) {
+			throw new RuntimeException("Please init classLoader first!");
+		}
+		
+		ClassLoader cl = classLoader;
+		
+		try {
+			Class<?> pluginClass = Class.forName(fullClassName, true, cl);
+			ActivityInterface lib = (ActivityInterface) pluginClass
+					.newInstance();
+			lib.setActivity(activity);
+		
+			return lib;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+                return null;
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+                initClassLoader();
+		
+                String fullClassName = "com.example.plugin.plugina.PluginAActivity";
+		impl = loadPlugin(this, fullClassName);
+
+		impl.onCreate(savedInstanceState);
+	}
+
+        // Using impl to implements other Activity lifecycle callbacks ...
+}
+
+```
+
+上面的 `fullClassName` 可以透过 Intent 传入，这样可以达到按需加载不同 Plugin 的目的。
+
+这种方式有个不太方便的地方就是，不能利用 Android 原生的资源加载机制，UI 需要代码实现，图片、字符串等资源也需要自己加载。如果插件的界面比较一致或较简单，则不是问题；但是对于UI比较复杂且需要多样化的插件而言，会比较麻烦。
+
+如果你有其他更好的办法，欢迎与我交流。

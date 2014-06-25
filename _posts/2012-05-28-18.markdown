@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "用Linux制作播放列表(playlist)"
+date:   2012-05-28 17:52:10
+tags:   [playlist, linux]
+---
+
+
+假设你的音乐文件位于目录 `/path/to/music`:
+
+    cd /path/to/music
+    find > favors.m3u
+
+然后可以使用任意编辑器（推荐vim）编辑文件 `favors.m3u`，删掉不需要的音乐路径。
+
+你的音乐播放器或者手机等设备一般会自动检测到该播放列表。尽情享受你喜欢的音乐吧！

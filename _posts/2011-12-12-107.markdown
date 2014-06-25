@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "apache2+sqlite3 的权限问题"
+date:   2011-12-12 22:52:30
+tags:   [sqlite3, apache2]
+---
+
+
+
+如果你使用apache2部署网站时，往往会遇到目录权限的问题。在Debian系Linux上，你应该保证你的静态内容、Web程序以及程序需要访问的目录，可以被www-data访问到。
+
+如果你使用 sqlite3 作为后端数据库，由于 sqlite3 服务需要同时获得 数据库文件及其 **所在目录** 的读写权限，才能正确打开该数据库，因此，你必须满足该条件才能顺利部署。
+
+例如，假设你使用的数据库文件为 /path/to/data.db，那么你不但要使文件/path/to/data.db是可读写的（针对www-data用户） ，还要让目录/path/to也是可读写的，否则将会出现IO错误。

@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Android: 获取当前Activity引用"
+date:   2014-06-17 23:52:57
+tags:   [android]
+---
+
+可以在自定义 Application 或 自定义基类 Activity 里放一个静态弱引用成员：
+
+```java
+private static WeakRefrence<Activity> sCurrentActivity;
+
+public static Activity getCurrentActivity() {
+    return sCurrentActivity != null ? sCurrentActivity.get() : null;
+}
+
+public static void setCurrentActivity(Activity act) {
+    sCurrentActivity = new WeakReference(act);
+}
+```
+
+然后在基类 Activity 的 onStart（或 onResume） 方法里调用 上面的 `setCurrentActivity` 方法。
+
+**注意：** 不要直接持有 Activity 的强引用，这样会导致 Activity 无法彻底释放，造成内存泄露；也千万不要在 onStop/onPause 里面去清除引用，因为前后两个 Activity 的生命周期回调方法可能是乱序的，例如，当 Activity A 启动 Activity B 时，生命周期的回调方法可能是如下调用顺序：
+
+1. B.onStart()
+1. A.onStop()
+
+这样一来，sCurrentActivity 虽然在 B.onStart() 中设置了，却被 A 的 A.onStop() 给清掉了。在这点上吃过大亏！切记切记！！

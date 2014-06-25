@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "编译 ant 缺少 JUnit 的问题"
+date:   2014-05-21 15:49:03
+tags:   [ant, junit, linux, admin]
+---
+
+由于公司服务器的系统版本较老，yum 安装的 ant 版本只有 1.7 ，不能支持 Android App 的编译（需1.8以上），所以只能手动编译 ant。
+
+1. 先到 http://archive.apache.org/dist/ant/source/ 下载合适的 ant 版本源码。我这里选择1.8的最新版本1.8.4，不选择更新的版本，以避免碰到其他的兼容性问题。
+
+1. 解压，执行 `./build.sh` ，这时可能会碰到如下问题：
+
+
+    ```
+We cannot build the test jar unless JUnit is present, as JUnit is needed to compile the test classes
+```
+
+1. 看上面的错误提示是缺少 JUnit ，于是 `sudo yum install junit`，再重试编译脚本，还是不行，Google 了一下，发现需要把 junit.jar 拷贝到 ant 源码目录 `lib/optional` ，我的路径是：`cp /usr/share/java/junit.jar lib/optional/` 。
+
+1. 再次编译，万事大吉。
+
+编译成功后，编译结果在 `apache-ant-1.8.4/dist/bin/` 目录，如果需要可以加入 `PATH` 环境变量以方便使用。
+
+P.S.: 用 yum 安装 junit 后， 如何找到 junit.jar 安装在哪儿？可以使用 `rpm -ql junit` 命令查询。

@@ -1,0 +1,41 @@
+---
+layout: post
+title:  "How to: Compile modules for Linux kernel 2.6"
+date:   2012-02-26 03:47:33
+tags:   [linux-kernel]
+---
+
+
+Only one source file (named module.c)::
+
+```
+  echo "obj-m += module.ko" > Makefile
+  make –C /path/to/kernel-source M=`pwd` modules
+```
+
+Makefile for multiple source files::
+
+```
+  # If KERNELRELEASE is defined, we've been invoked from the
+  # kernel build system and can use its language.
+  ifneq ($(KERNELRELEASE),)
+
+  obj-m := module.o
+  module-objs := file1.o file2.o
+
+  # Otherwise we were called directly from the command
+  # line; invoke the kernel build system.
+  else
+
+  KERNELDIR = /path/to/kernel-source
+  #KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+  PWD := $(shell pwd) 
+
+  default:
+  	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+
+  endif
+
+  clean:
+  	-rm -f *.o *.ko Module.markers Module.symvers modules.order *.mod.c
+```

@@ -1,0 +1,32 @@
+---
+layout: post
+title:  "关于本站"
+date:   2012-10-26 09:48:24
+tags:   [minotes]
+---
+
+联系方式： 
+![](/static/min-email-3.png?v=eeb5bab675d9c4ac9b6fd56315a735cd)
+
+*Updated @ 2013.01.03*
+
+* 撤出 GAE 平台
+* 暂时不再支持 Google 账号登陆
+
+---------
+
+*Updated @ 2012.12.22*
+
+* 目前已迁移至 GAE 平台
+* 暂时仅支持 [Markdown](http://daringfireball.net/projects/markdown/syntax)
+* 图片上传功能暂不可用，[img:...] 语法也不可用
+
+--------------
+
+* 这是一个用来做笔记的站点
+* 你可以使用 [Markdown](http://daringfireball.net/projects/markdown/syntax) 或者 [reStructuredText](http://docutils.sourceforge.net/docs/user/rst/quickref.html) 语法来记笔记
+* 你可以使用你的谷歌帐号[登录](/login)
+
+<!---
+联系我： [img:32f8bb18054e48b79b95fd14bce77463]
+-->

@@ -1,0 +1,59 @@
+---
+layout: post
+title:  "Android: DownloadManager 之 localUri"
+date:   2014-05-20 11:55:35
+tags:   [android]
+---
+
+Android 2.3 (API Level 9) 有个新特性：增加了下载管理的支持，即 `DownloadManager` 。
+
+里面有个坑需要注意，通过 `COLUMN_LOCAL_URI` 取到的 `localUri` 不一定是文件URI，有可能是 `content URI`（如果你没有自己设置Destination路径，使用系统默认路径时，多半会取得`content URI`）。所以你需要这样取到最终文件路径：
+
+```java
+public static String getFilePathFromUri(Context c, Uri uri) {
+	String filePath = null;
+	if ("content".equals(uri.getScheme())) {
+		String[] filePathColumn = { MediaColumns.DATA };
+		ContentResolver contentResolver = c.getContentResolver();
+
+		Cursor cursor = contentResolver.query(uri, filePathColumn, null,
+				null, null);
+
+		cursor.moveToFirst();
+
+		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		filePath = cursor.getString(columnIndex);
+		cursor.close();
+	} else if ("file".equals(uri.getScheme())) {
+		filePath = new File(uri.getPath()).getAbsolutePath();
+	}
+	return filePath;
+}
+```
+
+怎么通过 Download ID 获取 `localUri`，这里也一并列一下吧：
+
+```java
+public static Uri retrieveLocalUri(Context c, long downloaId) {
+    DownloadManager dm = (DownloadManager)
+        c.getSystemService(Context.DOWNLOAD_SERVICE);
+    Uri localUri = null;
+    Query query = new Query();
+    query.setFilterById(downloadId);
+    Cursor cursor = dm.query(query);
+    if (cursor.getCount() > 0) {
+        cursor.moveToFirst();
+
+        String uriStr = cursor.getString(cursor
+                .getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+
+        MyLog.d(TAG, "localUri:" + uriStr);
+
+        if (localUri != null)
+            localUri = Uri.parse(uriStr);
+
+    }
+    cursor.close();
+    return localUri;
+}
+```

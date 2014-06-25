@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "Parsing URL query parameters in Python"
+date:   2012-03-12 00:58:24
+tags:   [python, url]
+---
+
+
+Code:
+
+    #!python
+    from urlparse import urlparse
+    url = urlparse(URL)
+    params = dict([part.split('=') for part in url.query.split('&')])

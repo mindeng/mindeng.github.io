@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "Vim: Edit file in binary mode"
+date:   2013-05-23 20:22:18
+tags:   [vim]
+---
+
+Change to binary mode:
+
+    :%!xxd
+
+Change back:
+
+    :%!xxd -r

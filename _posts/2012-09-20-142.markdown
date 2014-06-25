@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "Linux: Increase the number of open file limit"
+date:   2012-09-20 07:36:12
+tags:   [admin, ulimit, linux]
+---
+
+
+shell:
+
+    su - root
+    ulimit -n 16384 # if root uses sh
+    limit descriptors 16384 # if root uses csh
+    su - your_user_name
+    program_to_run
+
+<http://research.cs.wisc.edu/condor/condorg/linux_scalability.html>
+
+Check the open FD limit for a given process:
+
+    cat /proc/23456/limits
+
+<http://unix.stackexchange.com/questions/31679/ulimit-pickle-operation-not-permitted-and-command-not-found>

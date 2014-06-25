@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "How to: Compile and Install Linux kernel 2.6"
+date:   2012-02-26 03:09:03
+tags:   [linux-kernel]
+---
+
+
+```
+  # use the default config for your arch
+  cp arch/x86/configs/i386_defconfig ./.config
+  # or config it yourself
+  make menuconfig
+
+  # compile kernel
+  make
+
+  # compile kernel modules
+  make modules
+
+  # install modules
+  sudo make modules_install
+  # or if you want to specify your install path
+  INSTALL_MOD_PATH=/kernel-install make modules_install
+
+  # install kernel
+  sudo make install
+  # or if you want to specify your install path
+  INSTALL_PATH=/kernel-install/boot make install
+
+  # create initrd image
+  cd /boot
+  sudo mkinitramfs -o initrd.img-2.6.27.61 2.6.27.61
+
+  # update grub
+  sudo update-grub
+
+  # reboot and choose your kernel to run
+  sudo reboot
+```

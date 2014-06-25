@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Git: 替换远程分支"
+date:   2012-03-12 23:25:22
+tags:   [git]
+---
+
+
+有时候由于某些误操作（如错误的将其他分支 `merge` 过来），导致远程分支错误，需要强制覆盖远程分支。可以使用命令 `git push origin branch-name --force` 来强制覆盖。
+
+不过，基于安全性考虑，你的远程 git 可以禁止改操作，你可以通过修改远程仓库的 `config` 文件来临时允许覆盖操作:
+
+    [receive]
+  	  denyNonFastforwards = false # change to false to enable overwriting
+
+覆盖完成之后，记得把这个标志再改回 `true` ，以提高仓库的安全性，避免错误的覆盖操作。
+
+**注意** 如果远程的代码仓库为多个人共享访问时，其他人的 `push` 操作可能会再次将错误的 `merge` 引入远程分支（因为其他人本地存放的分支仍然是旧的）。 **除非事先和所有的成员沟通好，让大家将本地的错误分支删除，否则这种方式不可取** 。
+
+因此， **如果是团队开发，最好是使用** `revert` **命令来回滚** ，而不是覆盖。这样虽然历史记录不太干净，但是比较安全。回滚一个 `merge` 的命令如下:
+
+    git revert merge-commit-hash -m 1

@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "Git: stash your current state of your work"
+date:   2012-03-08 19:12:26
+tags:   [git]
+---
+
+
+```
+# Save your local modifications to a new stash, and reset your working directory
+git stash
+
+# With --patch, you can interactively select hunks from in the diff between HEAD and the tree to be stashed
+git stash --patch
+
+# pop-up the latest stash and apply it
+git pop
+```
+
+Run `git help stash` to learn more details.

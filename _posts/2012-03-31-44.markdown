@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Run adb on 64-bit platform"
+date:   2012-03-31 05:54:17
+tags:   [android, 64-bit]
+---
+
+
+If you are running a 64-bit distribution on your development machine, you need to install the ia32-libs package using apt-get:
+
+    apt-get install ia32-libs

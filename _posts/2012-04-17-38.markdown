@@ -1,0 +1,32 @@
+---
+layout: post
+title:  "配置 git bare 仓库为多人共享"
+date:   2012-04-17 19:32:15
+tags:   [git]
+---
+
+
+#. 为安全起见，最好打开 denyNonFastforwards 和 sharedrepository 两个开关:
+
+    [core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = true
+        sharedrepository = 1
+    [receive]
+        denyNonFastforwards = true
+  
+#. 权限模型:
+
+    -rw-rw-r--   1 min dev   23 Mar 19 11:26 HEAD
+    drwxrwxr-x   2 min dev 4096 Mar 19 11:26 branches
+    -rw-r--r--   1 min dev  129 Mar 19 11:28 config
+    -rw-r--r--   1 min dev   73 Mar 19 11:26 description
+    drwxrwxr-x   2 min dev 4096 Mar 19 11:26 hooks
+    drwxrwxr-x   2 min dev 4096 Mar 19 11:26 info
+    drwxrwxr-x 258 min dev 4096 Mar 27 18:28 objects
+    drwxrwxr-x   4 min dev 4096 Mar 19 11:26 refs
+  
+   即开发小组成员必须对除 config 和 description 两个文件外的所有文件和目录拥有读写权限，否则 push 将失败。
+
+可以使用 `git init --bare --shared=group` 命令来创建基于组的共享仓库，该命令将会自动处理以上两项。

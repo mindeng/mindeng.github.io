@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "quick sort"
+date:   2014-02-19 14:55:25
+tags:   [algorithm, c]
+---
+
+```c
+void swap(int *a, int *b)
+{
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void qsort(int a[], int left, int right)
+{
+    if (left >= right) return;
+
+    int pivot = a[left];
+    int i = left + 1;
+    int j = right;
+
+    // partition a to two sub-lists
+    while (1) {
+        while (a[i] <= pivot && i <= right) ++i;
+        while (a[j] > pivot && j > i) --j;
+        if (i < j) {
+            swap(&a[i], &a[j]);
+        }
+        else {
+            swap(&a[left], &a[i-1]);
+            break;
+        }
+    }
+
+    qsort(a, left, i-2);
+    qsort(a, i, right);
+}
+```

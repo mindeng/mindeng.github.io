@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Compile the latest version of SQLite (3.7.11) to support FTS4 content option"
+date:   2012-05-04 07:24:18
+tags:   [sqlite3]
+---
+
+
+SQLite 3.7.11 includes documented support for the FTS4 content option. This feature has actually been in the code since version 3.7.9 but is only now considered to be officially supported.
+
+To enable this feature, use the following command to compile the amalgamation source code:
+
+    cc sqlite3.c shell.c -DSQLITE_ENABLE_FTS4 -lpthread -ldl -o sqlite3

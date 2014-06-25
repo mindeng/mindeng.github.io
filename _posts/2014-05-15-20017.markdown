@@ -1,0 +1,41 @@
+---
+layout: post
+title:  "Linux: rsyncd.conf"
+date:   2014-05-15 15:14:37
+tags:   [linux, admin]
+---
+
+File `/etc/rsyncd.conf`:
+
+
+```
+uid = nobody
+gid = nobody
+use chroot = yes 
+max connections = 4 
+pid file = /var/run/rsyncd.pid
+address = 10.18.18.81
+
+#hosts allow=10.0.0.0/255.0.0.0
+#hosts deny=*
+
+[qixiong]   
+       path = /data/rsync_dir
+       comment = rsync dir
+       auth users = username
+       secrets file = /etc/rsyncd.secrets
+```
+
+File `/etc/rsyncd.secrets`:
+
+
+```
+username:password
+```
+
+Start rsync daemon:
+
+
+```
+rsync --daemon --config=/etc/rsyncd.conf
+```

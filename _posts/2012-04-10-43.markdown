@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Ubuntu: Disable touchpad"
+date:   2012-04-10 18:44:18
+tags:   [touchpad, ubuntu]
+---
+
+
+Determine the device id (the device name should be something with touchpad or glidepoint):
+
+    xinput list
+
+Disable it (e.g. here the device id is 15):
+
+    xinput set-prop 15 "Device Enabled" 0

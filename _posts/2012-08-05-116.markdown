@@ -1,0 +1,62 @@
+---
+layout: post
+title:  "Variables & Functions in Tornado Templates"
+date:   2012-08-05 09:07:20
+tags:   [tornado]
+---
+
+
+* _ (underscore)
+
+    An alias for the locale.translate() function.
+
+* current_user
+
+    The current_user object as returned by RequestHandler.get_current_user().
+* datetime
+
+    The datetime module.   Example: {{ datetime.date.today().year }} returns the current year.
+
+* escape
+    
+    A function that escapes a string so it is valid within XML or XHTML.
+
+* handler
+
+    The request handler that called the self.render function to process the template.  Example: {{handler.static_url(‘foo’)}} will run the static_url function in RequestHandler returning a full URL path, pre-pending static_url.
+
+* json_encode
+
+    A function that JSON-encodes the given Python object.
+
+* locale
+
+    The locale value as returned by RequestHandler.get_user_locale().
+
+* request
+    
+    The request object that is passed into the Request Handler.
+
+* reverse_url 
+
+    Given a full module and class (myapp.Homepage) it will look at the handler to URI mapping and return the URL for the given class.
+
+* squeeze
+  
+    A function that replaces all sequences of whitespace chars with a single space.
+
+* static_url
+
+    The value of the static_url property passed in to the application settings.
+
+* url_escape
+
+    A function that returns a valid URL-encoded version of the given value.
+
+* xsrf_form_html
+
+    If using the cross-site forgery protection, this function returns the hidden input field containing the xrsf variable.
+
+From <http://gavinroy.com/tornado-tip-of-the-day-38-variables-exposed-i> .
+
+You can find more in <http://www.tornadoweb.org/documentation/overview.html> .

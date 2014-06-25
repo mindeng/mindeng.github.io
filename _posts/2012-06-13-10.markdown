@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Python: Are dict.keys() and dict.values() always the same order?"
+date:   2012-06-13 10:44:19
+tags:   [python, dict]
+---
+
+
+Generally yes, the [python document](http://docs.python.org/library/stdtypes.html#dict.items) mentions this:
+
+> If items(), keys(), values(), iteritems(), iterkeys(), and itervalues() are called with no intervening modifications to the dictionary, the lists will directly correspond.

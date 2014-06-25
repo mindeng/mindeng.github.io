@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "Windows: 查看有几根内存条"
+date:   2013-06-08 15:02:39
+tags:   [windows, admin]
+---
+
+打开命令行窗口，输入 "wmic"，回车，再输入 "memorychip"，回车。

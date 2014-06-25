@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Git: Push to a remote non-bare repository"
+date:   2012-08-22 11:07:31
+tags:   [git]
+---
+
+
+By default, updating the current branch in a non-bare repository 
+is denied.
+
+You can add the following config in `.git/config` for the remote repository to enable it:
+
+    [receive]
+        denyCurrentBranch = ignore

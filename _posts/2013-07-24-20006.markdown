@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "Linux: http_proxy with username and password"
+date:   2013-07-24 14:56:57
+tags:   [linux, admin]
+---
+
+示例:
+
+    export http_proxy=http://username:password@host:port
+
+如果你的密码中带有字符"@"，应使用"%40"代替，例如：
+
+    export http_proxy=http://username:123%40xxx@host:port

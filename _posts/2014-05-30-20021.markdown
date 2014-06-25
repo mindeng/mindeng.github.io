@@ -1,0 +1,18 @@
+---
+layout: post
+title:  "ELF 防破解注意事项"
+date:   2014-05-30 11:18:15
+tags:   [elf, hacker, android]
+---
+
+这篇文章写的深入浅出： <http://heikezhi.com/yuanyi/hackme-deconstructing-an-elf-file>  
+英文原版在这里： <http://manoharvanga.com/hackme/>
+
+从这篇文章可以看出，要编写一个安全的软件，至少需要注意如下几点：
+
+* 编译时要使用 strip 选项
+* 尽量避免在代码中使用明文字符串
+
+这几点在开发安全性要求比较高的安卓 so 和iOS的 mach-o 文件时也同样适用。
+
+另外，在Java代码中，也要避免使用明文字符串保存敏感信息，尤其是不要用String来保存密码： [为什么使用字符数组保存密码比使用String保存密码更好？](http://my.oschina.net/jasonultimate/blog/166968)

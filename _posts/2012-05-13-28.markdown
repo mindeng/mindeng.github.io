@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Immutable file on Linux"
+date:   2012-05-13 17:37:53
+tags:   [admin, linux]
+---
+
+
+* To see if a file is an immutable file:
+      
+        # lsattr filename
+        ----i--------  filename
+
+  The letter 'i' means it's a file with immutable attribute.
+
+* To make a file immutable:
+
+        # chattr +i filename
+
+* To remove immutable attribute for a file:
+
+        # chattr -i filename

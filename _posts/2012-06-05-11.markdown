@@ -1,0 +1,9 @@
+---
+layout: post
+title:  "Eclipse content assist （代码提示功能）"
+date:   2012-06-05 11:33:08
+tags:   [eclipse]
+---
+
+
+新版的 Eclipse (3.7.2) 似乎默认没有打开 Java 的代码提示功能，需要自己手动进行设置： Menu -> Window -> Preferences -> Java -> Editor -> Content Assist -> Advanced ，把需要的 proposal kinds 勾上就行了。

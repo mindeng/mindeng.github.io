@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Eclipse 启动后被 \"Android Library Update\" 任务所阻塞"
+date:   2012-05-30 11:37:30
+tags:   [android, eclipse]
+---
+
+
+有时候 Eclipse 启动后，会一直阻塞在 *"Android Library Update"* 任务中，无法执行任何操作，包括保存文件修改、编译、运行等，甚至正常退出 Eclipse 都不行。这一般是由于上一次的不正常退出所导致的。
+
+如果反复重启 Eclipse 依然如此，可以试试这个办法：在启动 Eclipse 后，立即执行 *"Clean all projects"* 任务（必须赶在 *"Android Library Update"* 自动执行之前，否则会被其阻塞而无法做任何事情）。执行完 *"Clean all projects"* 之后，应该就不会再被阻塞了。
+
+更彻底的办法是，删掉 `workspace` 下面的 `.metadata` 目录，不过该方法比较暴力，将会清除所有的 project 信息，建议慎用。

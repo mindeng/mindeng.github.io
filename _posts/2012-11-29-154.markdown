@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "Install IPython on OS X Lion"
+date:   2012-11-29 10:18:00
+tags:   [python, os-x, mac]
+---
+
+
+* Install distribute
+
+        curl -O http://pypi.python.org/packages/source/d/distribute/distribute-0.6.32.tar.gz
+        tar -xzvf distribute-0.6.32.tar.gz
+        cd distribute-0.6.32
+        python setup.py install
+
+* Install pip
+
+        sudo easy_install pip
+
+* Using pip to install ipython & readline
+
+        sudo pip install ipython
+        sudo pip install readline

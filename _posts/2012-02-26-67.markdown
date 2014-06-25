@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "How to: Install and config NFS Server"
+date:   2012-02-26 08:38:19
+tags:   [nfs, linux]
+---
+
+
+
+- Install NFS server:
+<pre class=prettyprint>
+sudo apt-get install nfs-kernel-server
+</pre>
+
+- Edit /etc/exports (check `man exports` for more details):
+<pre class=prettyprint>
+/srv/homes       hostname1(rw,sync,no_subtree_check,no_root_squash) hostname2(ro,sync,no_subtree_check)
+</pre>
+
+- reload exports:
+<pre class=prettyprint>
+sudo exportfs -rv
+</pre>
+
+- client:
+<pre class=prettyprint>
+mount hostname:/srv/homes /mount/point
+</pre>
+
+- use command `showmount` to see connected clients, also check the file `/var/lib/nfs/etab` to acquire more informations

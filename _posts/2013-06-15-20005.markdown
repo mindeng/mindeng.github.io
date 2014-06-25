@@ -1,0 +1,10 @@
+---
+layout: post
+title:  "xargs on Mac"
+date:   2013-06-15 21:57:48
+tags:   [mac, xargs]
+---
+
+Commands:
+
+    find . -iname *something* | xargs -I {} mv {} /dest/path

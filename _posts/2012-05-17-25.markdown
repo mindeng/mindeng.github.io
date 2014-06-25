@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "MUA, MTA and MRA"
+date:   2012-05-17 10:39:32
+tags:   [mail, linux]
+---
+
+
+# MUA (Mail User Agent)
+* Thunderbird
+* Outlook Express
+
+# MTA (Mail Transfer Agent)
+* 收受信件：使用簡單郵件傳送協定(SMTP)
+
+  MTA 主機最主要的功能就是：將來自用戶端或者是其他 MTA 的來信收下來，這個時候 MTA 使用的是 Simple Mail Transfer Protocol (SMTP)，他使用的是 port 25 啦！
+
+* 轉遞信件：
+
+  如果該封信件的目的地並不是本身的用戶，且該封信的相關資料符合使用 MTA 的權力， 那麼咱們的 MTA 就會將該封信再傳送到下一部主機上。這即是所謂的轉遞 (Relay) 的功能。
+
+  總之，我們一般提到的 Mail Server 就是 MTA 啦！而嚴格來說， MTA 其實僅是指 SMTP 這個協定而已。而達成 MTA 的 SMTP 功能的主要軟體包括老牌的 sendmail，後起之秀的 postfix，還有 qmail 等等。
+
+# MRA (Mail Retrieval Agent)
+* POP3(Post Office Protocol version 3)
+* IMAP (Internet Message Access Protocol)
+
+[参考资料](http://linux.vbird.org/linux_server/0380mail.php#whatmail_mta)

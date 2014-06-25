@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "RESTful Web services: The basics"
+date:   2012-07-22 11:07:36
+tags:   [web, rest]
+---
+
+
+一篇介绍 *RESTfull* 的文章，写的不错： [RESTful Web services: The basics](http://www.ibm.com/developerworks/webservices/library/ws-restful/) 。
+
+比较认同里面的一些观点：
+
+* Use HTTP methods explicitly
+* Be stateless
+* Expose directory structure-like URIs
+  * Hide the server-side scripting technology file extensions (.jsp, .php, .asp), if any, so you can port to something else without changing the URIs.
+  * Keep everything lowercase.
+  * Substitute spaces with hyphens or underscores (one or the other).
+  * Avoid query strings as much as you can.
+  * Instead of using the 404 Not Found code if the request URI is for a partial path, always provide a default page or resource as a response.
+
+  URIs should also be static so that when the resource changes or the implementation of the service changes, the link stays the same. This allows bookmarking. It's also important that the relationship between resources that's encoded in the URIs remains independent of the way the relationships are represented where they are stored.
+* Transfer XML, JSON, or both

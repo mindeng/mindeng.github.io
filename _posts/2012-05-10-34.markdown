@@ -1,0 +1,26 @@
+---
+layout: post
+title:  "Minotes 升级了！"
+date:   2012-05-10 03:10:06
+tags:   [minotes]
+---
+
+
+Minotes 升级了！代码全部重写，增强并新增了一些功能，界面也全新改版。
+
+* 支持使用 Google 帐号登录，请**[猛击这里](/login_with_google)**进行快速登录
+* 支持 g+ 按钮（由于众所周知的原因，国内用户可能看不到g+ 按钮）
+* 支持新浪微博一键分享，请猛击左侧新浪微博按钮进行分享
+* 支持腾讯一键分享，请猛击左侧腾讯微博按钮进行分享
+* 支持订阅，**[Google Reader订阅直通车](http://www.google.com/reader/view/feed/http%3A%2F%2Fminotes.net%2Ffeed)**
+* 改进的搜索功能，更快速和准确的找到所需内容
+* 重新实现的 TAG 系统，能够更快速的检索 tagged notes/related tags/related notes
+* 增加 Syntax 选择按钮，更加方便的切换 syntax （目前支持 [reStructuredText](http://docutils.sourceforge.net/docs/user/rst/quickref.html) 和 [Markdown](http://daringfireball.net/projects/markdown/syntax) 两种语法）
+* 使用 [nginx](http://nginx.org/) 作为新的 Web Server，替换旧的 [apache2](http://www.apache.org/) 。 Nginx 具有更好的配置体验、更快的响应速度以及更小的内存消耗，最后一点在我的低配置 VPS 下体现的尤为明显 :-)
+* 改进的 UI 界面和用户体验，更加简洁、清爽和实用
+* 首页仅展示 note 摘要
+* 增加 [Archive](/archive) 页面
+* 增加用户页面
+* 增加 [About](/about) 页面
+
+特发此帖纪念一下！呵呵。

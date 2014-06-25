@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "Use Squid Server as HTTP Proxy"
+date:   2012-03-31 05:50:48
+tags:   [squid, ssh, linux, proxy]
+---
+
+Squid normally listens to port 3128, you can change it in `/etc/squid/squid.conf` like this:
+
+```
+http_port 60000
+```
+
+By default, squid will only accept http access from localhost, which is exactly what we what. If not so, you can change it like this:
+
+
+```
+http_access allow localhost
+http_access deny all
+```
+
+On client, you can connect the proxy server like this:
+
+
+```
+ssh -CNf -L 8888:localhost:60000 username@your.squid.server
+```
+
+Now you can setup your browser to use localhost:8888 as your http proxy.
+
+---------------------------
+
+Using socks proxy:
+
+
+```
+ssh -CNf -D localhost:7777 user@server
+```
+
+如果想让内网其他机器共享该代理，可以加上 `-g` 选项。

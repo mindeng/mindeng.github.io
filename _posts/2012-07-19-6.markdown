@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "top: sort by memory instead of CPU usage"
+date:   2012-07-19 17:04:24
+tags:   [admin, top, linux]
+---
+
+
+Run top command, then:
+
+* Type **'<, >'** to move sort field: **'<'** next col left, **'>'** next col right
+* Type **Shift-F** to choose a sort field, **'n'** is for memory usage

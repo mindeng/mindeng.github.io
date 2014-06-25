@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Nginx: How to fix the error \"Address already in use\""
+date:   2013-06-11 00:00:39
+tags:   [linux, nginx]
+---
+
+如果某天你升级了系统，然后重启机器，结果突然发现 nginx 起不来了，手动启动 nginx 却报如下错误：
+
+    nginx: [emerg] bind() to [::]:80 failed (98: Address already in use)
+
+那八成是 ipv6 出了问题，找到如下配置：
+
+    listen 80;
+    listen [::]:80 default_server;
+
+并修改成：
+
+    listen 80;
+    listen [::]:80 ipv6only=on default_server;
+
+再启动 nginx 即可。

@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "Linux 下运行 Android 模拟器的权限问题"
+date:   2011-12-15 01:24:18
+tags:   [android, emulator, linux]
+---
+
+在 Linux 下开发 Android 应用时，可能会遇到不能启动 Android 模拟器的问题（提示权限错误，不能创建某个ini文件云云），可以通过设置环境变量 ANDROID_TMP 来解决，例如：
+
+<pre class='brush: bash'>
+export ANDROID_TMP=~/tmp/android
+</pre>

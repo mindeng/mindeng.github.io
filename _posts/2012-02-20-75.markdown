@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "Linux: SUID, SGID, sticky bit"
+date:   2012-02-20 22:42:45
+tags:   [admin, sgid, suid, linux]
+---
+
+
+<pre class="brush: bash">
+# 为程序设置 SGID, 程序将以文件所属组的权限运行
+chmod g+s executable
+
+# 为程序设置 SUID, 程序将以文件属主的权限运行
+chmod u+s executable
+
+# 为目录设置 SGID, 该目录下新建的文件或目录的组将默认为该目录的组
+chmod g+s directory
+
+# 设置 sticky bit, 该目录下新建的文件或目录不能被非owner删除（该目录的属主是个例外，可以删除任意文件）
+chmod +t directory
+</pre>

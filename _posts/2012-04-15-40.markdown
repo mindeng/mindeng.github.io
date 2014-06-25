@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "Android: GestureDetector.SimpleOnGestureListener"
+date:   2012-04-15 18:09:52
+tags:   [android, gesture]
+---
+
+
+```java
+// 双击的第二下Touch down时触发
+boolean  onDoubleTap(MotionEvent e)
+
+// 双击的第二下Touch down和up都会触发，可用e.getAction()区分。
+boolean  onDoubleTapEvent(MotionEvent e)
+
+// Touch down时触发
+boolean  onDown(MotionEvent e)
+
+// Touch了滑动一点距离后，up时触发。
+boolean  onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+
+// Touch了不移动一直Touch down时触发
+void  onLongPress(MotionEvent e)
+
+// Touch了滑动时触发。
+boolean  onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+
+// Touch了还没有滑动时触发
+void  onShowPress(MotionEvent e)
+
+// Touch down 后一直不滑动，将出发事件: onDown->onShowPress->onLongPress
+
+// 这两个方法都是在touch down后即没有滑动（onScroll），又没有长按（onLongPress），然后 UP 时触发
+boolean  onSingleTapConfirmed(MotionEvent e)
+boolean  onSingleTapUp(MotionEvent e)
+
+// 点击一下非常快的（不滑动）Touchup： onDown->onSingleTapUp->onSingleTapConfirmed
+
+// 点击一下稍微慢点的（不滑动）Touchup： onDown->onShowPress->onSingleTapUp->onSingleTapConfirmed
+```

@@ -1,0 +1,10 @@
+---
+layout: post
+title:  "w3c validator"
+date:   2011-12-21 06:48:06
+tags:   [w3c, validator]
+---
+
+
+
+Use [validator](http://validator.w3.org/) to validate your website.

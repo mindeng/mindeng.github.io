@@ -1,0 +1,26 @@
+---
+layout: post
+title:  "Emacs configuration for Linux kernel"
+date:   2012-02-27 00:40:02
+tags:   [linux-kernel, cscope, etags, emacs]
+---
+
+
+- Download xcscope.el and add these lines to your ~/.emacs file::
+
+```
+   (setq load-path (cons "~/.elisp" load-path))
+   (require 'xcscope)
+
+   (setq c-default-style "linux")
+```
+ 
+  assuming you downloaded xcscope.el to ~/.elisp directory.
+
+- Build cscope and etags databases::
+
+```
+   cd /path/to/kernel/source
+   make cscope
+   make TAGS
+```

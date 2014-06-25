@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "easy_install through a proxy server"
+date:   2012-08-04 13:12:04
+tags:   [easy_install, proxy]
+---
+
+
+*Code*:
+
+    #!bash
+    sudo -i
+    export http_proxy=localhost:1234  # replace 'localhost:1234' with your proxy server and port
+    easy_install ...

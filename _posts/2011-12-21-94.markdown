@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "301 Redirect in Apache"
+date:   2011-12-21 08:59:32
+tags:   [apache, redirect]
+---
+
+
+
+```
+<VirtualHost *:80>
+    ServerName minotes.me
+    RewriteEngine on
+    RewriteRule ^(.*)$ http://minotes.net$1 [R=301,L]
+</VirtualHost>
+```

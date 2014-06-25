@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "把 Fedora home 目录下默认创建的中文目录修改为英文"
+date:   2014-02-25 15:05:19
+tags:   [fedora, linux, admin]
+---
+
+在终端输入:
+
+    export LANG=en_US
+    xdg-user-dirs-gtk-update
+
+在弹出的对话框中，选择将需要的目录转换成英文，结束。

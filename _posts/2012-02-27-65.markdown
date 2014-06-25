@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "巧用 Django 的 models 对数据库记录进行修改"
+date:   2012-02-27 05:18:35
+tags:   [django]
+---
+
+有时候会需要对数据库中的数据进行批量修改，当修改比较复杂时，可以考虑通过程序来实现。
+
+如果你的应用是使用 Django 编写的，那么你大可不必自己写代码直接与数据库打交道，可以利用 Django 的 models 特性，来直接对模型进行操作。
+
+即使不是使用 Django 编写的，也可以针对数据表的格式，编写出相应的模型，然后便可以使用 Django 提供的接口轻松修改数据了。
+
+为了使用 Django 的 models，需要设置好 path 并引入一系列的模块:
+    
+```python
+  # set up path
+  import sys
+  sys.path.append('/path/to/django/project')
+  sys.path.append('/path/to/django/project/app')
+
+  # set up environment
+  import os
+  os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+  
+  # import settings and models
+  import settings
+  from app.models import Obj
+
+  # now you can manipulate the models like this:
+  last = Obj.objects.latest ('pub_time')
+  last.content = "inserted content" + last.content
+  last.save ()
+
+  for obj in Obj.objects.all ():
+      if not obj.content.startswith ('xxx'):
+          obj.content = 'xxx' + obj.content
+          obj.save ()
+```
+
+如果操作不需要太多的代码，就没必要单独写个程序，可以直接在 Django 提供的 shell 里面完成（该 shell 会自动为你设置好 path 和环境变量）:
+
+    python manager.py shell
+
+进入 shell 之后，也需要导入 models 才能使用:
+
+    from app.models import Obj
+    first = Obj.objects.all()[0]

@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "CSS: \"visibility\" vs. \"display\""
+date:   2012-08-31 03:34:47
+tags:   [css]
+---
+
+
+* 改变 `visibility` 隐藏后仍然占据空间:
+
+        $('#a').css({visibility, "visible"});
+        $('#a').css({visibility, "hidden"});
+
+* 改变 `display` 才是真正的隐藏:
+
+        $('#a').show();
+        $('#a').hide();

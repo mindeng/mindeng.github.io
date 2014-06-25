@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "REBOL"
+date:   2011-12-16 18:01:48
+tags:   [programming-language, rebol]
+---
+
+
+
+[REBOL](http://www.rebol.com/what-rebol.html) stands for relative expression based object language.
+
+Interesting language, worth to have a look.

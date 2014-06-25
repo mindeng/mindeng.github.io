@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "Update Android project"
+date:   2011-12-16 18:54:55
+tags:   [ant, android]
+---
+
+If you suddenly encounter this error when try to build a Android app by using `ant` command:
+
+    Buildfile: build.xml does not exist!
+    Build failed
+
+Try this command to fix it:
+
+    android update project --target 5 --path /path/to/android/project
+
+target is the build target for your project. Run:
+
+    android list target
+
+to get a list of all available targets.
+
+This error may occur when you try to go back to an old version of ADT.

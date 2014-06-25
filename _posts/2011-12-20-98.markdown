@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Linux下运行java程序中文显示乱码的解决办法"
+date:   2011-12-20 01:02:59
+tags:   [java, chinese]
+---
+
+
+
+<pre class='brush: bash'>
+# 进入java虚拟机的字体目录，例如：
+cd /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/fonts
+
+# 将一个带有中文字体的字体目录链接成 fallback，例如:
+ln -s /usr/share/fonts/truetype/wqy/ fallback
+</pre>

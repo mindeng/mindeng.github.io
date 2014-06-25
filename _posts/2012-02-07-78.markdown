@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "I/O Bound v.s. CPU Bound"
+date:   2012-02-07 22:02:52
+tags:   [io-bound, processor-bound, cpu-bound]
+---
+
+In computer science, I/O bound refers to a condition in which the time it takes to complete a computation is determined principally by the period spent waiting for input/output operations to be completed. This is the opposite of a task being CPU bound (some times called processor bound).

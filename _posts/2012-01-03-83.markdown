@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Change the last commit in git (including files/comments)"
+date:   2012-01-03 22:13:34
+tags:   [git]
+---
+
+
+Change the files/comments of the latest commit in current branch:
+
+    git commit --amend

@@ -1,0 +1,34 @@
+---
+layout: post
+title:  "ADB server didn't ACK"
+date:   2013-10-18 10:16:26
+tags:   [android, adb]
+---
+
+最近发现在 Windows 上没法起 ADB，提示：
+
+    ADB server didn't ACK
+    * failed to start daemon * 
+
+后来查了一下，原来是手机管家搞的鬼。之前为了方便安装手机驱动，曾装过一次手机管家。
+
+排查过程：
+
+1. 看有没有程序占用 5037 端口：
+
+        netstat -aon|findstr "5037"
+
+    得到结果：
+
+        TCP    127.0.0.1:5037         0.0.0.0:0              LISTENING       6116
+        TCP    127.0.0.1:5037         127.0.0.1:51686        ESTABLISHED     6116
+        TCP    127.0.0.1:51686        127.0.0.1:5037         ESTABLISHED     3920
+
+     发现是 pid 为 6116 的家伙。
+
+1. 查看 pid 6116 是谁：
+
+        tasklist|findstr "6116"
+        tadb.exe                      6116 Console                    1      5,268 K
+
+真相大白。

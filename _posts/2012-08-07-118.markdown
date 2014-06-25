@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Minotes 可以上传图片了"
+date:   2012-08-07 01:17:15
+tags:   [minotes]
+---
+
+
+*Update @ 2012.12.23*
+
+目前已迁移至 GAE 平台，暂不支持上传图片及 [img:...] 语法。
+
+-------------
+
+1. 到 [Gallery](/gallery) 页面上传图片
+1. 上传成功后，复制图片下方文本框内的内容，粘贴到文档中即可，例如：
+
+    [img:0f21f858c9fd47a3a81f77744a5c5b7b]
+
+    点击可以看大图！
+
+    **注:** 插入图片使用了自定义的 [Markdown](http://daringfireball.net/projects/markdown/basics/) 扩展语法，大家多提意见和建议，谢谢！

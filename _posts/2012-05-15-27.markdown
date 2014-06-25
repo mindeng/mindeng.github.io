@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "Mako Templates for Python"
+date:   2012-05-15 11:48:33
+tags:   [python, template]
+---
+
+[Mako](http://www.makotemplates.org/)，一个 python 写的模板库，看上去挺不错的，找机会试用一下。

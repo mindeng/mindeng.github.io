@@ -1,0 +1,18 @@
+---
+layout: post
+title:  "Eclipse中给 Android support library attach 源码"
+date:   2013-10-21 10:43:09
+tags:   [android, eclipse]
+---
+
+需要ADT v20 或更高版本支持：
+
+1. 在你的 support library 文件所在的目录下创建同名文件 `android-support-v4.jar.properties` (需要与你的 jar 文件同名，并以 .properties 为后缀）
+
+1. 在该文件中填入如下内容：
+
+        src= D:/soft/adt-bundle-windows-x86/sdk/extras/android/support/v4/src
+
+    该路径即是你的 support library src 路径。
+
+1. 关闭该工程，并再次开启，即可生效。

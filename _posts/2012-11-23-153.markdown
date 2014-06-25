@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "Install Wget on OS X Lion"
+date:   2012-11-23 18:20:49
+tags:   [os-x, mac]
+---
+
+
+Download:
+
+    url -O http://ftp.gnu.org/gnu/wget/wget-1.14.tar.gz
+    
+Make & install:
+
+    ./configure --with-ssl=openssl
+    make
+    sudo make install
+
+If you can't run `gcc` command in your system, you should open your Xcode and install the command line tools first.

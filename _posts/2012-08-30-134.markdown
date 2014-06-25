@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "Python: functools.partial usage"
+date:   2012-08-30 06:36:30
+tags:   [python, functools]
+---
+
+
+Code:
+
+    #!python
+    import functools
+
+    def add(a, b):
+        return a + b
+
+    plus3 = functools.partial(add, 3)
+
+    plus3(1)
+    # out: 4
+
+    plus3(7)
+    # out: 10

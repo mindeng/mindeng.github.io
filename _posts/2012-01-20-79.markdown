@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "Android: Get google account"
+date:   2012-01-20 01:37:48
+tags:   [android]
+---
+
+
+
+<pre class="brush: java">
+    AccountManager am = AccountManager.get(context);
+    Account[] accounts = am.getAccountsByType("com.google");
+    for(Account account : accounts) {
+        Log.i("account name: ", account.name);
+        Log.i("account type: ", account.type);
+    }
+</pre>

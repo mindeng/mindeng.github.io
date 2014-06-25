@@ -1,0 +1,11 @@
+---
+layout: post
+title:  "Git: revert a merge"
+date:   2012-03-13 03:25:30
+tags:   [git]
+---
+
+
+```
+git revert merge-commit-hash -m 1
+```

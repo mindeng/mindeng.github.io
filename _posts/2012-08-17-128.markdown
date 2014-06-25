@@ -1,0 +1,143 @@
+---
+layout: post
+title:  "Linux PPTP 客户端配置笔记"
+date:   2012-08-17 08:06:57
+tags:   [pptp, vpn, linux]
+---
+
+[TOC]
+
+# 安装
+
+    sudo apt-get install pptp-linux
+
+**注：** 需要内核带有 PPP 支持才能使用。
+    
+# 配置
+
+* 修改配置文件 `/etc/ppp/chap-secrets`，增加如下内容：
+
+        # 请用你的用户名和密码代替 `$USERNAME` 和 `$PASSWORD`，如果密码包含特殊字符，请加上引号
+        $USERNAME PPTP $PASSWORD *
+
+* 创建配置文件 `/etc/ppp/peers/$TUNNEL`（`$TUNNEL` 为你的 VPN 名字，可以自己定义）:
+
+        pty "pptp $SERVER --nolaunchpppd"
+        name $USERNAME
+        remotename PPTP
+        file /etc/ppp/options.pptp
+        ipparam $TUNNEL
+        persist
+
+    `persist` 选项表示断开自动重连，但是在 Ubuntu 10.04 下面好像不能正常工作，
+    参考：[pppd persistent mode is not working](https://bugs.launchpad.net/ubuntu/+source/ppp/+bug/578108)。我的临时解决办法是，使用 `cron` 每隔5分钟执行如下脚本:
+
+        #!/bin/sh
+        
+        IFCONFIG=`which ifconfig`
+        PON=`which pon`
+        
+        $IFCONFIG ppp0 > /dev/null 2>&1
+        
+        if [ $? -eq 0 ]; then
+            echo fmpptp was on
+        else
+            $PON fmpptp
+            echo pon fmpptp
+        fi
+
+    
+    关于 `cron` 的配置，可参考 [Run a cron command every 15 minutes](http://minotes.net/notes/55/run-a-cron-command-every-15-minutes) .
+
+    
+
+# 开启
+
+使用 `pon` 命令打开隧道:
+
+    pon $TUNNEL
+
+# 关闭
+
+使用 `poff` 命令关闭隧道:
+
+    poff $TUNNEL
+
+# 开机自动启动
+
+编辑文件 `/etc/network/interfaces` 文件，加入如下内容:
+
+    auto tunnel
+    iface tunnel inet ppp
+            provider $TUNNEL
+
+
+# 路由配置
+
+如果你只需要从客户端访问 VPN 服务器，那么很简单，只要连上了 VPN 就可以了:
+
+    # ifconfig ppp0 | grep inet
+    inet addr:192.168.10.102 P-t-P:192.168.10.114 Mask:255.255.255.255
+    # ping 192.168.10.114
+    PING 192.168.10.114 (192.168.10.114): 56 data bytes
+    64 bytes from 192.168.10.114: icmp_seq=0 ttl=128 time=51.6 ms
+    64 bytes from 192.168.10.114: icmp_seq=1 ttl=128 time=50.6 ms
+    ...
+
+inet addr 是客户端分配的 IP，P-t-P 是服务器的 IP 。
+
+其他情况下面分别论述。
+
+## Client to LAN
+
+如果需要访问服务器端所在的局域网，那么需要对路由进行配置。
+
+假设:
+
+* 隧道连接后生成的虚拟网卡为 ppp0
+* 远程局域网网段为 192.168.10.0/24
+
+隧道连接后，运行如下命令:
+
+    # route add -net 192.168.10.0 netmask 255.255.255.0 dev ppp0
+
+*注：* Mac 下的命令为：
+
+
+```
+route add -net xxx.xxx.xxx/24 -interface ppp0
+```
+
+测试:
+
+    # traceroute 192.168.10.127
+    traceroute to 192.168.10.127 (192.168.10.127), 30 hops max, 38 byte packets
+    1 192.168.10.114 (192.168.10.114) 48.176 ms 48.115 ms 93.816 ms
+    2 192.168.10.127 (192.168.10.127) 46.554 ms 48.138 ms 48.443 ms
+
+## LAN to LAN
+
+待补充...
+
+## 自动配置路由
+
+创建文件 `/etc/ppp/ip-up.d/$TUNNEL` ，并加入如下内容:
+
+    #!/bin/bash
+
+    NET="192.168.10.0/24"
+    IFACE="ppp0"
+    route add -net ${NET} dev ${IFACE}
+    
+不要忘了 `chmod +x /etc/ppp/ip-up.d/$TUNNEL` 增加执行权限。
+
+## MTU / MRU
+
+如果 VPN 服务器那边设置了 MTU / MRU ，应该在文件 `/etc/ppp/options` 中进行相应设置。
+
+
+# 参考资料
+
+* <http://pptpclient.sourceforge.net/howto-debian.phtml#configure_by_hand>
+* <http://pptpclient.sourceforge.net/routing.phtml#client-to-server>
+* <http://blogs.gaixie.org/tommy/?p=31>

@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "OpenSSL: Base64 Encode/Decode"
+date:   2012-03-06 08:42:42
+tags:   [base64, openssl]
+---
+
+
+```
+openssl enc -base64 -in myfile -out myfile.b64
+openssl enc -d -base64 -in myfile.b64 -out myfile.decrypt
+```

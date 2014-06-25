@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Threads vs Processes in Linux"
+date:   2012-02-23 00:02:25
+tags:   [process, thread, linux]
+---
+
+
+
+(From <http://stackoverflow.com/questions/807506/threads-vs-processes-in-linux>)
+
+Linux uses a 1-1 threading model, with (to the kernel) no distinction between processes and threads -- everything is simply a runnable task. [1]
+
+On Linux, the system call clone clones a task, with a configurable level of sharing, among which are:
+
+- CLONE_FILES: share the same file descriptor table (instead of creating a copy)
+- CLONE_PARENT: don't set up a parent-child relationship between the new task and the old (otherwise, child's getppid() = parent's getpid())
+- CLONE_VM: share the same memory space (instead of creating a COW copy)
+fork() calls clone(least sharing) and pthread_create() calls clone(most sharing). [2]
+
+forking costs a tiny bit more than pthread_createing because of copying tables and creating COW mappings for memory, but the Linux kernel developers have tried (and succeeded) at minimizing those costs.
+
+Switching between tasks, if they share the same memory space and various tables, will be a tiny bit cheaper than if they aren't shared, because the data may already be loaded in cache. However, switching tasks is still very fast even if nothing is shared -- this is something else that Linux kernel developers try to ensure (and succeed at ensuring).
+
+**In fact, if you are on a multi-processor system, not sharing may actually be beneficial to performance: if each task is running on a different processor, synchronizing shared memory is expensive.**
+
+[1] Simplified. CLONE_THREAD causes signals delivery to be shared (which needs CLONE_SIGHAND, which shares the signal handler table).
+
+[2] Simplified. There exist both SYS_fork and SYS_clone syscalls, but in the kernel, the sys_fork and sys_clone are both very thin wrappers around the same do_fork function, which itself is a thin wrapper around copy_process. Yes, the terms process, thread, and task are used rather interchangeably in the Linux kernel...

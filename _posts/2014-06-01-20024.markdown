@@ -1,0 +1,69 @@
+---
+layout: post
+title:  "Mac/Linux下几种常用命令行工具的代理设置"
+date:   2014-06-01 10:45:36
+tags:   [mac, linux, admin, ssh, squid]
+---
+
+假设我们有一台 `squid` 代理服务器，并通过 `ssh` 建立加密隧道作为本地代理：
+
+
+```
+ssh -CNf -L 7777:localhost:3128 -l username squid.server
+```
+
+很多命令行工具会通过如下两个环境变量来获取代理设置（如 `wget` 等)：
+
+
+```
+export http_proxy=localhost:7777
+export https_proxy=localhost:7777
+```
+
+有些工具则比较特殊，需要另外设置。下面举几个例子。
+
+### `git`
+
+通过设置 `.gitconfig` 文件来支持代理：
+
+```
+[color]
+    ui = auto
+[user]
+    email = minotes.net@gmail.com
+[http]
+    proxy = localhost:7777
+```
+
+`.gitconfig` 文件可放在家目录下（影响当前用户），亦可放在单个git仓库下（仅影响当前仓库）。
+
+### `svn`
+
+设置配置文件 `~/.subversion/servers`:
+
+```
+[groups]
+group1 = *.googlecode.com
+# othergroup = repository.blarggitywhoomph.com
+# thirdgroup = *.example.com
+
+### Information for the first group:
+[group1]
+http-proxy-host = localhost
+http-proxy-port = 7777
+#http-proxy-username = blah
+#http-proxy-password = doubleblah
+http-timeout = 60
+```
+可以设置一个group（如上例所示），也可以在 `[global]` 里面设置全局代理信息。
+
+### ssh over http
+
+另外，还可以反过来，通过 Web Proxy 来使用 ssh，即 "ssh over http proxy"，修改 `.ssh/config` 配置文件：
+
+
+```
+Host ssh.server
+    ProxyCommand connect -H web-proxy.server %h %p
+```
+这在有些受限环境下非常有用（例如有些公司网络只能通过http代理访问外网）。

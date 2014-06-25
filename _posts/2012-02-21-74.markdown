@@ -1,0 +1,68 @@
+---
+layout: post
+title:  "C typedef interpretation of const pointers"
+date:   2012-02-21 08:09:58
+tags:   [c, pointer, typedef, programming]
+---
+
+(From <http://stackoverflow.com/questions/2253738/c-typedef-interpretation-of-const-pointers>)
+
+Firstly, sample codes:
+
+Case 1:
+
+<pre class="brush: c">
+typedef char* CHARS;
+typedef CHARS const CPTR;   // constant pointer to chars
+</pre>
+
+Textually replacing CHARS becomes:
+
+<pre class="brush: c">
+typedef char* const CPTR;   // still a constant pointer to chars
+</pre>
+
+Case 2:
+
+<pre class="brush: c">
+typedef char* CHARS;
+typedef const CHARS CPTR;   // constant pointer to chars
+</pre>
+
+Textually replacing CHARS becomes:
+
+<pre class="brush: c">
+typedef const char* CPTR;   // pointer to constant chars
+</pre>
+
+In case 2, after textually replacing CHARS, the meaning of the typedef changed. Why is this so? How does C++ interpret this definition?
+
+Answers:
+
+There's no point in analyzing typedef behavior on the basis of textual replacement. Typedef-names are not macros, they are not replaced textually.
+
+As you noted yourself
+
+<pre class="brush: c">
+typedef CHARS const CPTR;
+</pre>
+
+is the same thing as
+
+<pre class="brush: c">
+typedef const CHARS CPTR;
+</pre>
+
+This is so for the very same reason why
+
+<pre class="brush: c">
+typedef const int CI;
+</pre>
+
+has the same meaning as
+
+<pre class="brush: c">
+typedef int const CI;
+</pre>
+
+Typedef-name don't define new types (only aliases to existing ones), but they are "atomic" in a sense that any qualifiers (like const) apply at the very top level, i.e. they apply to the entire type hidden behind the typedef-name. Once you defined a typedef-name, you can't "inject" a qualifier into it so that it would modify any deeper levels of the type.

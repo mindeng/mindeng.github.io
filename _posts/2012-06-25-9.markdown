@@ -1,0 +1,67 @@
+---
+layout: post
+title:  "Debian: PPTP VPN 配置笔记"
+date:   2012-06-25 01:12:08
+tags:   [pptp, vpn, debian, linux]
+---
+
+1. 确定是否能够安装 PPTP
+
+        sudo cat /dev/ppp
+
+   如果显示 `cat: /dev/ppp: No such device or address` 则可以安装。
+
+2. 安装 pptpd:
+
+        sudo apt-get install pptpd
+
+3. 配置 pptpd
+
+    * 编辑 `/etc/pptpd.conf`，配置 localip 和 remoteip:
+
+              localip 10.10.10.1
+              remoteip 10.10.10.10-20
+
+    * 编辑 `/etc/ppp/chap-secrets`，配置用户名、密码等:
+
+              # client    server  secret          IP addresses
+              username    pptpd   password         *
+
+    * 编辑 `/etc/ppp/pptpd-options`，为 Win95/WinNT 的连接配置 dns:
+
+              ms-dns 8.8.8.8
+              ms-dns 8.8.4.4
+
+4. 到这里，PPTP 服务就已经安装、配置完成了，运行以下命令以重启 PPTP 服务:
+
+        sudo /etc/init.d/pptpd restart
+
+5. 如果希望通过 PPTP 服务来连接外网（互联网），则还需要修改 `/etc/sysctl.conf` 以开启 ip 转发: 
+
+        net.ipv4.ip_forward=1
+
+   修改完成之后，运行命令 `sudo sysctl -p` 以使配置生效。
+
+   另外，一般还需要添加 iptables 转发规则:
+
+        # OpenVZ, 12.34.56.78 means your server's public ip
+        iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -j SNAT --to-source 12.34.56.78
+
+        # XEN
+        iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth0 -j MASQUERADE
+
+        # Save iptables rule
+        sudo su -c 'iptables-save > /etc/iptables-rules'
+    
+    在 `/etc/network/if-up.d/` 目录下创建 `iptables` 文件，以便在网卡重启时回复 iptables 设置，其内容如下：
+
+        #!/bin/sh
+        iptables-restore < /etc/iptables-rules
+
+    执行命令 `chmod +x /etc/network/if-up.d/iptables` 加上运行权限。
+
+    有时可能还会遇到 MTU 的问题，可以使用如下命令来解决:
+
+        sudo iptables -A FORWARD -s 10.100.0.0/24 -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1356
+
+    注： 可以使用命令 `ping -M do -s 1452 example.com` (Linux 平台) 来尝试确定 mtu 大小，进而确定 mss 的大小 (Headers + MSS ≤ MTU)。
