@@ -1,0 +1,5 @@
+name: Minotes
+markdown: redcarpet
+pygments: true
+timezone: Asia/Shanghai
+permalink: /notes/:title

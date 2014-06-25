@@ -1,0 +1,15 @@
+---
+layout: default
+---
+<h2>{{ page.title }}</h2>
+<div class="meta">{{ page.date | date_to_string }}
+<div class="tags">
+{% for tag in page.tags %}
+<span class="tag">{{ tag }}</span>
+{% endfor %}
+</div>
+</div>
+
+<div class="post">
+{{ content }}
+</div>
