@@ -29,5 +29,3 @@ Happy Birthday!
 by: ಠ_ರೃ  ఠ_ఠ
 ----------------
 ```
-
-![](/static/img/birthday.jpg)
