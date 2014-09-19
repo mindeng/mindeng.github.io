@@ -121,7 +121,7 @@ Service 的回调方法
 
 下面介绍 Service 的具体创建方法。
 
-在 manifest 中声明一个 service
+在 manifest 中声明 service
 -----------------------------
 
 和 Activity 类似，你需要在 manifest 文件中声明你的 service。如下例所示：
