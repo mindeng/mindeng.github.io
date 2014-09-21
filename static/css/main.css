@@ -262,3 +262,13 @@ a:hover   { color: #000; }
     color: #aaa;
     margin-left: 1em;
 }
+
+.cc {
+    margin-top: 2em;
+    background-color: #ccc;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 6px;
+}
+
+
