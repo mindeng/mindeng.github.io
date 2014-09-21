@@ -5,6 +5,8 @@ date:   2014-06-01 17:23:45
 tags:   [android]
 ---
 
+### 基本介绍
+
 使用插件的原因：
 
 * App 的扩展功能较多时，可以按需下载，避免主 App 变得越来越臃肿、庞大
@@ -34,6 +36,9 @@ dx --dex --output=pluginA.jar bin/pluginA.jar
 这样，就可以在代码中动态加载 pluginA.jar 了。
 
 ### Activity 插件的简单实现
+
+#### 基本思路
+
 基本思路是:
 
 *   在 PluginCommon 中定义一个接口 ActivityInterface，里面包含 Activity 生命周期的各项回调方法的声明
@@ -41,6 +46,8 @@ dx --dex --output=pluginA.jar bin/pluginA.jar
 *   在 Host 中预先放一个 ProxyActivity，ProxyActivity 在运行时动态加载指定的 ActivityImpl 实现，并通过 ActivityImpl 来实现其 Activity 生命周期的各项回调方法，以达到运行时改变 ProxyActivity 的外观和行为的目的
 
 按照设计模式的说法，其实就是策略模式的一种应用。
+
+#### Demo 示例
 
 这里实现了一个简单的DEMO，下面是一些核心代码示例：
 
@@ -125,6 +132,8 @@ public class ProxyActivity extends ActionBarActivity {
 ```
 
 上面的 `fullClassName` 可以透过 Intent 传入，这样可以达到按需加载不同 Plugin 的目的。
+
+#### 问题和解决方案
 
 这种方式有个不太方便的地方，就是不能利用 Android 原生的资源加载机制，UI 需要代码实现，图片、字符串等资源也需要自己加载。
 也有文章介绍通过反射的方式，实现从指定路径加载资源，我个人不太建议这样做，因为这样做会对底层的实现细节产生依赖，可能带来兼容性风险。
