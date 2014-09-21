@@ -5,14 +5,12 @@ date:   2014-09-19
 tags:   [android, service]
 ---
 
-[TOC]
+*温馨提示：如果英文好请直接阅读官方文档：
+[Services](http://developer.android.com/guide/components/services.html)
+。尽管这篇文章包含了我的一些个人思考和理解，但我的所谓“详解”应该不会超出官方资料。*
 
 基本概念
 =======
-
-*温馨提示：如果英文好请直接阅读官方文档：
-[Services](http://developer.android.com/guide/components/services.html)
-。尽管这篇文章包含了我的一些个人见解，但我的所谓“详解”应该不会超出官方资料。*
 
 Android 使用 Service 这个概念，来抽象后台服务，与 Activity 对应，意指不
 提供用户界面的、可长期在后台运行的程序组件。
