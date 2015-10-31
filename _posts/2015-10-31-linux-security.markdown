@@ -32,7 +32,7 @@ After that, remember to restart sshd: `sudo /etc/init.d/ssh restart`
 iptables
 ==========
 
-* Refer to https://wiki.debian.org/iptables *
+*Refer to https://wiki.debian.org/iptables*
 
 Create the file `/etc/iptables.test.rules`, and enter rules:
 
