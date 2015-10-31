@@ -9,6 +9,7 @@ ssh
 =======
 
 Modify `/etc/ssh/sshd_config`:
+
 ```config
 # Disable root login
 PermitRootLogin no
@@ -34,6 +35,7 @@ iptables
 * Refer to https://wiki.debian.org/iptables *
 
 Create the file `/etc/iptables.test.rules`, and enter rules:
+
 ```
 *filter
 
@@ -82,17 +84,20 @@ sudo iptables-restore < /etc/iptables.test.rules
 ```
 
 And see the difference:
+
 ```
 iptables -L
 ```
 
 Save the rules:
+
 ```
 iptables-save > /etc/iptables.up.rules
 ```
 
 Create file `/etc/network/if-pre-up.d/iptables`, and add these lines to it:
-```
+
+```bash
 #!/bin/sh
 /sbin/iptables-restore < /etc/iptables.up.rules
 ```
