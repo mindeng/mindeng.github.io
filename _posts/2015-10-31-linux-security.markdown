@@ -10,7 +10,7 @@ ssh
 
 Modify `/etc/ssh/sshd_config`:
 
-```config
+```
 # Disable root login
 PermitRootLogin no
 
