@@ -106,6 +106,9 @@ Add executable permision for the file:
 
 `chmod +x /etc/network/if-pre-up.d/iptables`
 
+To check who is listening on TCP port 12345:
+
+```lsof -n -i4TCP:12345 | grep LISTEN```
 
 nginx
 =======
