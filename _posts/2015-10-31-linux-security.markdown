@@ -112,3 +112,23 @@ To check who is listening on TCP port 12345:
 
 nginx
 =======
+
+Modify the file nginx.conf:
+
+```
+http {
+# Hide nginx version information
+    server_tokens off;
+
+# Catch all requests with wrong host and return 444 status
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
+
+        return 444;
+    }
+}
+```
