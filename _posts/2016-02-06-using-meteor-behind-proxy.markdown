@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Using meteor behind http proxy"
+title:  "Using Meteor Behind HTTP Proxy"
 date:   2015-11-09
 tags:   [meteor, proxy, polipo]
 ---
@@ -12,7 +12,7 @@ meteor add twbs:bootstrap
 ```
 
 官方 [wiki](https://github.com/meteor/meteor/wiki/Using-Meteor-behind-a-proxy) 提到可以
-通过设置环境变量 HTTP_PROXY, HTTPS_PROXY 来解决。在实践当中，发现 meteor 不像其他工具
+通过设置环境变量 *HTTP_PROXY*, *HTTPS_PROXY* 来解决。在实践当中，发现 meteor 不像其他工具
 （例如浏览器，或者curl）那样，可以接受 SOCKS 代理，必须使用 http 代理。
 
 这里记录下实践过程及最终解决方案。
@@ -34,7 +34,7 @@ $ export HTTPS_PROXY=localhost:7777
 =================
 
 接下来尝试另一种方式，在远程服务器搭建一个 squid 服务（搭建方法可参考
-[Use Squid Server as HTTP Proxy](http://www.minotes.net/notes/45/) ），
+[Use Squid Server as HTTP Proxy](http://www.minotes.net/notes/45) ），
 并将本地端口 7778 映射到远程服务 squid 的 3128 端口:
 
 ```
@@ -52,8 +52,7 @@ squid + polipo
 polipo 把 SOCKS 代理转成 http 代理。
 
 OS X 上可以使用 `brew install polipo` 安装 polipo 。
-polipo 的配置有两种方式，一种是配置文件，还有一种是配置在内存中（用来测试
-非常方便）。
+polipo 的配置有两种方式，一种是配置文件，还有一种是配置在内存中（用来测试非常方便）。
 
 ```
 $ ssh -CNf -D7777 server
