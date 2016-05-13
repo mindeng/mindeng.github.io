@@ -48,7 +48,7 @@ Padding Oracle Attack 就是利用 Padding Oracle 来进行攻击的，简单来
 
 在 CBC 加密过程中，每个 "plaintext block" 在送入 "block cipher" 前，都需要先和它前面的 "ciphertext block" (即前面相邻的已加密的密文块) 进行 XOR 操作，XOR 的结果再送入 "block cipher"进行加密处理。这意味着每个加密出来的密文块都依赖于前面的明文加密后的结果，因此改变每一个明文字符都会对后面的加密结果产生巨大影响。这是一种被推荐的、比较安全的加密模式。
 
-![CBC](static/img/cbc.png)
+![CBC](/static/img/cbc.png)
 
 (from [Wikipedia](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher-block_chaining_.28CBC.29) )
 
@@ -56,7 +56,7 @@ Padding Oracle Attack 就是利用 Padding Oracle 来进行攻击的，简单来
 
 类似的，在解密过程中，有一个 "block cipher decryption"，这个东东接受『密文块』作为输入，但输出不是明文，是一个中间结果。结合上面加密的过程，我们不难理解，这个中间结果就是明文在和 previous cipher block 异或之后的结果。拿到这个中间结果后，跟进前面异或公式的最后一条可知，只需将该中间结果和 previous cipher block 再做一次异或，即可得到最初的明文块。至此，该 block 解密结束。如果是第一个 cipher block，则将中间结果和 IV 进行一次异或即可得到明文块。
 
-![CBC](static/img/cbc2.png)
+![CBC](/static/img/cbc2.png)
 
 (图片来自 [Rob Heaton's blog](http://robertheaton.com/2013/07/29/padding-oracle-attack/) )
 
@@ -101,7 +101,7 @@ C1 是已知的，因此我们的工作就是算出 I2 。
 
 根据前面的定义，C2 是密文的最后一个 block，C1 是密文的倒数第二个 block 。看下破解过程：
 
-![cbcfake](static/img/cbcfake.png)
+![cbcfake](/static/img/cbcfake.png)
 
 (图片来自 [Rob Heaton's blog](http://robertheaton.com/2013/07/29/padding-oracle-attack/) )
 
