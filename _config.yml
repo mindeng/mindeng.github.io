@@ -1,5 +1,5 @@
 name: Minotes
-markdown: redcarpet
+markdown: kramdown
 pygments: true
 timezone: Asia/Shanghai
 permalink: /notes/:title
