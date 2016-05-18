@@ -30,5 +30,5 @@ Bin string to hex string:
 
 ```python
 binstr = '\xbd(f\x84\x9a\xe0;Y\x86\x1d@\xdd\x8b\xb0\xd4'
-''.join(('{0:02x}'.format(n) for n in (ord(c) for c in binstr)))
+''.join(('{0:02x}'.format(ord(c)) for c in binstr))
 ```
