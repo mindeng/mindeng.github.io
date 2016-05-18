@@ -6,8 +6,7 @@ tags:   [design-pattern, double-checked-locking]
 ---
 
 
-
-<pre class="brush: java">
+```java
 // Correct but possibly expensive multithreaded version
 class Foo {
     private Helper helper = null;
@@ -38,4 +37,4 @@ class Foo {
  
     // other functions and members...
 }
-</pre>
+```
