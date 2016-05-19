@@ -39,7 +39,6 @@ AES with PBKDF2 & PKCS7Padding & CBC mode in Swift (iOS):
         var bytesDecrypted     	= Int(0)
         
         let SALT_LEN = 16
-        
         guard let randomSalt = randomDataOfLength(SALT_LEN) else {
             throw(CryptorError.RandomSaltError)
         }
