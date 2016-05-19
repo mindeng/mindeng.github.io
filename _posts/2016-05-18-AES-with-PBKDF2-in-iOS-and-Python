@@ -1,0 +1,133 @@
+---
+layout: post
+title:  "AES with PBKDF2 in iOS and Python"
+date:   2016-05-18
+tags:   [AES, PBKDF2, iOS, python]
+---
+
+AES with PBKDF2 & PKCS7Padding & CBC mode in Swift (iOS):
+
+```swift
+    enum CryptorError: ErrorType {
+        case PasswordError
+        case RandomSaltError
+        case AllocError
+        case DeriveDataError
+        case EncryptError
+        case UnknownError
+    }
+
+    
+    internal func AESEncrypt(plaintext: NSData, password: String)
+        throws -> (NSData, NSData) {
+        
+        guard let passwordData: NSData = password.dataUsingEncoding(
+	      NSUTF8StringEncoding, allowLossyConversion: false) else {
+            throw(CryptorError.PasswordError)
+        }
+        
+        let operation = CCOperation(kCCEncrypt)
+        let options = UInt32(kCCOptionPKCS7Padding)
+
+        let palintextLen	= Int(plaintext.length)
+        let plaintextBytes	= UnsafePointer<Void>(plaintext.bytes)
+        let outBuffer          	= NSMutableData(length: Int(palintextLen)
+	    + algorithm.requiredBlockSize())!
+        let outBufferPtr       	= UnsafeMutablePointer<Void>(
+	    outBuffer.mutableBytes)
+        let outBufferLen       	= size_t(outBuffer.length)
+        var bytesDecrypted     	= Int(0)
+        
+        let SALT_LEN = 16
+        
+        guard let randomSalt = randomDataOfLength(SALT_LEN) else {
+            throw(CryptorError.RandomSaltError)
+        }
+        
+        let saltBytes = UnsafePointer<UInt8>(randomSalt.bytes)
+        let saltLen = randomSalt.length
+        
+        guard let derivedData = NSMutableData(length: 32) else {
+            throw(CryptorError.AllocError)
+        }
+        
+        let derivationResult = CCKeyDerivationPBKDF(
+		CCPBKDFAlgorithm(kCCPBKDF2),
+		UnsafePointer<Int8>(passwordData.bytes),
+		passwordData.length,
+		saltBytes,
+		saltLen,
+		CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1),
+		1000,
+		UnsafeMutablePointer<UInt8>(derivedData.mutableBytes),
+		derivedData.length)
+	        
+        guard Int32(derivationResult) == Int32(kCCSuccess) else {
+            throw(CryptorError.DeriveDataError)
+        }
+        
+        let derivedKey = derivedData.subdataWithRange(NSMakeRange(0, 16))
+        let derivedIV = derivedData.subdataWithRange(NSMakeRange(16, 16))
+        
+        // Perform operation
+        let cryptStatus = CCCrypt(
+            operation,                  // Operation
+            algorithm.ccAlgorithm(),    // Algorithm
+            options,                    // Options
+            UnsafePointer<Void>(derivedKey.bytes),      // key data
+            derivedKey.length,                          // key length
+            UnsafePointer<Void>(derivedIV.bytes),       // IV buffer
+            plaintextBytes,            // input data
+            palintextLen,              // input length
+            outBufferPtr,              // output buffer
+            outBufferLen,              // output buffer length
+            &bytesDecrypted)           // length of bytes decrypted
+        
+        guard Int32(cryptStatus) == Int32(kCCSuccess) else {
+            throw(CryptorError.EncryptError)
+        }
+
+	 // Adjust buffer size to decrypted length
+        outBuffer.length = bytesDecrypted
+        return (randomSalt, outBuffer as NSData)
+    }
+```
+
+AES with PBKDF2 & PKCS7Padding & CBC mode in Python:
+
+```python
+from Crypto.Cipher import AES
+from Crypto import Random
+from pbkdf2 import PBKDF2
+
+PBKDF2_ROUNDS = 1000
+
+def AESEncrypt(plaintext, password):
+    # padding
+    bs = AES.block_size
+    padding_len = bs - len(plaintext) % bs
+    plaintext += chr(padding_len) * padding_len
+    
+    # prepare parameters
+    salt = Random.new().read(16)
+    derived = PBKDF2(password, salt, PBKDF2_ROUNDS).read(32)
+    key, iv = derived[:16], derived[16:]
+    
+    # encrypt
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    cyphertext = cipher.encrypt(plaintext)
+    return salt, cyphertext
+
+def AESDecrypt(cyphertext, password, salt):
+    # derive key & iv
+    derived = PBKDF2(password, salt, PBKDF2_ROUNDS).read(32)
+    key, iv = derived[:16], derived[16:]
+
+    # decrypt
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(cyphertext)
+    
+    # unpadding    
+    padding_len = ord(plaintext[-1])
+    return plaintext[:-padding_len]
+```
