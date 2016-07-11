@@ -43,3 +43,7 @@ Move point to where the mark was, and restore the mark from the ring of former m
 
 * CC Mode
 `C-c .` c-set-style, switching CC Mode style
+
+* Edit
+
+`M-x untabify` Convert all tabs in region to multiple spaces, preserving columns.
