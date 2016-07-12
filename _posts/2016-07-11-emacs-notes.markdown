@@ -31,6 +31,13 @@ Move point to where the mark was, and restore the mark from the ring of former m
 
 `M-e` isearch-edit-string, edit the search string in the minibuffer when isearch is activated.
 
+* Bookmark
+
+`C-x r m` - set a bookmark at the current location (e.g. in a file)
+`C-x r b` - jump to a bookmark
+`C-x r l` - list your bookmarks
+`M-x bookmark-delete` - delete a bookmark by name
+
 * Macro
 
 `C-x (` Start recording macro
