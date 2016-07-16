@@ -18,4 +18,6 @@ Erasing
 Initialized /dev/rdisk3 as a 1000 MB case-insensitive HFS Plus volume
 Mounting disk
 Finished erase on disk3 RAMDisk
+
+$ hdiutil detach /dev/disk3
 ```
