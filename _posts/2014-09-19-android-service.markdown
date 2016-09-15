@@ -288,12 +288,8 @@ Bound service 的创建和使用相对 started service 来说会复杂一些。�
     引入多线程代码，从而招致不必要的复杂性，除非你真的、真的确定你的
     service 需要具备同时处理多个请求的能力。
 
-这里不得不吐槽一句，我遇到过的绝大多数开发者（包括我面试过的几乎所有候
-选人），一旦提到 Service 通讯方式则言必称 AIDL，而对另外两种官方更
-加推荐的方式则只字不提。我相信大多数场景下，继承 Binder 类和使用
-Messenger 应该足够我们使用了，为啥就鲜有人提及呢？真是难以理解。
 
-还有一点值得一提的是，当一个 service 被多个 clients 绑定时，onBind() 只
+值得一提的是，当一个 service 被多个 clients 绑定时，onBind() 只
 会在第一次绑定时被系统调用一次，用于获取 IBinder 实例，后续的 bind 操作
 系统会直接返回相同的 IBinder 实例，而不再调用 onBind()。这点和
 onStartCommand() 有很大的区别。
