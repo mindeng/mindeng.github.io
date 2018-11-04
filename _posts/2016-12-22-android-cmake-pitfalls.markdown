@@ -39,7 +39,7 @@ sh ./scripts/cmake_android_arm.sh && cd build_android_arm && make -j8
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions")
 ```
 
------------------------
+- - -
 
 近期在移植一些开源库到 Android 平台，由于目标库本身大多数是基于 CMake
 构建的，为图方便和避免后期维护的麻烦，理所当然希望沿用 CMake 构建系统了。
