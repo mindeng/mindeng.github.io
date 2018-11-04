@@ -13,4 +13,4 @@ Run the following command in administrator mode, and the problem fixed:
 reg copy HKLM\SOFTWARE\Python HKLM\SOFTWARE\Wow6432Node\Python /s
 ```
 
-Thanks to the first comment under the (http://stackoverflow.com/a/15802648)[answer] .
+Thanks to the first comment under the [answer](http://stackoverflow.com/a/15802648) .
