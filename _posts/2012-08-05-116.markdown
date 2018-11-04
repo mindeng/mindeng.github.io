@@ -15,7 +15,7 @@ tags:   [tornado]
     The current_user object as returned by RequestHandler.get_current_user().
 * datetime
 
-    The datetime module.   Example: {{ datetime.date.today().year }} returns the current year.
+    The datetime module.   Example: {%raw%}{{ datetime.date.today().year }}{%endraw%} returns the current year.
 
 * escape
     
@@ -23,7 +23,7 @@ tags:   [tornado]
 
 * handler
 
-    The request handler that called the self.render function to process the template.  Example: {{handler.static_url(‘foo’)}} will run the static_url function in RequestHandler returning a full URL path, pre-pending static_url.
+    The request handler that called the self.render function to process the template.  Example: {%raw%}{{handler.static_url(‘foo’)}}{%endraw%} will run the static_url function in RequestHandler returning a full URL path, pre-pending static_url.
 
 * json_encode
 
