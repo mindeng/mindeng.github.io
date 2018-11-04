@@ -14,3 +14,7 @@ reg copy HKLM\SOFTWARE\Python HKLM\SOFTWARE\Wow6432Node\Python /s
 ```
 
 Thanks to the first comment under the [answer](http://stackoverflow.com/a/15802648) .
+
+Updated:
+
+Use `pip install Pillow` to install PIL instead of using the official binary setup file for Windows, because the official site only provide a 32-bit version, the _imaging library will not work on Windows 64-bit platform.
