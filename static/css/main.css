@@ -179,6 +179,10 @@ a:hover   { color: #000; }
 }
     */
 
+div pre {
+    overflow-x: auto;
+}
+
 .highlight {
     padding: 30px;
     border-radius: 6px;
