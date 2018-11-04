@@ -5,6 +5,42 @@ date:   2016-12-22
 tags:   [android, cmake, ndk, c++, c]
 ---
 
+**更新：**
+
+发现结合 android.toolchain.cmake 使用 cmake 是更好的办法，推荐使用。示例如下：
+
+```bash
+#!/bin/sh
+cd `dirname $0`/..
+
+mkdir -p build_android_arm
+cd build_android_arm
+
+cmake -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON -DCMAKE_TOOLCHAIN_FILE=scripts/android.toolchain.cmake \
+    -DANDROID_ABI="armeabi-v7a with NEON" -DANDROID_NATIVE_API_LEVEL=android-16 \
+    -DANDROID_STL=gnustl_static -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.9 \
+    $@ ..
+```
+
+将该文件保存在工程顶级目录的某个子目录中，例如：`$PROJECT_DIR/scripts/cmake_android_arm.sh`，然后执行：
+
+```
+sh ./scripts/cmake_android_arm.sh && cd build_android_arm && make -j8
+```
+
+关于 `android.toolchain.cmake` 文件的选择，我尝试使用了 NDK 自带的
+`$NDK/build/cmake/android.toolchain.cmake` 会出错，说找不到
+`armv7-none-linux-androideabi` 。最后选择用 OpenCV 带的
+`android.toolchain.cmake` ，好用。
+
+另外，如果项目需要 C++11/RTTI/exception 支持，记得在每个 CMakeLists.txt 中加上：
+
+```
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions")
+```
+
+-----------------------
+
 近期在移植一些开源库到 Android 平台，由于目标库本身大多数是基于 CMake
 构建的，为图方便和避免后期维护的麻烦，理所当然希望沿用 CMake 构建系统了。
 
