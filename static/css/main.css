@@ -19,6 +19,11 @@ body {
   text-align: center;
 }
 
+hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%; }
 
@@ -183,7 +188,7 @@ a:hover   { color: #000; }
 }
 
 .post code {
-    font-size: .7rem;
+    font-size: 1rem;
 }
 
 .post pre code {
