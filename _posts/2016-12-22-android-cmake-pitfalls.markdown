@@ -67,7 +67,6 @@ OPTION(ANDROID "Build for Android" ON)
 if(ANDROID)
     message("Configuring for Android ...")
 
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -frtti -fexceptions")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -frtti -fexceptions")
 
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIE")
