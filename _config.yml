@@ -1,5 +1,7 @@
 title: Minotes
 markdown: kramdown
-highlighter: rouge
+kramdown:
+   syntax_highlighter_opts:
+      disable : true
 timezone: Asia/Shanghai
 permalink: /notes/:title
