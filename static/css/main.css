@@ -179,7 +179,7 @@ a:hover   { color: #000; }
 }
     */
 
-div pre {
+/* div pre {
     overflow-x: auto;
 }
 
@@ -197,10 +197,10 @@ div pre {
 
 .post pre code {
   border: none;
-}
+} */
 
 /* terminal */
-.post pre.terminal {
+/* .post pre.terminal {
   border: 1px solid #000;
   background-color: #333;
   color: #FFF;
@@ -208,7 +208,7 @@ div pre {
 
 .post pre.terminal code {
   background-color: #333;
-}
+} */
 
 .tags {
   list-style-type: none;
