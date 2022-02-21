@@ -31,6 +31,7 @@ github_username:  mindeng
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-org
 
 timezone: Asia/Shanghai
 permalink: /notes/:title
