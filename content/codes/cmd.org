@@ -1,6 +1,6 @@
-
 #+TITLE: Command Line Tools
-#+TAGS: 
+#+TAGS: command script linux macos
+#+date: 2022-02-22
 
 * 查看 CPU 总核心数
 
