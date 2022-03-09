@@ -1,14 +1,16 @@
 #+TITLE: Command Line Tools
-#+TAGS: command script linux macos
+#+tags[]: command scripts linux macos
 #+date: 2022-02-22
 
-* 查看 CPU 总核心数
+记录一些常用的命令行工具，方便随时取用。
+
+** 查看 CPU 总核心数
 
 #+begin_src sh :results silent
   grep -c 'model name' /proc/cpuinfo
 #+end_src
 
-* find printable strings 查找二进制文件中的字符串
+** find printable strings 查找二进制文件中的字符串
 
 例如查看 /bin 目录下的程序可能会创建哪些临时文件:
 
@@ -16,7 +18,7 @@
   strings /bin/* | grep tmp
 #+end_src
 
-* 查看、配置资源限制
+** 查看、配置资源限制
 
 #+begin_src sh :results output scalar :exports both :cache yes
   ulimit -a
@@ -37,7 +39,7 @@ max user processes              (-u) 2784
 virtual memory          (kbytes, -v) unlimited
 #+end_example
 
-* 测试硬盘速度
+** 测试硬盘速度
 
 #+header: :exports both
 #+header: :results output :cache yes
@@ -59,7 +61,7 @@ virtual memory          (kbytes, -v) unlimited
 : 1000+0 records out
 : 1048576000 bytes transferred in 0.246972 secs (4245726816 bytes/sec)
 
-* 监控磁盘 IO 情况
+** 监控磁盘 IO 情况
 
 #+header: :exports both
 #+header: :cache yes :results scalar 
@@ -72,7 +74,7 @@ virtual memory          (kbytes, -v) unlimited
 :     KB/t  tps  MB/s     KB/t  tps  MB/s     KB/t  tps  MB/s  us sy id   1m   5m   15m
 :    26.18   95  2.42    25.87    0  0.00   287.74    0  0.00   4  2 94  1.95 1.64 1.56
 
-* 下载脚本并立即执行
+** 下载脚本并立即执行
 
 以下命令会自动安装 yarn 包管理工具：
 
