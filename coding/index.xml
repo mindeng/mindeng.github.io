@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Codings on Min Codes</title>
+    <link>https://mincodes.com/coding/</link>
+    <description>Recent content in Codings on Min Codes</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://mincodes.com/coding/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://mincodes.com/coding/go-concurrency-patterns/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://mincodes.com/coding/go-concurrency-patterns/</guid>
+      <description>Go 并发模式总结
+ Generator 发生器   Generator 指返回一个 chan 的函数。这是一种十分常见的使用 goroutine + chan 的方式，可以说是一种标准用法了。
+ 采用这种方式使用 chan 十分的安全，不会出现一些 chan 误用导致的错误（例 如向已经关闭的 chan 写入数据等）。
+ 例如下面的代码，会开一个 goroutine 递归遍历指定目录，并将目录下的所有 json 文件通过 chan 吐出去。
+ func walkJsonFiles(dir string) &amp;lt;-chan string { 	out := make(chan string)  	go func() { 	defer close(out)  	err := filepath.WalkDir(dir, 	func(path string, info fs.DirEntry, err error) error {  	if err !</description>
+    </item>
+    
+  </channel>
+</rss>
