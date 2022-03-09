@@ -1,7 +1,7 @@
 baseURL: "https://mincodes.com/"
 title: Min Codes
 paginate: 5
-theme: "https://github.com/mindeng/hugo-PaperMod"
+theme: PaperMod
 
 enableRobotsTXT: true
 buildDrafts: false
