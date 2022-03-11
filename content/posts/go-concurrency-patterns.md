@@ -171,7 +171,70 @@ func main() {
 ```
 
 
-## <span class="org-todo todo TODO">TODO</span> select 实现 Timeout {#select-实现-timeout}
+## select 实现 Timeout {#select-实现-timeout}
+
+```go
+package main
+import (
+      "fmt"
+      "time"
+)
+
+// 为每次 select 设置超时
+// 每次 select 都会重置超时
+func selectTimeout(in <-chan string) {
+      for {
+	      select {
+	      case s := <-in:
+		      fmt.Println("tick", s)
+	      case <- time.After(1 * time.Second):
+		      fmt.Println("You're too slow.")
+		      return
+	      }
+      }
+}
+
+// 为整个 for 循环设置一个超时，时间结束即退出
+func selectTimeout2(in <-chan string) {
+      timeout := time.After(1 * time.Second)
+
+      for {
+	      select {
+	      case s := <-in:
+		      fmt.Println("tock", s)
+	      case <- timeout:
+		      fmt.Println("timed out")
+		      return
+	      }
+      }
+}
+
+
+func main() {
+      in := make(chan string)
+
+      go func() {
+	      for i := 0; i < 20; i++ {
+		      time.Sleep(time.Duration(i * 200) * time.Millisecond)
+		      in <- fmt.Sprintf("%d", i)
+	      }
+      }()
+
+      go selectTimeout2(in)
+
+      selectTimeout(in)
+}
+```
+
+```text
+tick 0
+tock 1
+tick 2
+timed out
+tick 3
+tick 4
+You're too slow.
+```
 
 
 ## <span class="org-todo todo TODO">TODO</span> Quit chan {#quit-chan}
