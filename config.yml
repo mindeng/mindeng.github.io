@@ -114,7 +114,7 @@ menu:
   
     - identifier: tools
       name: tools
-      url: /tools/
+      url: /tags/tools/
       weight: 10
     
     - identifier: tags
