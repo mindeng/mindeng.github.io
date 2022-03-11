@@ -1,6 +1,5 @@
 +++
 title = "在 Emacs 中实现 VSCode 的 terminal 快捷键功能"
-author = ["Min Deng"]
 date = 2022-03-09T00:00:00+08:00
 tags = ["emacs", "elisp", "terminal", "vscode", "tools"]
 draft = false

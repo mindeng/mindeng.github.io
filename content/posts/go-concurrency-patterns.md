@@ -1,8 +1,8 @@
 +++
 title = "Go 并发模式总结"
-author = ["Min Deng"]
+date = 2022-03-11T00:00:00+08:00
 tags = ["golang", "concurrency", "goroutine"]
-draft = true
+draft = false
 +++
 
 ## Generator 发生器 {#generator-发生器}
@@ -171,7 +171,7 @@ func main() {
 ```
 
 
-## select 实现 Timeout {#select-实现-timeout}
+## <span class="org-todo todo TODO">TODO</span> select 实现 Timeout {#select-实现-timeout}
 
 
-## Quit chan {#quit-chan}
+## <span class="org-todo todo TODO">TODO</span> Quit chan {#quit-chan}
