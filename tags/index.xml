@@ -5,11 +5,38 @@
     <link>https://mincodes.com/tags/</link>
     <description>Recent content in Tags on Min Codes</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 09 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://mincodes.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Mar 2022 00:00:00 +0800</lastBuildDate><atom:link href="https://mincodes.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>concurrency</title>
+      <link>https://mincodes.com/tags/concurrency/</link>
+      <pubDate>Fri, 11 Mar 2022 00:00:00 +0800</pubDate>
+      
+      <guid>https://mincodes.com/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://mincodes.com/tags/golang/</link>
+      <pubDate>Fri, 11 Mar 2022 00:00:00 +0800</pubDate>
+      
+      <guid>https://mincodes.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>goroutine</title>
+      <link>https://mincodes.com/tags/goroutine/</link>
+      <pubDate>Fri, 11 Mar 2022 00:00:00 +0800</pubDate>
+      
+      <guid>https://mincodes.com/tags/goroutine/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>elisp</title>
       <link>https://mincodes.com/tags/elisp/</link>
-      <pubDate>Wed, 09 Mar 2022 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Mar 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/elisp/</guid>
       <description></description>
@@ -18,7 +45,7 @@
     <item>
       <title>emacs</title>
       <link>https://mincodes.com/tags/emacs/</link>
-      <pubDate>Wed, 09 Mar 2022 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Mar 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/emacs/</guid>
       <description></description>
@@ -27,16 +54,25 @@
     <item>
       <title>terminal</title>
       <link>https://mincodes.com/tags/terminal/</link>
-      <pubDate>Wed, 09 Mar 2022 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Mar 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/terminal/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>tools</title>
+      <link>https://mincodes.com/tags/tools/</link>
+      <pubDate>Wed, 09 Mar 2022 00:00:00 +0800</pubDate>
+      
+      <guid>https://mincodes.com/tags/tools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>vscode</title>
       <link>https://mincodes.com/tags/vscode/</link>
-      <pubDate>Wed, 09 Mar 2022 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Mar 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/vscode/</guid>
       <description></description>
@@ -45,7 +81,7 @@
     <item>
       <title>command</title>
       <link>https://mincodes.com/tags/command/</link>
-      <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 22 Feb 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/command/</guid>
       <description></description>
@@ -54,7 +90,7 @@
     <item>
       <title>linux</title>
       <link>https://mincodes.com/tags/linux/</link>
-      <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 22 Feb 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/linux/</guid>
       <description></description>
@@ -63,16 +99,25 @@
     <item>
       <title>macos</title>
       <link>https://mincodes.com/tags/macos/</link>
-      <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 22 Feb 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/macos/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>perf</title>
+      <link>https://mincodes.com/tags/perf/</link>
+      <pubDate>Tue, 22 Feb 2022 00:00:00 +0800</pubDate>
+      
+      <guid>https://mincodes.com/tags/perf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>scripts</title>
       <link>https://mincodes.com/tags/scripts/</link>
-      <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 22 Feb 2022 00:00:00 +0800</pubDate>
       
       <guid>https://mincodes.com/tags/scripts/</guid>
       <description></description>
