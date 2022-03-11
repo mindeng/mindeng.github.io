@@ -2,31 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://mincodes.com/tags/concurrency/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/posts/go-concurrency-patterns/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/tags/golang/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/tags/goroutine/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/posts/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
-    <loc>https://mincodes.com/tags/</loc>
-    <lastmod>2022-03-11T00:00:00+08:00</lastmod>
-  </url><url>
     <loc>https://mincodes.com/tags/elisp/</loc>
     <lastmod>2022-03-09T00:00:00+08:00</lastmod>
   </url><url>
     <loc>https://mincodes.com/tags/emacs/</loc>
+    <lastmod>2022-03-09T00:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://mincodes.com/</loc>
+    <lastmod>2022-03-09T00:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://mincodes.com/posts/</loc>
+    <lastmod>2022-03-09T00:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://mincodes.com/tags/</loc>
     <lastmod>2022-03-09T00:00:00+08:00</lastmod>
   </url><url>
     <loc>https://mincodes.com/tags/terminal/</loc>
