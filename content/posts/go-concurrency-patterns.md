@@ -173,6 +173,7 @@ func main() {
 
 ## select 实现 Timeout {#select-实现-timeout}
 
+<a id="code-snippet--select-timeout"></a>
 ```go
 package main
 import (
@@ -225,6 +226,8 @@ func main() {
       selectTimeout(in)
 }
 ```
+
+输出如下：
 
 ```text
 tick 0
