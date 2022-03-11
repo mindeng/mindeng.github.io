@@ -1,9 +1,8 @@
 +++
 title = "Go 并发模式总结"
 author = ["Min Deng"]
-date = 2022-03-11T00:00:00+08:00
 tags = ["golang", "concurrency", "goroutine"]
-draft = false
+draft = true
 +++
 
 ## Generator 发生器 {#generator-发生器}
