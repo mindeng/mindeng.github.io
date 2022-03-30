@@ -1,0 +1,211 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>ssh 用法简介 - MinCodes</title><meta name=Description content="MinCodes, Minimal but useful Codes"><meta property="og:title" content="ssh 用法简介"><meta property="og:description" content="ssh 是平时十分常用的工具，这里记录一些常见用法。 ssh 客户端配置文件 通常我们在连接不同的服务器时，需要使用不同的参数。例如最常见的用户名不 同、端口"><meta property="og:type" content="article"><meta property="og:url" content="https://mincodes.com/posts/ssh-usage/"><meta property="og:image" content="https://mincodes.com/favicon.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-03-30T00:00:00+08:00"><meta property="article:modified_time" content="2022-03-30T00:00:00+08:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mincodes.com/favicon.svg"><meta name=twitter:title content="ssh 用法简介"><meta name=twitter:description content="ssh 是平时十分常用的工具，这里记录一些常见用法。 ssh 客户端配置文件 通常我们在连接不同的服务器时，需要使用不同的参数。例如最常见的用户名不 同、端口"><meta name=application-name content="MinCodes"><meta name=apple-mobile-web-app-title content="MinCodes"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/favicon.svg><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mincodes.com/posts/ssh-usage/><link rel=prev href=https://mincodes.com/posts/emacs-local-variables/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"ssh 用法简介","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mincodes.com\/posts\/ssh-usage\/"},"genre":"posts","keywords":"ssh, tools","wordcount":1968,"url":"https:\/\/mincodes.com\/posts\/ssh-usage\/","datePublished":"2022-03-30T00:00:00+08:00","dateModified":"2022-03-30T00:00:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Min Deng"},"author":{"@type":"Person","name":"Min Deng"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class="far fa-kiss-wink-heart fa-fw"></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>posts </a><a class=menu-item href=/tags/tools>tools </a><a class=menu-item href=/tags/>tags </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class="far fa-kiss-wink-heart fa-fw"></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>posts</a><a class=menu-item href=/tags/tools title>tools</a><a class=menu-item href=/tags/ title>tags</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">ssh 用法简介</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Min Deng</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-03-30>2022-03-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1968 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#ssh-客户端配置文件>ssh 客户端配置文件</a></li><li><a href=#ssh-agent>ssh-agent</a><ul><li><a href=#建立-session>建立 session</a></li><li><a href=#添加私钥>添加私钥</a></li></ul></li><li><a href=#上传公钥>上传公钥</a></li><li><a href=#端口转发>端口转发</a><ul><li><a href=#动态端口转发>动态端口转发</a></li><li><a href=#本地端口转发>本地端口转发</a></li><li><a href=#远程端口转发>远程端口转发</a><ul><li><a href=#案例一-将内网的某个服务映射到外网服务器上>案例一：将内网的某个服务映射到外网服务器上</a></li><li><a href=#案例二-将内网服务器通过-ssh-跳板机映射到本机>案例二：将内网服务器通过 ssh 跳板机映射到本机</a></li></ul></li></ul></li><li><a href=#利用端口转发做-ssh-二次跳转>利用端口转发做 ssh 二次跳转</a></li><li><a href=#利用代理命令做-ssh-二次跳转-double-hop>利用代理命令做 ssh 二次跳转（double hop）</a></li><li><a href=#ssh-证书登陆>ssh 证书登陆</a><ul><li><a href=#证书签发>证书签发 <span class=tag><span class=certificate>certificate</span><span class=ca>ca</span></span></a></li><li><a href=#证书配置>证书配置</a></li><li><a href=#ssh-证书登陆流程>ssh 证书登陆流程</a></li></ul></li><li><a href=#ssh-服务端配置文件>ssh 服务端配置文件</a></li></ul></nav></div></div><div class=content id=content><p>ssh 是平时十分常用的工具，这里记录一些常见用法。</p><h2 id=ssh-客户端配置文件>ssh 客户端配置文件</h2><p>通常我们在连接不同的服务器时，需要使用不同的参数。例如最常见的用户名不
+同、端口不同、私钥不同等。这时可以配置 <code>~/.ssh/config</code> 文件，按照不同
+的服务器，列出各自的参数，避免每次登陆时都需要重复输入这些参数。</p><p>常用配置示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=c1># ~/.ssh/config</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>Host *</span>
+</span></span><span class=line><span class=cl>	 <span class=na>Port 1234</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	 <span class=c1># 是否加密</span>
+</span></span><span class=line><span class=cl>	 <span class=na>Compression yes</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	 <span class=c1># 在给定秒数内，没收到服务器数据，则向服务器请求一个回包，可用于连接保活</span>
+</span></span><span class=line><span class=cl>	 <span class=na>ServerAliveInterval 60</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	 <span class=c1># 禁止发送 TCP keepalive 消息，避免临时网络中断引起连接中断</span>
+</span></span><span class=line><span class=cl>	 <span class=na>TCPKeepAlive no</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>Host svr</span>
+</span></span><span class=line><span class=cl>	 <span class=na>HostName svr.example.com</span>
+</span></span><span class=line><span class=cl>	 <span class=na>User tom</span>
+</span></span><span class=line><span class=cl>	 <span class=na>Port 2222</span>
+</span></span><span class=line><span class=cl>	 <span class=na>IdentityFile ~/.ssh/id_rsa-svr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	 <span class=c1># 指定本机 IP 地址</span>
+</span></span><span class=line><span class=cl>	 <span class=na>BindAddress 192.168.10.235</span>
+</span></span></code></pre></td></tr></table></div></div><p>更多配置可参考 <code>man ssh_config</code> 。</p><h2 id=ssh-agent>ssh-agent</h2><p>如果私钥设置了密码，每次登陆都需要输入密码，比较麻烦。 <code>ssh-agent</code> 可
+以解决这个问题。ssh-agent 允许在整个 session 中，只输入一次密码。</p><h3 id=建立-session>建立 session</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 开新的 shell 并启用 ssh-agent, bash 可以换成 zsh</span>
+</span></span><span class=line><span class=cl>ssh-agent bash
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 在当前 shell 下启用  ssh-agent</span>
+</span></span><span class=line><span class=cl><span class=nb>eval</span> <span class=sb>`</span>ssh-agent<span class=sb>`</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 退出 ssh-agent</span>
+</span></span><span class=line><span class=cl>ssh-agent -k
+</span></span></code></pre></td></tr></table></div></div><h3 id=添加私钥>添加私钥</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 添加默认私钥，按照提示输入密码（passphrase）</span>
+</span></span><span class=line><span class=cl>ssh-add
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 添加指定的私钥</span>
+</span></span><span class=line><span class=cl>ssh-add ~/.ssh/id_rsa-svr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 列出所有已添加的私钥</span>
+</span></span><span class=line><span class=cl>ssh-add -l
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 从内存中移除指定的私钥</span>
+</span></span><span class=line><span class=cl>ssh-add -d ~/.ssh/id_rsa-svr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 从内存中删除所有已添加的私钥</span>
+</span></span><span class=line><span class=cl>ssh-add -D
+</span></span></code></pre></td></tr></table></div></div><h2 id=上传公钥>上传公钥</h2><p>上传公钥有两种方式：</p><ol><li><p>利用 <code>ssh-copy-id</code> 命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># -i id_rsa 参数可以省略</span>
+</span></span><span class=line><span class=cl>ssh-copy-id -i id_rsa user@svr
+</span></span></code></pre></td></tr></table></div></div></li><li><p>利用 ssh 执行远程命令上传</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>cat ~/.ssh/id_rsa.pub <span class=p>|</span> ssh user@svr <span class=s2>&#34;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#34;</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><p>当然，你也可以登陆服务器，然后将公钥手动粘贴到服务器端。</p><h2 id=端口转发>端口转发</h2><h3 id=动态端口转发>动态端口转发</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># -D: 指定本地要转发的端口，使用 SOCSOCKS4/SOCKS5 协议</span>
+</span></span><span class=line><span class=cl><span class=c1># -N: 表示不执行远程命令，仅用于端口转发</span>
+</span></span><span class=line><span class=cl>ssh -D <span class=m>1080</span> svr -N
+</span></span></code></pre></td></tr></table></div></div><p>利用上述建立的 SOCSOCKS4/SOCKS5 服务来获取数据：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>curl -x socks5://localhost:1080 https://www.google.com/
+</span></span></code></pre></td></tr></table></div></div><h3 id=本地端口转发>本地端口转发</h3><p>转发到其他机器：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 建立从本机 11111 端口到 www.baidu.com:80 的加密隧道，通过 svr ssh 服务器做中转</span>
+</span></span><span class=line><span class=cl><span class=c1># -f: 后台运行</span>
+</span></span><span class=line><span class=cl>ssh -NfL 11111:www.baidu.com:80 svr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 访问本机的 11111 端口，相当于通过 svr 访问 www.baidu.com:80</span>
+</span></span><span class=line><span class=cl><span class=c1># 这里需要设置 host header, 否则百度会拒绝访问</span>
+</span></span><span class=line><span class=cl>curl --header <span class=s1>&#39;Host: www.baidu.com&#39;</span> localhost:11111
+</span></span></code></pre></td></tr></table></div></div><p>转发到 ssh 服务器本机的其他端口：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># svr 的 8118 端口上启动一个 http 代理服务器，例如 privoxy/squid/varnish 等</span>
+</span></span><span class=line><span class=cl>ssh -NfL 11111:localhost:8118 svr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 本机的 11111 端口，可以作为代理端口来使用</span>
+</span></span><span class=line><span class=cl>curl -x http://localhost:11111 www.google.com
+</span></span></code></pre></td></tr></table></div></div><h3 id=远程端口转发>远程端口转发</h3><p><strong>远程端口转发</strong> 和 <strong>本地端口转发</strong> 刚好相反，本地转发是 <strong>本地计算机通过
+加密隧道访问远程主机</strong>, 而远程转发是 <strong>远程主机通过加密隧道访问本机计算
+机</strong> 。</p><p>下面通过两个案例来具体介绍其用法。</p><h4 id=案例一-将内网的某个服务映射到外网服务器上>案例一：将内网的某个服务映射到外网服务器上</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 将 my.public.svr:80 映射到 192.168.1.10:8080</span>
+</span></span><span class=line><span class=cl><span class=c1># 外网访问 my.public.svr:80 即可访问到内网的 192.168.1.10:8080</span>
+</span></span><span class=line><span class=cl>ssh -R 80:192.168.1.10:8080 my.public.svr
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 将 my.public.svr:8080 映射到本机的 80 端口</span>
+</span></span><span class=line><span class=cl>ssh -R 8080:localhost:80 my.public.svr
+</span></span></code></pre></td></tr></table></div></div><h4 id=案例二-将内网服务器通过-ssh-跳板机映射到本机>案例二：将内网服务器通过 ssh 跳板机映射到本机</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 在 ssh 跳板机上执行，假设 192.168.1.10 为本机 IP 地址（前提是本机装有 sshd 服务）</span>
+</span></span><span class=line><span class=cl><span class=c1># 之后在本机执行 ssh -p 2222 localhost 即可登陆 my.private.svr</span>
+</span></span><span class=line><span class=cl>ssh -R 2222:my.private.svr:22 192.168.1.10
+</span></span></code></pre></td></tr></table></div></div><p>另见 <a href=#%e5%88%a9%e7%94%a8%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91%e5%81%9a-ssh-%e4%ba%8c%e6%ac%a1%e8%b7%b3%e8%bd%ac rel>利用端口转发做 ssh 二次跳转</a>, <a href=#%e5%88%a9%e7%94%a8%e4%bb%a3%e7%90%86%e5%91%bd%e4%bb%a4%e5%81%9a-ssh-%e4%ba%8c%e6%ac%a1%e8%b7%b3%e8%bd%ac-double-hop rel>利用代理命令做 ssh 二次跳转（double hop）</a> 。</p><h2 id=利用端口转发做-ssh-二次跳转>利用端口转发做 ssh 二次跳转</h2><ol><li><p>建立 localhost 到 host1 的隧道</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>ssh -L 9999:host2:1234 -N host1
+</span></span></code></pre></td></tr></table></div></div><p>注意，这里 host1 到 host2 的连接是非加密的。</p></li><li><p>建立 localhost 到 host1 的隧道，同时建立 host1 到 host2 的隧道</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>ssh -L 9999:localhost:9999 host1 ssh -L 9999:localhost:1234 -N host2
+</span></span></code></pre></td></tr></table></div></div><p>host1 到 host2 的连接也是加密的，但是 host1:9999 到 host2:1234 的隧
+道可以被 host1 上的任意用户使用。</p></li><li><p>建立 localhost 到 host1 的隧道，再建立 localhost 到 host2 的隧道</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 转发本机 9998 端口到 host2:22</span>
+</span></span><span class=line><span class=cl>ssh -L 9998:host2:22 -N host1
+</span></span><span class=line><span class=cl><span class=c1># 通过 9998 端口连接 host2 的 sshd, 并转发本机端口 9999 到 host2:1234</span>
+</span></span><span class=line><span class=cl>ssh -L 9999:localhost:1234 -N -p <span class=m>9998</span> localhost
+</span></span></code></pre></td></tr></table></div></div><p>如果 1234 服务只能通过 host2 本机访问，则可以通过这种方式来间接访问
+该服务。</p></li></ol><p>另见 <a href=#%e5%88%a9%e7%94%a8%e4%bb%a3%e7%90%86%e5%91%bd%e4%bb%a4%e5%81%9a-ssh-%e4%ba%8c%e6%ac%a1%e8%b7%b3%e8%bd%ac-double-hop rel>利用代理命令做 ssh 二次跳转（double hop）</a> 和 <a href=#%e6%a1%88%e4%be%8b%e4%ba%8c-%e5%b0%86%e5%86%85%e7%bd%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%80%9a%e8%bf%87-ssh-%e8%b7%b3%e6%9d%bf%e6%9c%ba%e6%98%a0%e5%b0%84%e5%88%b0%e6%9c%ac%e6%9c%ba rel>将内网服务器通过 ssh
+跳板机映射到本机</a> 。</p><p>参考：</p><ol><li><a href=https://superuser.com/a/97007/869637 target=_blank rel="noopener noreffer">An SSH tunnel via multiple hops - Super User</a></li><li><a href=https://stackoverflow.com/questions/5847814/emacs-tramp-ssh-double-hop target=_blank rel="noopener noreffer">Emacs Tramp ssh double hop - Stack Overflow</a></li></ol><h2 id=利用代理命令做-ssh-二次跳转-double-hop>利用代理命令做 ssh 二次跳转（double hop）</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>Host endpoint2</span>
+</span></span><span class=line><span class=cl>	 <span class=na>User myusername</span>
+</span></span><span class=line><span class=cl>	 <span class=na>HostName mysite.com</span>
+</span></span><span class=line><span class=cl>	 <span class=na>Port 3000</span>
+</span></span><span class=line><span class=cl>	 <span class=na>ProxyCommand ssh endpoint1 nc -w300 %h %p</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>Host endpoint1</span>
+</span></span><span class=line><span class=cl>	 <span class=na>User somename</span>
+</span></span><span class=line><span class=cl>	 <span class=na>HostName otherdomainorip.com</span>
+</span></span><span class=line><span class=cl>	 <span class=na>Port 6893</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行 <code>ssh endpoint2</code> 会自动通过跳板机 endpoint1 来登陆 endpoint2 。</p><p>另见 <a href=#%e5%88%a9%e7%94%a8%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91%e5%81%9a-ssh-%e4%ba%8c%e6%ac%a1%e8%b7%b3%e8%bd%ac rel>利用端口转发做 ssh 二次跳转</a> 。</p><h2 id=ssh-证书登陆>ssh 证书登陆</h2><h3 id=证书签发>证书签发 <span class=tag><span class=certificate>certificate</span><span class=ca>ca</span></span></h3><p>要使用证书登陆，首先需要为服务器、用户端分别签发证书。</p><p>CA 密钥：</p><ul><li>CA 要签发证书，首先需要一对密钥，可以通过 ssh-keygen 来生成密钥对</li><li>考虑到安全性和灵活性，在签发服务器证书和用户证书时，可以分别使用两对
+不同的密钥，这里分别称为 ca-server 密钥对和 ca-user 密钥对</li></ul><p>签发证书：</p><ul><li><p>签发 ssh 服务器证书：</p><p>使用 ca-server 私钥 + 服务器公钥 + 其他信息（域名，identity, 有效期
+等），生成服务器证书。</p></li><li><p>签发 ssh 用户证书：</p><p>使用 ca-user 私钥 + 用户公钥 + 其他信息（identity, 有效期等），生成
+用户证书。</p></li><li><p>证书可以通过 identity 来撤销（revoke），或者通过指定 public key 来
+revoke</p></li></ul><h3 id=证书配置>证书配置</h3><ol><li><p>配置服务器证书：通过 sshd_config 的 HostCertificate 字段来进行配
+置；</p></li><li><p>配置用户证书：拷贝到用户的 ~/.ssh/ 目录即可；</p></li><li><p>服务器信任用户证书：</p><p>通过 sshd_config 的 TrustedUserCAKeys 字段，配置服务器信任的
+ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里的公
+钥所签发的用户证书。</p></li><li><p>客户端信用服务器证书：</p><p>在 ~/.ssh/known_hosts 中增加一行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>@cert-authority * ssh-rsa &lt;ca-server-public-key&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>&lt;ca-server-public-key> 替换成 ca-server 公钥即可。</p></li></ol><h3 id=ssh-证书登陆流程>ssh 证书登陆流程</h3><p>大致的 ssh 证书登陆流程如下所示：</p><ol><li>用户登陆 ssh 服务器，ssh 客户端自动将用户证书发给服务器</li><li>服务器校验用户证书是否可信和有效，验证通过后，将服务器证书发给用户侧</li><li>用户侧校验服务器证书是否可信和有效，验证通过后，走正常登陆流程</li></ol><h2 id=ssh-服务端配置文件>ssh 服务端配置文件</h2><p>常用配置示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=c1># /etc/ssh/sshd_config</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>Port 2222</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 禁止密码登陆</span>
+</span></span><span class=line><span class=cl><span class=na>PasswordAuthentication no</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-03-30</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/ssh/>ssh</a>,&nbsp;<a href=/tags/tools/>tools</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/emacs-local-variables/ class=prev rel=prev title="Emacs 的本地变量 (Local Variables)"><i class="fas fa-angle-left fa-fw"></i>Emacs 的本地变量 (Local Variables)</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Min Deng</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:10},comment:{},data:{"id-1":"MinCodes","id-2":"MinCodes"},typeit:{cursorChar:null,cursorSpeed:null,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:null,speed:null}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-EPY7LC720X",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-EPY7LC720X" async></script></body></html>

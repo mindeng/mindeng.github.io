@@ -44,19 +44,19 @@
 </span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defun</span> <span class=nv>open-or-jump-to-multi-term</span> <span class=p>()</span>
 </span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>interactive</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>if</span> <span class=p>(</span><span class=nv>string-prefix-p</span> <span class=s>&#34;*terminal&lt;&#34;</span> <span class=p>(</span><span class=nf>buffer-name</span><span class=p>))</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>delete-window</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=nb>progn</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nb>setq</span> <span class=nv>bufname</span> <span class=p>(</span><span class=nf>concat</span> <span class=s>&#34;*terminal&lt;&#34;</span> <span class=p>(</span><span class=nf>directory-file-name</span> <span class=p>(</span><span class=nf>file-name-directory</span> <span class=p>(</span><span class=nf>buffer-file-name</span><span class=p>)))</span> <span class=s>&#34;&gt;&#34;</span><span class=p>))</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nb>if</span> <span class=p>(</span><span class=nf>get-buffer-process</span> <span class=nv>bufname</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>switch-to-buffer-other-window</span> <span class=nv>bufname</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nb>progn</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nv>delete-window</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nb>progn</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>setq</span> <span class=nv>bufname</span> <span class=p>(</span><span class=nf>concat</span> <span class=s>&#34;*terminal&lt;&#34;</span> <span class=p>(</span><span class=nf>directory-file-name</span> <span class=p>(</span><span class=nf>file-name-directory</span> <span class=p>(</span><span class=nf>buffer-file-name</span><span class=p>)))</span> <span class=s>&#34;&gt;&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>if</span> <span class=p>(</span><span class=nf>get-buffer-process</span> <span class=nv>bufname</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nv>switch-to-buffer-other-window</span> <span class=nv>bufname</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>progn</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>split-window-right</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>other-window</span> <span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>multi-term</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nf>rename-buffer</span> <span class=nv>bufname</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=p>)))</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nv>split-window-right</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nv>other-window</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nv>multi-term</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>(</span><span class=nf>rename-buffer</span> <span class=nv>bufname</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>)))</span>
 </span></span><span class=line><span class=cl>  <span class=p>)</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>;; 定义快捷键，和 VSCode 一致</span>
