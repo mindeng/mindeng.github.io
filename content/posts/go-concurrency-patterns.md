@@ -29,33 +29,33 @@ json 文件通过 chan 吐出去。
 
 ```go
 func walkJsonFiles(dir string) <-chan string {
-      out := make(chan string)
+	out := make(chan string)
 
-      go func() {
-	      defer close(out)
+	go func() {
+		defer close(out)
 
-	      err := filepath.WalkDir(dir,
-		      func(path string, info fs.DirEntry, err error) error {
+		err := filepath.WalkDir(dir,
+			func(path string, info fs.DirEntry, err error) error {
 
-			      if err != nil {
-				      log.Printf("can't access path: %q: %v\n", path, err)
-				      return err
-			      }
+				if err != nil {
+					log.Printf("can't access path: %q: %v\n", path, err)
+					return err
+				}
 
-			      if !info.Type().IsDir() && filepath.Ext(path) == ".json" {
-				      out <- path
-			      }
+				if !info.Type().IsDir() && filepath.Ext(path) == ".json" {
+					out <- path
+				}
 
-			      return nil
-		      })
+				return nil
+			})
 
-	      if err != nil {
-		      log.Printf("error walking the path %q: %v\n", trace_file_dir, err)
-		      return
-	      }
-      }()
+		if err != nil {
+			log.Printf("error walking the path %q: %v\n", trace_file_dir, err)
+			return
+		}
+	}()
 
-      return out
+	return out
 }
 ```
 
@@ -67,36 +67,36 @@ func walkJsonFiles(dir string) <-chan string {
 {{< figure src="/ox-hugo/2022-03-11_08-36-52_screenshot.png" >}}
 
 
-### Fan-In: 多 goroutine 版本 {#fan-in-多-goroutine-版本}
+## Fan-In: 多 goroutine 版本 {#fan-in-多-goroutine-版本}
 
 ```go
 func fanIn(cs ...<-chan string) <-chan string {
-      out := make(chan string)
-      var wg sync.WaitGroup
+	out := make(chan string)
+	var wg sync.WaitGroup
 
-      // 注意：这里不能直接 wg.Wait()，需要开一个 goroutine 来 Wait
-      defer func() {
-	      go func() {
-		      wg.Wait()
-		      close(out)
-	      }()
-      }()
+	// 注意：这里不能直接 wg.Wait()，需要开一个 goroutine 来 Wait
+	defer func() {
+		go func() {
+			wg.Wait()
+			close(out)
+		}()
+	}()
 
-      collect := func(in <-chan string) {
-	      defer wg.Done()
-	      for n := range in {
-		      out <- n
-	      }
-      }
+	collect := func(in <-chan string) {
+		defer wg.Done()
+		for n := range in {
+			out <- n
+		}
+	}
 
-      wg.Add(len(cs))
+	wg.Add(len(cs))
 
-      // Fan-In
-      for _, c := range cs {
-	      go collect(c)
-      }
+	// Fan-In
+	for _, c := range cs {
+		go collect(c)
+	}
 
-      return out
+	return out
 }
 ```
 
@@ -104,36 +104,35 @@ func fanIn(cs ...<-chan string) <-chan string {
 ### Fan-In: select 版本 {#fan-in-select-版本}
 
 ```go
-
 func fanInUsingSelect(input1, input2 <-chan string) <-chan string {
-      out := make(chan string)
+	out := make(chan string)
 
-      go func() {
-	      defer close(out)
+	go func() {
+		defer close(out)
 
-	      for {
-		      select {
-		      case x, ok := <-input1:
-			      if !ok {
-				      input1 = nil
-			      } else {
-				      out <- x
-			      }
-		      case x, ok := <-input2:
-			      if !ok {
-				      input2 = nil
-			      } else {
-				      out <- x
-			      }
-		      }
+		for {
+			select {
+			case x, ok := <-input1:
+				if !ok {
+					input1 = nil
+				} else {
+					out <- x
+				}
+			case x, ok := <-input2:
+				if !ok {
+					input2 = nil
+				} else {
+					out <- x
+				}
+			}
 
-		      if input1 == nil && input2 == nil {
-			      break
-		      }
-	      }
-      }()
+			if input1 == nil && input2 == nil {
+				break
+			}
+		}
+	}()
 
-      return out
+	return out
 }
 ```
 
@@ -144,40 +143,40 @@ Fan-Out 刚好和 Fan-In 相反，一般和 Fan-In 配合起来一起使用：
 
 ```go
 func processJsonFiles(ch <-chan string) <-chan {
-      out := make(chan string)
+	out := make(chan string)
 
-      go func() {
-	      defer close(out)
+	go func() {
+		defer close(out)
 
-	      for s := range ch {
-		      // do something useful ...
-		      out <- s + " done"
-	      }
-      }()
+		for s := range ch {
+			// do something useful ...
+			out <- s + " done"
+		}
+	}()
 
-      return out
+	return out
 }
 
 func fanOut(in <-chan string) <-chan string {
-      // 同时开 n 个 goroutine 来处理这些 json files
-      n := 20
-      cs := make([]<-chan string, n)
-      for i := 0; i < n; i++ {
-	      cs[i] = processJsonFiles(ch)
-      }
+	// 同时开 n 个 goroutine 来处理这些 json files
+	n := 20
+	cs := make([]<-chan string, n)
+	for i := 0; i < n; i++ {
+		cs[i] = processJsonFiles(ch)
+	}
 
-      out := fanIn(cs...)
+	out := fanIn(cs...)
 
-      return out
+	return out
 }
 
 func main() {
-      ch := walkJsonFiles("./")
-      out := fanOut(ch)
+	ch := walkJsonFiles("./")
+	out := fanOut(ch)
 
-      for s := range out {
-	      fmt.Println(s)
-      }
+	for s := range out {
+		fmt.Println(s)
+	}
 }
 ```
 
@@ -188,53 +187,53 @@ func main() {
 ```go
 package main
 import (
-      "fmt"
-      "time"
+	"fmt"
+	"time"
 )
 
 // 为每次 select 设置超时
 // 每次 select 都会重置超时
 func selectTimeout(in <-chan string) {
-      for {
-	      select {
-	      case s := <-in:
-		      fmt.Println("tick", s)
-	      case <- time.After(1 * time.Second):
-		      fmt.Println("You're too slow.")
-		      return
-	      }
-      }
+	for {
+		select {
+		case s := <-in:
+			fmt.Println("tick", s)
+		case <- time.After(1 * time.Second):
+			fmt.Println("You're too slow.")
+			return
+		}
+	}
 }
 
 // 为整个 for 循环设置一个超时，时间结束即退出
 func selectTimeout2(in <-chan string) {
-      timeout := time.After(1 * time.Second)
+	timeout := time.After(1 * time.Second)
 
-      for {
-	      select {
-	      case s := <-in:
-		      fmt.Println("tock", s)
-	      case <- timeout:
-		      fmt.Println("timed out")
-		      return
-	      }
-      }
+	for {
+		select {
+		case s := <-in:
+			fmt.Println("tock", s)
+		case <- timeout:
+			fmt.Println("timed out")
+			return
+		}
+	}
 }
 
 
 func main() {
-      in := make(chan string)
+	in := make(chan string)
 
-      go func() {
-	      for i := 0; i < 20; i++ {
-		      time.Sleep(time.Duration(i * 200) * time.Millisecond)
-		      in <- fmt.Sprintf("%d", i)
-	      }
-      }()
+	go func() {
+		for i := 0; i < 20; i++ {
+			time.Sleep(time.Duration(i * 200) * time.Millisecond)
+			in <- fmt.Sprintf("%d", i)
+		}
+	}()
 
-      go selectTimeout2(in)
+	go selectTimeout2(in)
 
-      selectTimeout(in)
+	selectTimeout(in)
 }
 ```
 
@@ -267,60 +266,60 @@ You're too slow.
 
 ```go
 import (
-      "fmt"
-      "io/fs"
-      "path/filepath"
-      "errors"
+	"fmt"
+	"io/fs"
+	"path/filepath"
+	"errors"
 )
 
 func walkAndGracefulQuit(dir string, quit chan string) <-chan string {
-      out := make(chan string)
+	out := make(chan string)
 
-      go func() {
-	      defer func() {
-		      close(out)
-		      cleanup()
-		      quit <- "bye"
-	      }()
+	go func() {
+		defer func() {
+			close(out)
+			cleanup()
+			quit <- "bye"
+		}()
 
-	      filepath.WalkDir(dir,
-		      func(path string, info fs.DirEntry, err error) error {
-			      if err != nil {
-				      fmt.Printf("can't access path: %q %v\n", path, err)
-				      return err
-			      }
-			      if !info.Type().IsDir() && filepath.Ext(path) == ".md" {
+		filepath.WalkDir(dir,
+			func(path string, info fs.DirEntry, err error) error {
+				if err != nil {
+					fmt.Printf("can't access path: %q %v\n", path, err)
+					return err
+				}
+				if !info.Type().IsDir() && filepath.Ext(path) == ".md" {
 
-				      select {
-				      case out <- path:
-					      // do nothing
-				      case <-quit:
-					      return errors.New("quit")
-				      }
-			      }
-			      return nil
-		      })
-      }()
+					select {
+					case out <- path:
+						// do nothing
+					case <-quit:
+						return errors.New("quit")
+					}
+				}
+				return nil
+			})
+	}()
 
-      return out
+	return out
 }
 
 func cleanup() {
 }
 
 func main() {
-      quit := make(chan string)
-      c := walkAndGracefulQuit(".", quit)
-      i := 0
-      for name := range c {
-	      fmt.Println(name)
-	      if i++; i == 1 {
-		      quit <- "bye"
-	      }
-      }
+	quit := make(chan string)
+	c := walkAndGracefulQuit(".", quit)
+	i := 0
+	for name := range c {
+		fmt.Println(name)
+		if i++; i == 1 {
+			quit <- "bye"
+		}
+	}
 
-      // 等待清理动作完毕，正式结束程序
-      <-quit
+	// 等待清理动作完毕，正式结束程序
+	<-quit
 }
 ```
 
@@ -349,10 +348,10 @@ Go talks 有一个很经典的案例，这里我们学习一下。
 
 ```go
 func Google(query string) (results []Result) {
-    results = append(results, Web(query))
-    results = append(results, Image(query))
-    results = append(results, Video(query))
-    return
+	results = append(results, Web(query))
+	results = append(results, Image(query))
+	results = append(results, Video(query))
+	return
 }
 ```
 
@@ -363,16 +362,16 @@ func Google(query string) (results []Result) {
 
 ```go
 func Google(query string) (results []Result) {
-      c := make(chan Result)
-      go func() { c <- Web(query) } ()
-      go func() { c <- Image(query) } ()
-      go func() {c <- Video(query) } ()
+	c := make(chan Result)
+	go func() { c <- Web(query) } ()
+	go func() { c <- Image(query) } ()
+	go func() {c <- Video(query) } ()
 
-      for i := 0; i < 3; i++ {
-	      result := <-c
-	      results = append(results, result)
-      }
-      return
+	for i := 0; i < 3; i++ {
+		result := <-c
+		results = append(results, result)
+	}
+	return
 }
 ```
 
@@ -383,21 +382,21 @@ func Google(query string) (results []Result) {
 
 ```go
 func Google(query string) (results []Result) {
-      c := make(chan Result)
-      go func(){ c <- Web(query) }()
-      go func(){ c <- Image(query) }()
-      go func(){ c <- Video(query) }()
+	c := make(chan Result)
+	go func(){ c <- Web(query) }()
+	go func(){ c <- Image(query) }()
+	go func(){ c <- Video(query) }()
 
-      timeout := time.After(80 * time.Millisecond)
-      for i := 0; i < 3; i++ {
-	      select {
-	      case result := <-c:
-		      results = append(results, result)
-	      case <-timeout:
-		      fmt.Println("timed out")
-		      return
-	      }
-      }
+	timeout := time.After(80 * time.Millisecond)
+	for i := 0; i < 3; i++ {
+		select {
+		case result := <-c:
+			results = append(results, result)
+		case <-timeout:
+			fmt.Println("timed out")
+			return
+		}
+	}
 }
 ```
 
@@ -408,31 +407,31 @@ func Google(query string) (results []Result) {
 
 ```go
 func First(query string, replicas ...Search) Result {
-      c := make(chan Result)
-      searchReplica := func(i int) { c <- replicas[i](query) }
+	c := make(chan Result)
+	searchReplica := func(i int) { c <- replicas[i](query) }
 
-      for i := range replicas {
-	      go searchReplica(i)
-      }
-      return <-c
+	for i := range replicas {
+		go searchReplica(i)
+	}
+	return <-c
 }
 
 func Google(query string) (results []Result) {
-      c := make(chan Result)
-      go func() { c <- First(query, Web1, Web2) } ()
-      go func() { c <- First(query, Image1, Image2) } ()
-      go func() { c <- First(query, Video1, Video2) } ()
-      timeout := time.After(80 * time.Millisecond)
-      for i := 0; i < 3; i++ {
-	      select {
-	      case result := <-c:
-		      results = append(results, result)
-	      case <-timeout:
-		      fmt.Println("timed out")
-		      return
-	      }
-      }
-      return
+	c := make(chan Result)
+	go func() { c <- First(query, Web1, Web2) } ()
+	go func() { c <- First(query, Image1, Image2) } ()
+	go func() { c <- First(query, Video1, Video2) } ()
+	timeout := time.After(80 * time.Millisecond)
+	for i := 0; i < 3; i++ {
+		select {
+		case result := <-c:
+			results = append(results, result)
+		case <-timeout:
+			fmt.Println("timed out")
+			return
+		}
+	}
+	return
 }
 ```
 

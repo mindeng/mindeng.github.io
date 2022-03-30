@@ -8,6 +8,56 @@ draft = false
 记录一些常用的命令行工具，方便随时取用。
 
 
+## git throught ssh {#git-throught-ssh}
+
+```sh
+git remote add origin ssh://user@my.git.svr/path/to/repo
+```
+
+
+## 通过 crontab 实现开机自启动 {#通过-crontab-实现开机自启动}
+
+```crontab
+# 每次系统重启时，都会运行 ss.sh
+@reboot ss.sh
+```
+
+
+## xxd 十六进制（二进制） dump {#xxd-十六进制-二进制-dump}
+
+xxd
+: 以十六进制形式 dump 文件内容
+
+xxd -b
+: 以二进制形式 dump 文件内容
+
+xxd -r
+: 从 dump 内容还原出原始文件，例如 `xxd file | xxd -r` 和
+    `cat file` 的输出是一致的
+
+
+## uniq 过滤、报告相同行 {#uniq-过滤-报告相同行}
+
+uniq
+: 相同行仅打印一次
+
+uniq -c
+: 行首插入该行重复出现的次数
+
+uniq -d
+: 仅输出相同行
+
+uniq -u
+: 仅输出不同行
+
+
+## 查看网络端口监听情况 {#查看网络端口监听情况}
+
+```sh
+netstat -tunlp
+```
+
+
 ## 查看 CPU 总核心数 {#查看-cpu-总核心数}
 
 ```sh

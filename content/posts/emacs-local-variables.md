@@ -24,6 +24,9 @@ org-download-image-dir
 : 设置 org-download 插件用来存储图片的路径，
     默认为文档所在目录
 
+org-confirm-babel-evaluate
+: 设置 babel 执行代码时是否需要确认
+
 一般情况下，我们可以通过在 `.emacs` 文件中对这些变量进行全局配置。但如
 果你有进一步的诉求，例如希望针对某个项目（或者某个目录）有一些不同的定
 制，或者甚至对某个文件进行单独的配置呢？
@@ -54,13 +57,13 @@ file-local variables
 (
  ;; 这些配置会应用到任意模式（即所有文件）
  (nil . ((indent-tabs-mode . t)
-       (fill-column . 80)
-       (mode . auto-fill)))
+	 (fill-column . 80)
+	 (mode . auto-fill)))
 
  ;; 这些配置只会应用到 c-mode 的文件中
  (c-mode . ((c-file-style . "BSD")
-	  ;; 下面这句指定该配置仅应用到当前目录，不应用到子目录
-	  (subdirs . nil)))
+		;; 下面这句指定该配置仅应用到当前目录，不应用到子目录
+		(subdirs . nil)))
 
  ;; 这些配置只会应用到 org 文件中
  (org-mode . ((org-download-image-dir . "./images")))
@@ -68,7 +71,7 @@ file-local variables
  ;; 这些配置会应用到 src/imported 目录下的所有文件中
  ("src/imported"
   . ((nil . ((change-log-default-name
-	    . "ChangeLog.local"))))))
+	  . "ChangeLog.local"))))))
 ```
 
 另一种配置 directory-local variables 的方式，是定义一个 `directory

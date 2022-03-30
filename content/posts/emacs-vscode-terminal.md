@@ -23,19 +23,19 @@ VSCode 有一个比较方便的快捷键：Ctrl-\` ，可以一键拉起 termina
 (defun open-or-jump-to-multi-term ()
   (interactive)
   (if (string-prefix-p "*terminal<" (buffer-name))
-      (delete-window)
-    (progn
-      (setq bufname (concat "*terminal<" (directory-file-name (file-name-directory (buffer-file-name))) ">"))
-      (if (get-buffer-process bufname)
-      (switch-to-buffer-other-window bufname)
-      (progn
+  (delete-window)
+	(progn
+  (setq bufname (concat "*terminal<" (directory-file-name (file-name-directory (buffer-file-name))) ">"))
+  (if (get-buffer-process bufname)
+	(switch-to-buffer-other-window bufname)
+  (progn
 
-      (split-window-right)
-      (other-window 1)
-      (multi-term)
-      (rename-buffer bufname)
-      )
-      )))
+	(split-window-right)
+	(other-window 1)
+	(multi-term)
+	(rename-buffer bufname)
+	)
+  )))
   )
 
 ;; 定义快捷键，和 VSCode 一致
