@@ -2,7 +2,7 @@
 ---
 title: "Git Tips"
 date: 2022-12-03T10:18:00.000Z
-lastmod: 2022-12-04T12:54:00.000Z
+lastmod: 2022-12-04T13:59:00.000Z
 tags: ['tools', 'git']
 draft: false
 ---
@@ -49,6 +49,21 @@ git push --force-with-lease
     
     原因解释：因为 *rebase* 是通过一系列的 *cherry-pick* 来实现的，是**把当前分支的 commit *****cherry-pick***** 到指定分支**。因此，在 *cherry-pick* 的过程中，指定的分支被视为 *ours*，而被 rebase 的当前分支被视为 *theirs* 。  
 -   [``HEAD~``](https://stackoverflow.com/a/2222920/1066512)[ 和 ](https://stackoverflow.com/a/2222920/1066512)[``HEAD^``](https://stackoverflow.com/a/2222920/1066512)[ 的区别](https://stackoverflow.com/a/2222920/1066512)
+
+
+## Tags
+
+push tags: ``git push --tags``
+
+rename tag:
+
+```bash
+git tag new old
+git tag -d old
+
+# old 前面的 `:` 会从远程仓库中删除该 tag
+git push origin new :old
+```
 
 
 ## Git 代理配置
