@@ -1,0 +1,154 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Linux Security Tips - MinCodes</title><meta name=Description content="MinCodes, Minimal but useful Codes"><meta property="og:title" content="Linux Security Tips"><meta property="og:description" content="ssh Modify /etc/ssh/sshd_config:
+1 2 3 4 5 6 7 8 9 10 11 12 13 # Disable root login PermitRootLogin no # Change the default port Port 12345 # Enable login with key RSAAuthentication yes PubkeyAuthentication yes # Disable login with password UsePAM no PasswordAuthentication no After that, remember to restart sshd: sudo /etc/init.d/ssh restart (for Debian/Ubuntu) or sudo service sshd restart (for CentOS).
+iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptables."><meta property="og:type" content="article"><meta property="og:url" content="https://mincodes.com/posts/linux-security-tips/"><meta property="og:image" content="https://mincodes.com/favicon.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-12-04T12:15:00+00:00"><meta property="article:modified_time" content="2022-12-04T13:37:00+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mincodes.com/favicon.svg"><meta name=twitter:title content="Linux Security Tips"><meta name=twitter:description content="ssh Modify /etc/ssh/sshd_config:
+1 2 3 4 5 6 7 8 9 10 11 12 13 # Disable root login PermitRootLogin no # Change the default port Port 12345 # Enable login with key RSAAuthentication yes PubkeyAuthentication yes # Disable login with password UsePAM no PasswordAuthentication no After that, remember to restart sshd: sudo /etc/init.d/ssh restart (for Debian/Ubuntu) or sudo service sshd restart (for CentOS).
+iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptables."><meta name=application-name content="MinCodes"><meta name=apple-mobile-web-app-title content="MinCodes"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/favicon.svg><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mincodes.com/posts/linux-security-tips/><link rel=prev href=https://mincodes.com/posts/security-tips-elf-hack/><link rel=next href=https://mincodes.com/posts/create-ramdisk-on-macos/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Linux Security Tips","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mincodes.com\/posts\/linux-security-tips\/"},"genre":"posts","keywords":"linux, security","wordcount":475,"url":"https:\/\/mincodes.com\/posts\/linux-security-tips\/","datePublished":"2022-12-04T12:15:00+00:00","dateModified":"2022-12-04T13:37:00+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Min Deng"},"author":{"@type":"Person","name":"Min Deng"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>posts </a><a class=menu-item href=/tags/tools>tools </a><a class=menu-item href=/tags/>tags </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>posts</a><a class=menu-item href=/tags/tools title>tools</a><a class=menu-item href=/tags/ title>tags</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Linux Security Tips</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Min Deng</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-12-04>2022-12-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 475 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#ssh>ssh</a></li><li><a href=#iptables>iptables</a></li><li><a href=#nginx>nginx</a></li></ul></nav></div></div><div class=content id=content><h2 id=ssh>ssh</h2><p>Modify <code>/etc/ssh/sshd_config</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Disable root login</span>
+</span></span><span class=line><span class=cl>PermitRootLogin no
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Change the default port</span>
+</span></span><span class=line><span class=cl>Port <span class=m>12345</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Enable login with key</span>
+</span></span><span class=line><span class=cl>RSAAuthentication yes
+</span></span><span class=line><span class=cl>PubkeyAuthentication yes
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Disable login with password</span>
+</span></span><span class=line><span class=cl>UsePAM no
+</span></span><span class=line><span class=cl>PasswordAuthentication no
+</span></span></code></pre></td></tr></table></div></div><p>After that, remember to restart sshd: <code>sudo /etc/init.d/ssh restart</code>
+(for Debian/Ubuntu) or <code>sudo service sshd restart</code> (for CentOS).</p><h2 id=iptables>iptables</h2><ul><li>Refer to <a href=https://wiki.debian.org/iptables* target=_blank rel="noopener noreffer">https://wiki.debian.org/iptables*</a></li></ul><p>Create the file <code>/etc/iptables.test.rules</code>, and enter rules:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>*filter
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Allows all loopback (lo0) traffic and drop all traffic to 127/8 that doesn&#39;t use lo0</span>
+</span></span><span class=line><span class=cl>-A INPUT -i lo -j ACCEPT
+</span></span><span class=line><span class=cl>-A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Accepts all established inbound connections</span>
+</span></span><span class=line><span class=cl>-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Allows all outbound traffic</span>
+</span></span><span class=line><span class=cl><span class=c1># You could modify this to only allow certain traffic</span>
+</span></span><span class=line><span class=cl>-A OUTPUT -j ACCEPT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Allows HTTP and HTTPS connections from anywhere (the normal ports for websites)</span>
+</span></span><span class=line><span class=cl>-A INPUT -p tcp --dport <span class=m>80</span> -j ACCEPT
+</span></span><span class=line><span class=cl>-A INPUT -p tcp --dport <span class=m>443</span> -j ACCEPT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Allows SSH connections</span>
+</span></span><span class=line><span class=cl><span class=c1># The --dport number is the same as in /etc/ssh/sshd_config</span>
+</span></span><span class=line><span class=cl>-A INPUT -p tcp -m state --state NEW --dport <span class=m>22</span> -j ACCEPT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Now you should read up on iptables rules and consider whether ssh access</span>
+</span></span><span class=line><span class=cl><span class=c1># for everyone is really desired. Most likely you will only allow access from certain IPs.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Allow ping</span>
+</span></span><span class=line><span class=cl><span class=c1>#  note that blocking other types of icmp packets is considered a bad idea by some</span>
+</span></span><span class=line><span class=cl><span class=c1>#  remove -m icmp --icmp-type 8 from this line to allow all kinds of icmp:</span>
+</span></span><span class=line><span class=cl><span class=c1>#  &lt;https://security.stackexchange.com/questions/22711&gt;</span>
+</span></span><span class=line><span class=cl>-A INPUT -p icmp -m icmp --icmp-type <span class=m>8</span> -j ACCEPT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># log iptables denied calls (access via &#39;dmesg&#39; command)</span>
+</span></span><span class=line><span class=cl>-A INPUT -m limit --limit 5/min -j LOG --log-prefix <span class=s2>&#34;iptables denied: &#34;</span> --log-level <span class=m>7</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Reject all other inbound - default deny unless explicitly allowed policy:</span>
+</span></span><span class=line><span class=cl>-A INPUT -j REJECT
+</span></span><span class=line><span class=cl>-A FORWARD -j REJECT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>COMMIT
+</span></span></code></pre></td></tr></table></div></div><p>Apply these rules:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo iptables-restore &lt; /etc/iptables.test.rules
+</span></span></code></pre></td></tr></table></div></div><p>And see the difference:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>iptables -L
+</span></span></code></pre></td></tr></table></div></div><p>Save the rules:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>iptables-save &gt; /etc/iptables.up.rules
+</span></span></code></pre></td></tr></table></div></div><p>Create file <code>/etc/network/if-pre-up.d/iptables</code>, and add these lines to it:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/sh
+</span></span></span><span class=line><span class=cl><span class=cp></span>/sbin/iptables-restore &lt; /etc/iptables.up.rules
+</span></span></code></pre></td></tr></table></div></div><p>Add executable permision for the file:</p><p><code>chmod +x /etc/network/if-pre-up.d/iptables</code></p><p>To check who is listening on TCP port 12345:</p><p><code>lsof -n -i4TCP:12345 | grep LISTEN</code></p><h2 id=nginx>nginx</h2><p>Modify the file nginx.conf:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>http <span class=o>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1># Hide nginx version information</span>
+</span></span><span class=line><span class=cl>    server_tokens off<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>		<span class=c1># Catch all requests with wrong host and return 444 status</span>
+</span></span><span class=line><span class=cl>    server <span class=o>{</span>
+</span></span><span class=line><span class=cl>        listen <span class=m>80</span> default_server<span class=p>;</span>
+</span></span><span class=line><span class=cl>        listen <span class=o>[</span>::<span class=o>]</span>:80 default_server<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        listen <span class=m>443</span> ssl default_server<span class=p>;</span>
+</span></span><span class=line><span class=cl>        listen <span class=o>[</span>::<span class=o>]</span>:443 ssl default_server<span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> 444<span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-12-04</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/linux/>linux</a>,&nbsp;<a href=/tags/security/>security</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/security-tips-elf-hack/ class=prev rel=prev title="Security Tips：ELF 破解及几点启示"><i class="fas fa-angle-left fa-fw"></i>Security Tips：ELF 破解及几点启示</a>
+<a href=/posts/create-ramdisk-on-macos/ class=next rel=next title="Create Ramdisk on macOS">Create Ramdisk on macOS<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Min Deng</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:10},comment:{},data:{"id-1":"MinCodes","id-2":"MinCodes"},typeit:{cursorChar:null,cursorSpeed:null,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:null,speed:null}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-EPY7LC720X",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-EPY7LC720X" async></script></body></html>

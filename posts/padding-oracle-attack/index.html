@@ -1,0 +1,264 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Padding Oracle Attack - MinCodes</title><meta name=Description content="MinCodes, Minimal but useful Codes"><meta property="og:title" content="Padding Oracle Attack"><meta property="og:description" content="原理阐述 Padding 在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般"><meta property="og:type" content="article"><meta property="og:url" content="https://mincodes.com/posts/padding-oracle-attack/"><meta property="og:image" content="https://mincodes.com/favicon.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-12-04T12:22:00+00:00"><meta property="article:modified_time" content="2022-12-04T13:02:00+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mincodes.com/favicon.svg"><meta name=twitter:title content="Padding Oracle Attack"><meta name=twitter:description content="原理阐述 Padding 在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般"><meta name=application-name content="MinCodes"><meta name=apple-mobile-web-app-title content="MinCodes"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/favicon.svg><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mincodes.com/posts/padding-oracle-attack/><link rel=prev href=https://mincodes.com/posts/create-ramdisk-on-macos/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Padding Oracle Attack","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mincodes.com\/posts\/padding-oracle-attack\/"},"genre":"posts","keywords":"security, algorithm","wordcount":3167,"url":"https:\/\/mincodes.com\/posts\/padding-oracle-attack\/","datePublished":"2022-12-04T12:22:00+00:00","dateModified":"2022-12-04T13:02:00+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Min Deng"},"author":{"@type":"Person","name":"Min Deng"},"description":""}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>posts </a><a class=menu-item href=/tags/tools>tools </a><a class=menu-item href=/tags/>tags </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>posts</a><a class=menu-item href=/tags/tools title>tools</a><a class=menu-item href=/tags/ title>tags</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Padding Oracle Attack</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw"></i>Min Deng</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-12-04>2022-12-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3167 字&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#原理阐述>原理阐述</a><ul><li><a href=#padding>Padding</a></li><li><a href=#padding-oracle>Padding Oracle</a></li><li><a href=#xor异或>XOR（异或）</a></li><li><a href=#cipher-block-chaining-cbc>Cipher-Block Chaining (CBC)</a></li><li><a href=#加密过程>加密过程</a></li><li><a href=#解密过程>解密过程</a></li><li><a href=#攻击过程>攻击过程</a></li><li><a href=#破解最后一个字节>破解最后一个字节</a></li><li><a href=#破解最后一个-block-的剩余字节>破解最后一个 block 的剩余字节</a></li><li><a href=#确定最后一个字节的值>确定最后一个字节的值</a></li></ul></li><li><a href=#程序实现>程序实现</a></li><li><a href=#参考>参考</a></li><li><a href=#附录>附录</a></li></ul></nav></div></div><div class=content id=content><h2 id=原理阐述>原理阐述</h2><h3 id=padding>Padding</h3><p>在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般需要额外增加 padding 字段来满足块对齐以便进行加密。</p><p>Padding 方法可能有多种，为简单起见，这里只讨论常用的 PKCS7Padding 方法。在 PKCS7Padding 方法中，padding 字段填充的每个字节的值都是相同的，其值均为需要填充的字节个数，例如：如果块大小是 16， 那么明文 &ldquo;aaaa&rdquo; 的 padding 就是 [12]*12。如果明文长度刚好是块大小的整数倍，则需要额外加上一个块的 padding，即 [16]*16 。</p><p>PKCS7Padding 的 Python 实现代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>def pkcs7padding(plaintext):
+</span></span><span class=line><span class=cl>    bs = 16
+</span></span><span class=line><span class=cl>    padding_len = bs - len(plaintext) % bs
+</span></span><span class=line><span class=cl>    return plaintext + padding_len * chr(padding_len)
+</span></span></code></pre></td></tr></table></div></div><h3 id=padding-oracle>Padding Oracle</h3><p>指被攻击对象暴露的一个接口，该接口可以通过任意形式提供，例如可能是命令行，可能是API，也可能是 REST 接口等等。形式不重要，重要的是内容，该接口可以输入密文，返回该段密文解密后的 Padding 是否正确。如果解密相关的应用开发者不小心，很有可能会暴露出该类接口（例如在提供 web 服务时，后端解密代码未对 Padding 异常情况进行捕捉，导致 HTTP 500 错误）。</p><p>Padding Oracle Attack 就是利用 Padding Oracle 来进行攻击的，简单来说，攻击者首先需要窃取一段密文，其次要有一个 Padding Oracle 可供利用，然后攻击者便可通过不断篡改密文并发送到 Padding Oracle 进行验证的方式，来对这段密文进行破解。</p><h3 id=xor异或>XOR（异或）</h3><p>在解释下一个概念之前，先让我们稍微复习下 XOR（异或）操作。下面是 XOR 的一些基本公式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>  A ⊕ A = 0
+</span></span><span class=line><span class=cl>  A ⊕ 0 = A
+</span></span><span class=line><span class=cl>  A ⊕ B = B ⊕ A
+</span></span><span class=line><span class=cl>  (A ⊕ B) ⊕ C = A ⊕ (B ⊕ C)
+</span></span><span class=line><span class=cl>  ∴ A ⊕ B ⊕ B = A ⊕ (B ⊕ B) = A ⊕ 0 = A
+</span></span></code></pre></td></tr></table></div></div><h3 id=cipher-block-chaining-cbc>Cipher-Block Chaining (CBC)</h3><p>本文将阐述针对 AES CBC 模式的 Padding Oracle Attack，因此，有必要先解释下 CBC 模式的工作过程。</p><p>顾名思义，CBC 是针对块的加密，而且块与块之间是存在链式关系的（这种链式关系你很快就会理解了）。</p><h3 id=加密过程>加密过程</h3><p>在 CBC 中，有一个名叫 &ldquo;block cipher"的东西，这个 &ldquo;block cipher&rdquo; 接受『块』作为输入，密文作为输出。本文不涉及 &ldquo;block cipher&rdquo; 的具体工作原理，我们可以把 &ldquo;block cipher&rdquo; 当作黑盒子来处理。</p><p>在 CBC 加密过程中，每个 &ldquo;plaintext block&rdquo; 在送入 &ldquo;block cipher&rdquo; 前，都需要先和它前面的 &ldquo;ciphertext block&rdquo; (即前面相邻的已加密的密文块) 进行 XOR 操作，XOR 的结果再送入 &ldquo;block cipher"进行加密处理。这意味着每个加密出来的密文块都依赖于前面的明文加密后的结果，因此改变每一个明文字符都会对后面的加密结果产生巨大影响。这是一种被推荐的、比较安全的加密模式。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png data-srcset="/uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png, /uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png 1.5x, /uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png 2x" data-sizes=auto alt=/uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png title=/uploads/images/4503f42b-c535-4139-a452-66b5ebd9e572/Untitled.png></p><p>(from <a href=https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher-block_chaining_.28CBC.29 target=_blank rel="noopener noreffer">Wikipedia</a> )</p><h3 id=解密过程>解密过程</h3><p>类似的，在解密过程中，有一个 &ldquo;block cipher decryption&rdquo;，这个东东接受『密文块』作为输入，但输出不是明文，是一个中间结果。结合上面加密的过程，我们不难理解，这个中间结果就是明文在和 previous cipher block 异或之后的结果。拿到这个中间结果后，跟进前面异或公式的最后一条可知，只需将该中间结果和 previous cipher block 再做一次异或，即可得到最初的明文块。至此，该 block 解密结束。如果是第一个 cipher block，则将中间结果和 IV 进行一次异或即可得到明文块。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png data-srcset="/uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png, /uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png 1.5x, /uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png 2x" data-sizes=auto alt=/uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png title=/uploads/images/682e7e40-5dc0-4e8e-854a-c6724b36f52f/Untitled.png></p><p>(图片来自 <a href=http://robertheaton.com/2013/07/29/padding-oracle-attack/ target=_blank rel="noopener noreffer">Rob Heaton&rsquo;s blog</a> )</p><p>当然，如果是最后一个 block，还需要根据 PKCS7Padding 的规则将尾部 Padding 剔除，剔除 Padding 的 Python 实现代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>def pkcs7unpadding(plaintext):
+</span></span><span class=line><span class=cl>    padding_len = ord(plaintext[-1])
+</span></span><span class=line><span class=cl>    # check if the padding_len is valid
+</span></span><span class=line><span class=cl>    # ...
+</span></span><span class=line><span class=cl>    return plaintext[:-padding_len]
+</span></span></code></pre></td></tr></table></div></div><h3 id=攻击过程>攻击过程</h3><p>有了上述这些概念，攻击过程就比较好理解了。</p><p>攻击者就是通过计算上面提到的『中间结果』来达到解密目的的。怎么计算『中间结果』呢？答案是试！利用 Padding Oracle 来试。</p><p>首先，明确几个概念：</p><ul><li>我们窃取了一段密文</li><li>我们是一块一块来破解的（因为 CBC 是一块一块加密的）</li><li>我们有一个 Padding Oracle</li></ul><p>为了描述方便起见，这里定义几个缩写（可结合下面的图片来理解）：</p><ul><li>C1: 待破解密文块相邻的前面的密文块</li><li>C2: 待破解密文块</li><li>I2: 待破解密文块经过 &ldquo;block cipher decryption&rdquo; 解密出来的中间结果，可与 C1 异或后得到明文块</li><li>P2: 待破解密文块解密后的明文块</li></ul><p>因此我们有如下公式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>P2 = C1 ^ I2
+</span></span></code></pre></td></tr></table></div></div><p>C1 是已知的，因此我们的工作就是算出 I2 。</p><h3 id=破解最后一个字节>破解最后一个字节</h3><p>首先，我们从破解最后一个 block 的最后一个字节开始。</p><p>根据前面的定义，C2 是密文的最后一个 block，C1 是密文的倒数第二个 block 。看下破解过程：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png data-srcset="/uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png, /uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png 1.5x, /uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png 2x" data-sizes=auto alt=/uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png title=/uploads/images/5dbd494a-82bb-4884-9ed5-85acb7eaff93/Untitled.png></p><p>(图片来自 <a href=http://robertheaton.com/2013/07/29/padding-oracle-attack/ target=_blank rel="noopener noreffer">Rob Heaton&rsquo;s blog</a> )</p><ol><li>先把 C1 替换成 [0]*16 （即16个0），把新的 C1 叫做 C1'</li><li>把 C1&rsquo; + C2 传入 Padding Oracle，成功则跳到第 4 步，否则继续</li><li>C1&rsquo;[15] 自增（上限是 255），并重复第 2 步</li><li>由于 C1&rsquo; + C2 通过了 Padding 检查，可以确定 P2&rsquo;[15] 一定是 1~16 中的一个值，这里我们先假定是1（可通过继续修改 C1&rsquo; 来进一步确定 P2&rsquo;[15] 的值，为了避免引入额外的复杂度，这里先不介绍如何确定 P2&rsquo;[15] 的值，后面再详细介绍）。假设此时 C1&rsquo;[15] 自增到了 94，则按照如下公式可计算出 I2[15]</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>I2     = C1&#39;     ^ P2&#39;
+</span></span><span class=line><span class=cl>I2[15] = C1&#39;[15] ^ P2&#39;[15]
+</span></span><span class=line><span class=cl>I2[15] = 94  ^ 1
+</span></span><span class=line><span class=cl>       = 95
+</span></span></code></pre></td></tr></table></div></div><p>进一步，因为 C1 是已知的，所以:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>P2[15] = C1[15] ^ I2[15]
+</span></span><span class=line><span class=cl>       = C1[15] ^ 95
+</span></span></code></pre></td></tr></table></div></div><p>至此，P2[15] 已经计算出来了，即最后一个字节已经被破解了！</p><h3 id=破解最后一个-block-的剩余字节>破解最后一个 block 的剩余字节</h3><p>为了破解剩余字节，我们先可以把 P2&rsquo;[15] 定位 2，根据 PKCS7Padding 的定义，如果 padding 是合法的，则 P2&rsquo;[14] 也一定是 2。我们就根据这个思路来破解倒数第二个字节。</p><ol><li>先把 C1&rsquo;[0..14] 置 0，C1&rsquo;[15] 设置成 <code>2 ^ I2[15]</code> （确保 P2&rsquo;[15] 是 2）</li><li>C1&rsquo; + C2 传入 Padding Oracle，测试成功则跳到第 4 步，否则继续下一步</li><li>C1&rsquo;[14] 自增，重复第 2 步</li><li>根据以下公式计算 I2[15]:</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>I2     = C1&#39;     ^ P2&#39;
+</span></span><span class=line><span class=cl>I2[14] = C1&#39;[14] ^ P2&#39;[14]
+</span></span><span class=line><span class=cl>       = C1&#39;[14] ^ 2
+</span></span></code></pre></td></tr></table></div></div><p>由于 C1 是已知的，所以：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>P2[14] = C1[14] ^ I2[14]
+</span></span></code></pre></td></tr></table></div></div><p>至此，P2[14] 计算出来了，即倒数第二个字节被破解了！</p><p>重复上述步骤，即可破解最后一个 block 的剩余字节。</p><p>重复上面两节的步骤，即可破解所有 block。第一个 block 稍有不同，因为第一个 block 没有对应的 C1，此时， C1 = IV 。</p><h3 id=确定最后一个字节的值>确定最后一个字节的值</h3><p>我们回过头来看这个问题。</p><p>我们来分析一下，如果此时 P2&rsquo;[15] 是2而不是1，意味着什么呢？根据 PKCS7Padding 的定义，这意味着：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>P2&#39;[14] == P2&#39;[15] == 2
+</span></span></code></pre></td></tr></table></div></div><p>注意此时 C1&rsquo;[14] 的值是 0，我们可以通过修改 C1&rsquo;[14] 的值（例如修改成1），然后将 C1&rsquo; + C2 传入 Padding Oracle 进行测试，如果通过则表示 P2&rsquo;[15] 只可能是1。什么原因呢？因为 C1&rsquo;[14] 的值被修改后，必然会影响 P2&rsquo;[14]，而变化后的 P2&rsquo; 仍能通过测试，说明 Padding 只能是 1，否则 P2&rsquo;[14] != P2&rsquo;[15] 是必然通不过测试的。如果修改后没有通过测试呢？此时说明 P2&rsquo;[14] >= 2，那我们只需要重复以上步骤（把 C1&rsquo;[14] 重置为0，修改 C1&rsquo;[13] 的值为1）再做一遍 Padding 测试即可。如此最多测试 15 次，即可确定 P2&rsquo;[15] 的值。步骤可归纳如下：</p><ol><li>i = 14, C1&rsquo;[i] = 1</li><li>PaddingOracle(C1&rsquo; + C2) 是否成功？成功跳到第 4 步，否则继续</li><li>C1&rsquo;[i] = 0, i -= 1, 如果 i &lt; 0，则跳转第 5 步；否则 C1&rsquo;[i] = 1，重复第 2 步</li><li>根据 PKCS7Padding 的定义，可确定 P2&rsquo;[15] 的值为 16 - i - 1，结束</li><li>根据 PKCS7Padding 的定义，可确定 P2&rsquo;[15] 的值为 16，结束</li></ol><h2 id=程序实现>程序实现</h2><p>作为练习和测试，这里用 Python 语言实现了一个 Padding Oracle Attack 的 Demo，见 <a href=https://github.com/mindeng/crypto-utils/tree/master/padding-oracle-attack target=_blank rel="noopener noreffer">padding-oracle-attack</a> 。</p><h2 id=参考>参考</h2><ul><li><a href=http://robertheaton.com/2013/07/29/padding-oracle-attack/ target=_blank rel="noopener noreffer">The Padding Oracle Attack - why crypto is terrifying</a></li><li><a href=https://blog.skullsecurity.org/2013/padding-oracle-attacks-in-depth target=_blank rel="noopener noreffer">Padding oracle attacks: in depth</a></li></ul><p>第一篇文章写的比较生动易理解，图文配合的很好（本文图片就是引自这里），缺点是没有提到 P2&rsquo;[15] 值的确定，甚至直接断定 P2&rsquo;[15] == 1，不太严谨。经我个人测试是有可能出现其他值的。</p><p>第二篇文章写的比较严谨、比较形式化，但也比较枯燥，没那么形象生动。不过这篇文章提到了 P2&rsquo;[15] 的不确定性，而且简单介绍了解决办法（在Backtracking一节中有简单说明），但未做详细阐述。</p><h2 id=附录>附录</h2><p>AES with PBKDF2 & PKCS7Padding & CBC mode in Swift (iOS):</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl>    <span class=kd>enum</span> <span class=nc>CryptorError</span><span class=p>:</span> <span class=n>ErrorType</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>PasswordError</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>RandomSaltError</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>AllocError</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>DeriveDataError</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>EncryptError</span>
+</span></span><span class=line><span class=cl>        <span class=k>case</span> <span class=n>UnknownError</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>internal</span> <span class=kd>func</span> <span class=nf>AESEncrypt</span><span class=p>(</span><span class=n>plaintext</span><span class=p>:</span> <span class=n>NSData</span><span class=p>,</span> <span class=n>password</span><span class=p>:</span> <span class=nb>String</span><span class=p>)</span> <span class=kr>throws</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=n>NSData</span><span class=p>,</span> <span class=n>NSData</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>guard</span> <span class=kd>let</span> <span class=nv>passwordData</span><span class=p>:</span> <span class=n>NSData</span> <span class=p>=</span> <span class=n>password</span><span class=p>.</span><span class=n>dataUsingEncoding</span><span class=p>(</span><span class=n>NSUTF8StringEncoding</span><span class=p>,</span> <span class=n>allowLossyConversion</span><span class=p>:</span> <span class=kc>false</span><span class=p>)</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span><span class=p>(</span><span class=n>CryptorError</span><span class=p>.</span><span class=n>PasswordError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>operation</span> <span class=p>=</span> <span class=n>CCOperation</span><span class=p>(</span><span class=n>kCCEncrypt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>options</span> <span class=p>=</span> <span class=nb>UInt32</span><span class=p>(</span><span class=n>kCCOptionPKCS7Padding</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>palintextLen</span>       <span class=p>=</span> <span class=nb>Int</span><span class=p>(</span><span class=n>plaintext</span><span class=p>.</span><span class=n>length</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>plaintextBytes</span>        <span class=p>=</span> <span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>Void</span><span class=p>&gt;(</span><span class=n>plaintext</span><span class=p>.</span><span class=n>bytes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>outBuffer</span>       <span class=p>=</span> <span class=n>NSMutableData</span><span class=p>(</span><span class=n>length</span><span class=p>:</span> <span class=nb>Int</span><span class=p>(</span><span class=n>palintextLen</span><span class=p>)</span> <span class=o>+</span> <span class=n>algorithm</span><span class=p>.</span><span class=n>requiredBlockSize</span><span class=p>())</span><span class=o>!</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>outBufferPtr</span>    <span class=p>=</span> <span class=nb>UnsafeMutablePointer</span><span class=p>&lt;</span><span class=nb>Void</span><span class=p>&gt;(</span><span class=n>outBuffer</span><span class=p>.</span><span class=n>mutableBytes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>outBufferLen</span>     <span class=p>=</span> <span class=n>size_t</span><span class=p>(</span><span class=n>outBuffer</span><span class=p>.</span><span class=n>length</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nv>bytesDecrypted</span>   <span class=p>=</span> <span class=nb>Int</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>SALT_LEN</span> <span class=p>=</span> <span class=mi>16</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>guard</span> <span class=kd>let</span> <span class=nv>randomSalt</span> <span class=p>=</span> <span class=n>SymmetricCryptor</span><span class=p>.</span><span class=n>randomDataOfLength</span><span class=p>(</span><span class=n>SALT_LEN</span><span class=p>)</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span><span class=p>(</span><span class=n>CryptorError</span><span class=p>.</span><span class=n>RandomSaltError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>saltBytes</span> <span class=p>=</span> <span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>UInt8</span><span class=p>&gt;(</span><span class=n>randomSalt</span><span class=p>.</span><span class=n>bytes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>saltLen</span> <span class=p>=</span> <span class=n>randomSalt</span><span class=p>.</span><span class=n>length</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>guard</span> <span class=kd>let</span> <span class=nv>derivedData</span> <span class=p>=</span> <span class=n>NSMutableData</span><span class=p>(</span><span class=n>length</span><span class=p>:</span> <span class=mi>32</span><span class=p>)</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span><span class=p>(</span><span class=n>CryptorError</span><span class=p>.</span><span class=n>AllocError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>derivationResult</span> <span class=p>=</span> <span class=n>CCKeyDerivationPBKDF</span><span class=p>(</span><span class=n>CCPBKDFAlgorithm</span><span class=p>(</span><span class=n>kCCPBKDF2</span><span class=p>),</span> <span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>Int8</span><span class=p>&gt;(</span><span class=n>passwordData</span><span class=p>.</span><span class=n>bytes</span><span class=p>),</span> <span class=n>passwordData</span><span class=p>.</span><span class=n>length</span><span class=p>,</span> <span class=n>saltBytes</span><span class=p>,</span> <span class=n>saltLen</span><span class=p>,</span> <span class=n>CCPseudoRandomAlgorithm</span><span class=p>(</span><span class=n>kCCPRFHmacAlgSHA1</span><span class=p>),</span> <span class=mi>1000</span><span class=p>,</span> <span class=nb>UnsafeMutablePointer</span><span class=p>&lt;</span><span class=nb>UInt8</span><span class=p>&gt;(</span><span class=n>derivedData</span><span class=p>.</span><span class=n>mutableBytes</span><span class=p>),</span> <span class=n>derivedData</span><span class=p>.</span><span class=n>length</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>guard</span> <span class=nb>Int32</span><span class=p>(</span><span class=n>derivationResult</span><span class=p>)</span> <span class=p>==</span> <span class=nb>Int32</span><span class=p>(</span><span class=n>kCCSuccess</span><span class=p>)</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span><span class=p>(</span><span class=n>CryptorError</span><span class=p>.</span><span class=n>DeriveDataError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>derivedKey</span> <span class=p>=</span> <span class=n>derivedData</span><span class=p>.</span><span class=n>subdataWithRange</span><span class=p>(</span><span class=n>NSMakeRange</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>16</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>derivedIV</span> <span class=p>=</span> <span class=n>derivedData</span><span class=p>.</span><span class=n>subdataWithRange</span><span class=p>(</span><span class=n>NSMakeRange</span><span class=p>(</span><span class=mi>16</span><span class=p>,</span> <span class=mi>16</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// Perform operation</span>
+</span></span><span class=line><span class=cl>        <span class=kd>let</span> <span class=nv>cryptStatus</span> <span class=p>=</span> <span class=n>CCCrypt</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>operation</span><span class=p>,</span>                  <span class=c1>// Operation</span>
+</span></span><span class=line><span class=cl>            <span class=n>algorithm</span><span class=p>.</span><span class=n>ccAlgorithm</span><span class=p>(),</span>    <span class=c1>// Algorithm</span>
+</span></span><span class=line><span class=cl>            <span class=n>options</span><span class=p>,</span>                    <span class=c1>// Options</span>
+</span></span><span class=line><span class=cl>            <span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>Void</span><span class=p>&gt;(</span><span class=n>derivedKey</span><span class=p>.</span><span class=n>bytes</span><span class=p>),</span>      <span class=c1>// key data</span>
+</span></span><span class=line><span class=cl>            <span class=n>derivedKey</span><span class=p>.</span><span class=n>length</span><span class=p>,</span>                          <span class=c1>// key length</span>
+</span></span><span class=line><span class=cl>            <span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>Void</span><span class=p>&gt;(</span><span class=n>derivedIV</span><span class=p>.</span><span class=n>bytes</span><span class=p>),</span>       <span class=c1>// IV buffer</span>
+</span></span><span class=line><span class=cl>            <span class=n>plaintextBytes</span><span class=p>,</span>            <span class=c1>// input data</span>
+</span></span><span class=line><span class=cl>            <span class=n>palintextLen</span><span class=p>,</span>              <span class=c1>// input length</span>
+</span></span><span class=line><span class=cl>            <span class=n>outBufferPtr</span><span class=p>,</span>              <span class=c1>// output buffer</span>
+</span></span><span class=line><span class=cl>            <span class=n>outBufferLen</span><span class=p>,</span>              <span class=c1>// output buffer length</span>
+</span></span><span class=line><span class=cl>            <span class=p>&amp;</span><span class=n>bytesDecrypted</span><span class=p>)</span>           <span class=c1>// length of bytes decrypted</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>guard</span> <span class=nb>Int32</span><span class=p>(</span><span class=n>cryptStatus</span><span class=p>)</span> <span class=p>==</span> <span class=nb>Int32</span><span class=p>(</span><span class=n>kCCSuccess</span><span class=p>)</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span><span class=p>(</span><span class=n>CryptorError</span><span class=p>.</span><span class=n>EncryptError</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>outBuffer</span><span class=p>.</span><span class=n>length</span> <span class=p>=</span> <span class=n>bytesDecrypted</span> <span class=c1>// Adjust buffer size to real bytes</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=n>randomSalt</span><span class=p>,</span> <span class=n>outBuffer</span> <span class=k>as</span> <span class=n>NSData</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>AES with PBKDF2 & PKCS7Padding & CBC mode in Python:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>Crypto.Cipher</span> <span class=kn>import</span> <span class=n>AES</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>Crypto</span> <span class=kn>import</span> <span class=n>Random</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>pbkdf2</span> <span class=kn>import</span> <span class=n>PBKDF2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>PBKDF2_ROUNDS</span> <span class=o>=</span> <span class=mi>1000</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>AESEncrypt</span><span class=p>(</span><span class=n>plaintext</span><span class=p>,</span> <span class=n>password</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># padding</span>
+</span></span><span class=line><span class=cl>    <span class=n>bs</span> <span class=o>=</span> <span class=n>AES</span><span class=o>.</span><span class=n>block_size</span>
+</span></span><span class=line><span class=cl>    <span class=n>padding_len</span> <span class=o>=</span> <span class=n>bs</span> <span class=o>-</span> <span class=nb>len</span><span class=p>(</span><span class=n>plaintext</span><span class=p>)</span> <span class=o>%</span> <span class=n>bs</span>
+</span></span><span class=line><span class=cl>    <span class=n>plaintext</span> <span class=o>+=</span> <span class=nb>chr</span><span class=p>(</span><span class=n>padding_len</span><span class=p>)</span> <span class=o>*</span> <span class=n>padding_len</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># prepare parameters</span>
+</span></span><span class=line><span class=cl>    <span class=n>salt</span> <span class=o>=</span> <span class=n>Random</span><span class=o>.</span><span class=n>new</span><span class=p>()</span><span class=o>.</span><span class=n>read</span><span class=p>(</span><span class=mi>16</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>derived</span> <span class=o>=</span> <span class=n>PBKDF2</span><span class=p>(</span><span class=n>password</span><span class=p>,</span> <span class=n>salt</span><span class=p>,</span> <span class=n>PBKDF2_ROUNDS</span><span class=p>)</span><span class=o>.</span><span class=n>read</span><span class=p>(</span><span class=mi>32</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>key</span><span class=p>,</span> <span class=n>iv</span> <span class=o>=</span> <span class=n>derived</span><span class=p>[:</span><span class=mi>16</span><span class=p>],</span> <span class=n>derived</span><span class=p>[</span><span class=mi>16</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># encrypt</span>
+</span></span><span class=line><span class=cl>    <span class=n>cipher</span> <span class=o>=</span> <span class=n>AES</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=n>key</span><span class=p>,</span> <span class=n>AES</span><span class=o>.</span><span class=n>MODE_CBC</span><span class=p>,</span> <span class=n>iv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>cyphertext</span> <span class=o>=</span> <span class=n>cipher</span><span class=o>.</span><span class=n>encrypt</span><span class=p>(</span><span class=n>plaintext</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>salt</span><span class=p>,</span> <span class=n>cyphertext</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>AESDecrypt</span><span class=p>(</span><span class=n>cyphertext</span><span class=p>,</span> <span class=n>password</span><span class=p>,</span> <span class=n>salt</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># derive key &amp; iv</span>
+</span></span><span class=line><span class=cl>    <span class=n>derived</span> <span class=o>=</span> <span class=n>PBKDF2</span><span class=p>(</span><span class=n>password</span><span class=p>,</span> <span class=n>salt</span><span class=p>,</span> <span class=n>PBKDF2_ROUNDS</span><span class=p>)</span><span class=o>.</span><span class=n>read</span><span class=p>(</span><span class=mi>32</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>key</span><span class=p>,</span> <span class=n>iv</span> <span class=o>=</span> <span class=n>derived</span><span class=p>[:</span><span class=mi>16</span><span class=p>],</span> <span class=n>derived</span><span class=p>[</span><span class=mi>16</span><span class=p>:]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># decrypt</span>
+</span></span><span class=line><span class=cl>    <span class=n>cipher</span> <span class=o>=</span> <span class=n>AES</span><span class=o>.</span><span class=n>new</span><span class=p>(</span><span class=n>key</span><span class=p>,</span> <span class=n>AES</span><span class=o>.</span><span class=n>MODE_CBC</span><span class=p>,</span> <span class=n>iv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>plaintext</span> <span class=o>=</span> <span class=n>cipher</span><span class=o>.</span><span class=n>decrypt</span><span class=p>(</span><span class=n>cyphertext</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># unpadding</span>
+</span></span><span class=line><span class=cl>    <span class=n>padding_len</span> <span class=o>=</span> <span class=nb>ord</span><span class=p>(</span><span class=n>plaintext</span><span class=p>[</span><span class=o>-</span><span class=mi>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>plaintext</span><span class=p>[:</span><span class=o>-</span><span class=n>padding_len</span><span class=p>]</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-12-04</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/security/>security</a>,&nbsp;<a href=/tags/algorithm/>algorithm</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/create-ramdisk-on-macos/ class=prev rel=prev title="Create Ramdisk on macOS"><i class="fas fa-angle-left fa-fw"></i>Create Ramdisk on macOS</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Min Deng</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:10},comment:{},data:{"id-1":"MinCodes","id-2":"MinCodes"},typeit:{cursorChar:null,cursorSpeed:null,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:null,speed:null}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-EPY7LC720X",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-EPY7LC720X" async></script></body></html>
