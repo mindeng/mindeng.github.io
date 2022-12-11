@@ -2,7 +2,7 @@
 ---
 title: "Python Pandas"
 date: 2022-09-05T07:00:00.000Z
-lastmod: 2022-12-03T10:08:00.000Z
+lastmod: 2022-12-07T07:02:00.000Z
 tags: ['tools', 'data-analysis', 'python']
 draft: false
 ---
@@ -86,5 +86,20 @@ draft: false
     ```python
     # 对列 a 应用一个 lambda 表达式
     df['a'] = df['a'].apply(lambda x: x + 1)
-    ```    
+    ```  
+1.  replace：列取值的替换    
     
+    ```bash
+    >>> df = pd.DataFrame({'col2': {0: 'a', 1: 2, 2: np.nan}, 'col1': {0: 'w', 1: 1, 2: 2}})
+    >>> di = {1: "A", 2: "B"}
+    >>> df
+      col1 col2
+    0    w    a
+    1    1    2
+    2    2  NaN
+    >>> df.replace({"col1": di})
+      col1 col2
+    0    w    a
+    1    A    2
+    2    B  NaN
+    ```
