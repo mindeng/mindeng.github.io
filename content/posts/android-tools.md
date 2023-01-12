@@ -2,7 +2,7 @@
 ---
 title: "Android Tools"
 date: 2022-06-27T06:19:00.000Z
-lastmod: 2022-11-28T11:29:00.000Z
+lastmod: 2022-12-09T04:11:00.000Z
 tags: ['tools', 'android']
 draft: false
 ---
@@ -12,7 +12,14 @@ draft: false
 ## 常用工具  
   
 -   scrcpy：PC 端镜像手机端屏幕，可操作、截屏、录屏等  
--   codeLocator：实时抓取 viewTree  
+-   UI 分析工具  
+      
+    -   codeLocator：实时抓取 viewTree      
+    -   Android Studio：Android Device Monitor      
+    -   UIAutomatorViewer      
+    -   Appium Inspector      
+    -   Espresso      
+    -   adb  
 -   [flipper](https://github.com/facebook/flipper)：A desktop debugging platform for mobile developers.
 
 

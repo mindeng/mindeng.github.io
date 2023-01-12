@@ -2,11 +2,61 @@
 ---
 title: "Vim Tips"
 date: 2022-09-26T10:59:00.000Z
-lastmod: 2022-12-04T13:18:00.000Z
+lastmod: 2023-01-09T07:03:00.000Z
 tags: ['tools', 'editor']
 draft: false
 ---
 
+
+
+## 日志过滤
+
+
+### global
+
+```sql
+# [d]elete all lines not(!) matching patterns
+:g!/pattern/d
+:v/pattern/d
+
+# 匹配多个单词
+:v/onStart\|onStop/d
+
+# 忽略大小写，可以直接 `:set ignorecase`，或者：
+# 强制忽略大小写：\c
+:g/\cpattern/z#.1|echo "================================"
+# 强制匹配大小写：\C
+:g/\Cpattern/z#.1|echo "================================"
+
+# 更多信息可查看帮助 `:help /ignorecase`
+
+# 将匹配的行移动到最后吗
+:g/pattern/m0
+# 将匹配的行移动到最前面（顺序会变成倒序）
+:g/pat/m$
+
+# 展示匹配该正则表达式的列表
+:g/regular-expression/p
+```
+
+
+### [I, ilist
+
+```sql
+# Display all lines that contain the keyword under the cursor.
+[I
+
+# Like "[I" and "]I", but search in [range] lines	(default: whole file).
+:il /pattern1\|patter2\|pattern3/
+```
+
+
+### quickfix, location list
+
+```sql
+:vimgrep pattern %
+:lvim pattern %
+```
 
 
 ## 文件编辑相关
