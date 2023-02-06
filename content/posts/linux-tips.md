@@ -2,7 +2,7 @@
 ---
 title: "Linux Tips"
 date: 2022-01-23T04:24:00.000Z
-lastmod: 2022-12-04T13:08:00.000Z
+lastmod: 2023-01-21T05:21:00.000Z
 tags: ['tools', 'linux']
 draft: false
 ---
@@ -20,7 +20,10 @@ draft: false
 
 xargs on Mac OS：
 
-``find . -iname ``*``something``*`` | xargs -I {} mv {} /dest/path``
+```bash
+find . -iname something | xargs -I {} mv {} /dest/path
+find /tmp/ -ctime -1 -name "x*" | xargs -I '{}' mv '{}' ~/play/
+```
 
 
 ## Crontab
