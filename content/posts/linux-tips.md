@@ -2,7 +2,7 @@
 ---
 title: "Linux Tips"
 date: 2022-01-23T04:24:00.000Z
-lastmod: 2023-01-21T05:21:00.000Z
+lastmod: 2023-05-09T09:32:00.000Z
 tags: ['tools', 'linux']
 draft: false
 ---
@@ -11,9 +11,85 @@ draft: false
 记录一些常用的命令行工具，方便随时取用。
 
 
+## 包管理
+
+Ubuntu/Debian 上查看一个包的安装了哪些文件，安装到哪里了：  
+  
+1.  先用 ``dpkg -l | grep vim`` 找到要查看的包的完整包名；  
+1.  再通过包名查看安装的文件： ``dpkg -L neovim`` 
+
+
+## 小技巧
+
+```bash
+# 更好的 export 环境变量的方法，避免将敏感信息暴露在命令行历史记录中
+export XXX_KEY=$(cat)
+
+# macOS 访问剪贴板，将文本写入剪贴板
+echo hello | pbcopy
+
+# macOS 读取剪贴板
+pbpaste
+
+# 生成一个 32 字节的 url safe 的 secret key
+python3 -c 'import secrets; print(secrets.token_urlsafe(32))'
+
+# 生成一个 32 字节的 hex secret key
+python3 -c 'import secrets; print(secrets.token_hex(32))'
+```
+
+
+## Filesystem
+
+
+### losetup
+
+```bash
+# bind the file test.img to loop device /dev/loop0
+losetup /dev/loop0 test.img
+
+mkfs.ext4 /dev/loop0
+mount -o discard /dev/loop0 /mnt
+
+# list all loop devices
+losetup -la
+```
+
+
 # Network
 
 [Network Tools 网络工具箱]({{< relref "network-tools" >}}) 。
+
+
+## fd
+
+```bash
+# 查找多种扩展名
+fd '.(java|kt)'
+
+fd '.(java|kt)' | xargs rg -U '\bLiveStream\s*\(' -l
+```
+
+
+## rg
+
+```bash
+
+# -l，仅打印匹配的文件名，忽略匹配到的内容
+rg -l LiveStream
+
+# -v，反向匹配（过滤掉匹配到的）
+rg -l LiveStream | rg -v getLiveStream
+
+# '\b', 匹配 word 边界
+rg -l '\bLiveStream\('
+
+# '\s', 匹配空白字符
+rg '\bLiveStream\s*\('
+
+# -U, 匹配多行文本
+rg -U '\bLiveStream\s*\('
+```
 
 
 ## xargs
@@ -81,6 +157,24 @@ strings /bin/* | grep tmp
 
 
 ## 系统管理相关
+
+
+### 用户管理
+
+``usermod -a -G sudo user1``  将 user1 增加到 sudo 组
+
+``su - user``
+
+当你使用带有破折号的 ``su - user1`` 命令时，系统会执行以下操作：  
+  
+1.  切换到 ``user1`` 账户。  
+1.  重新初始化环境变量，包括 ``PATH``、``HOME``、``SHELL`` 等，使其与 ``user1`` 的默认设置一致。这些设置通常在 ``/etc/passwd`` 文件和 ``user1`` 的配置文件（如 ``.bashrc``、``.bash_profile`` 等）中定义。  
+1.  将工作目录切换到 ``user1`` 的主目录。  
+1.  如果定义了登录脚本（如 ``.bash_profile`` 或 ``.profile``），则执行这些脚本。
+
+使用不带破折号的 ``su user1`` 命令时，只会切换到 ``user1`` 账户，但不会重置环境变量或更改工作目录。这意味着，即使你已经切换到了另一个用户，当前环境仍然保留了原始用户的设置。
+
+总之，使用带有破折号的 ``su - user1`` 命令可以更好地模拟一个完整的登录环境，而不仅仅是切换用户。在需要以另一个用户的完整环境执行任务时，建议使用带破折号的 ``su -`` 命令。
 
 ``script /dev/null``
 该命令可以解决 su 切换用户后，运行 screen 程序时报错：

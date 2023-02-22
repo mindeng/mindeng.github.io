@@ -2,16 +2,26 @@
 ---
 title: "Network Tools 网络工具箱"
 date: 2022-10-07T11:49:00.000Z
-lastmod: 2022-12-04T12:22:00.000Z
+lastmod: 2023-05-08T11:08:00.000Z
 tags: ['tools', 'network', 'linux']
 draft: false
 ---
 
 
 
+## 在线小工具  
+  
+-   查询 IP 可达性（是否可以 ping 通）  
+      
+    -   [https://ping.pe/198.211.12.133](https://ping.pe/198.211.12.133)
+
+
 ## 网络端口
 
 ```shell
+# 查看监听 1080 TCP 端口的应用
+lsof -i TCP:1080 -sTCP:LISTEN
+
 # 查看网络端口监听情况
 netstat -tunlp
 
@@ -41,6 +51,18 @@ ss -nlput | grep ssh
 
 
 ## CURL
+
+跟随重定向，并且从 content-disposition header 中获取文件名，并保存为该文件名： 
+
+``curl -JLO ````'http://www.vim.org/scripts/download_script.php?src_id=9750'``
+
+参数解释：  
+  
+-   -O 表示使用远程文件名，默认使用 url 中的文件名  
+-   -L 表示跟随重定向  
+-   -J 表示使用服务器指定的 Content-Disposition header 中的文件名，而非 url 中的文件名
+
+wget 也有类似功能：``wget --content-disposition 'http://www.vim.org/scripts/download_script.php?src_id=9750'``
 
 ```shell
 # post data

@@ -2,11 +2,25 @@
 ---
 title: "Vim Tips"
 date: 2022-09-26T10:59:00.000Z
-lastmod: 2023-01-09T07:03:00.000Z
+lastmod: 2023-02-28T11:43:00.000Z
 tags: ['tools', 'editor']
 draft: false
 ---
 
+
+
+## regexp 相关
+
+```bash
+# 统计正则匹配到的次数
+:%s/pattern//ng
+
+# 利用 global 把匹配到的行打印出来
+:global/pattern/print
+
+# 或者
+:global/pattern
+```
 
 
 ## 日志过滤

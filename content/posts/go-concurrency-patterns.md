@@ -1,19 +1,22 @@
 +++
 title = "Go 并发模式总结"
 date = 2022-03-11T00:00:00+08:00
-tags = ["golang", "concurrency", "goroutine"]
+lastmod = 2023-12-16T09:35:38+08:00
+tags = ["golang", "concurrency"]
 draft = false
 +++
 
 ## Go 的并发哲学 {#go-的并发哲学}
 
-<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
-
-<div class="org-center">
-
-Don't Communicate by sharing memory, share memory by communicating.
-
-</div>
+> <style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+>
+> <div class="org-center">
+>
+> Don't Communicate by sharing memory, share memory by communicating.
+>
+> 不要通过共享内存来通信；相反，通过通信来共享内存。
+>
+> </div>
 
 
 ## Generator 发生器 {#generator-发生器}
@@ -21,12 +24,12 @@ Don't Communicate by sharing memory, share memory by communicating.
 Generator 指返回一个 chan 的函数。这是一种十分常见的使用 goroutine +
 chan 的方式，可以说是一种标准用法了。
 
-采用这种方式使用 chan 十分的安全，不会出现一些 chan 误用导致的错误（例
-如向已经关闭的 chan 写入数据等）。
+采用这种方式使用 chan 十分的安全，不会出现一些 chan 误用导致的错误（例如向已经关闭的 chan 写入数据等）。
 
 例如下面的代码，会开一个 goroutine 递归遍历指定目录，并将目录下的所有
 json 文件通过 chan 吐出去。
 
+<a id="code-snippet--walkJsonFiles"></a>
 ```go
 func walkJsonFiles(dir string) <-chan string {
 	out := make(chan string)
@@ -50,7 +53,7 @@ func walkJsonFiles(dir string) <-chan string {
 			})
 
 		if err != nil {
-			log.Printf("error walking the path %q: %v\n", trace_file_dir, err)
+			log.Printf("error walking the path %q: %v\n", dir, err)
 			return
 		}
 	}()
@@ -64,11 +67,12 @@ func walkJsonFiles(dir string) <-chan string {
 
 下面这张图可以形象的表达 Fan-In 的概念：
 
-{{< figure src="/ox-hugo/2022-03-11_08-36-52_screenshot.png" >}}
+{{< figure src="/ox-hugo/2023-12-08_06-52-15_screenshot.png" >}}
 
 
-## Fan-In: 多 goroutine 版本 {#fan-in-多-goroutine-版本}
+### Fan-In: 多 goroutine 版本 {#fan-in-多-goroutine-版本}
 
+<a id="code-snippet--fanIn"></a>
 ```go
 func fanIn(cs ...<-chan string) <-chan string {
 	out := make(chan string)
@@ -139,10 +143,12 @@ func fanInUsingSelect(input1, input2 <-chan string) <-chan string {
 
 ## Fan-Out {#fan-out}
 
+{{< figure src="/ox-hugo/fan-out-in.svg" >}}
+
 Fan-Out 刚好和 Fan-In 相反，一般和 Fan-In 配合起来一起使用：
 
 ```go
-func processJsonFiles(ch <-chan string) <-chan {
+func processJsonFiles(ch <-chan string) <-chan string {
 	out := make(chan string)
 
 	go func() {
@@ -162,7 +168,7 @@ func fanOut(in <-chan string) <-chan string {
 	n := 20
 	cs := make([]<-chan string, n)
 	for i := 0; i < n; i++ {
-		cs[i] = processJsonFiles(ch)
+		cs[i] = processJsonFiles(in)
 	}
 
 	out := fanIn(cs...)
@@ -252,8 +258,7 @@ You're too slow.
 
 ## 优雅的退出 (quit chan) {#优雅的退出--quit-chan}
 
-由于 chan 可以进行双向通信（round-trip communication），因此，可以很方
-便的实现退出前的清理工作。
+由于 chan 可以进行双向通信（round-trip communication），因此，可以很方便的实现退出前的清理工作。
 
 例如：
 
@@ -262,8 +267,8 @@ You're too slow.
 -   A 收到通知后，结束完整的退出流程
 
 代码示例：
-\#+name graceful-quit
 
+<a id="code-snippet--graceful-quit"></a>
 ```go
 import (
 	"fmt"
@@ -272,14 +277,15 @@ import (
 	"errors"
 )
 
-func walkAndGracefulQuit(dir string, quit chan string) <-chan string {
+func walkAndGracefulQuit(dir string, quit chan string) (<-chan string, <-chan bool) {
 	out := make(chan string)
+	done := make(chan bool)
 
 	go func() {
 		defer func() {
 			close(out)
 			cleanup()
-			quit <- "bye"
+			done <- true
 		}()
 
 		filepath.WalkDir(dir,
@@ -301,7 +307,7 @@ func walkAndGracefulQuit(dir string, quit chan string) <-chan string {
 			})
 	}()
 
-	return out
+	return out, done
 }
 
 func cleanup() {
@@ -309,22 +315,24 @@ func cleanup() {
 
 func main() {
 	quit := make(chan string)
-	c := walkAndGracefulQuit(".", quit)
+	c, done := walkAndGracefulQuit(".", quit)
 	i := 0
 	for name := range c {
 		fmt.Println(name)
+		// 找到第一个文件后，立即退出
 		if i++; i == 1 {
-			quit <- "bye"
+            // 这里要用 goroutine 在后台发射退出信号，以防止目录下只有一个 md 文
+            // 件时，由于没有机会读 quit chan 而出现死锁现象。另一种做法是，利用
+            // select 来发射，但没有用 goroutine 这么简单和稳妥。
+			go func() {
+				quit <- "bye"
+			}()
 		}
 	}
 
 	// 等待清理动作完毕，正式结束程序
-	<-quit
+	<-done
 }
-```
-
-```text
-README.md
 ```
 
 
@@ -338,8 +346,7 @@ Go talks 有一个很经典的案例，这里我们学习一下。
 -   Image Search
 -   Video Search
 
-这三个分别负责搜索网页，图片和视频。现在要整合这三个服务，对用户提供完
-整的搜索服务。
+这三个分别负责搜索网页，图片和视频。现在要整合这三个服务，对用户提供完整的搜索服务。
 
 
 ### Search 1.0 {#search-1-dot-0}

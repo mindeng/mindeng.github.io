@@ -2,7 +2,7 @@
 ---
 title: "Git Tips"
 date: 2022-12-03T10:18:00.000Z
-lastmod: 2022-12-04T13:59:00.000Z
+lastmod: 2023-03-28T02:03:00.000Z
 tags: ['tools', 'git']
 draft: false
 ---
@@ -78,6 +78,20 @@ git push origin new :old
 ```
 
 ``.gitconfig`` 文件可放在家目录下（影响当前用户），亦可放在单个 git 仓库下（仅影响当前仓库）。
+
+也可以采用如下命令来设置代理：
+
+```bash
+# 是的，支持 socks5 协议
+git config --global http.proxy 'socks5://127.0.0.1:7070'
+
+# 取消代理
+git config --global --unset http.proxy
+```
+
+[参考这篇文档](https://git-scm.com/docs/git-config#git-config-httpproxy)，虽然名字叫 **``http``**``.proxy`` ，但其实也支持 https。
+
+另外，如果希望域名也通过代理来解析的话，则应该将 ``socks5`` 替换为 ``socks5h`` 。
 
 
 ## Git through ssh

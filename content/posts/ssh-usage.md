@@ -2,7 +2,7 @@
 ---
 title: "ssh 常见用法介绍"
 date: 2022-11-15T08:27:00.000Z
-lastmod: 2022-12-04T12:13:00.000Z
+lastmod: 2023-06-17T10:14:00.000Z
 tags: ['ssh', 'linux', 'tools']
 draft: false
 ---
@@ -10,6 +10,19 @@ draft: false
 
 
 ssh 是平时十分常用的工具，这里记录一些常见用法。
+
+
+## 一些花样玩法
+
+
+### 通过 ssh 共享 tmux session  
+  
+-   remote machine: ``tmux -S /tmp/shared-tmux-socket new-session``  
+-   local machine: ``ssh -t remote-machine tmux -S /tmp/shared-tmux-socket attach``
+
+通过上面简单两步，就可以通过 ssh 远程远程共享 tmux session 了。
+
+跟普通的 ssh 登录上去再 tmux 还是有一定区别的，其中最大的区别，是本地、远程能同时看到这个 session，包括你在 tmux 里面敲的每个命令，以及终端的所有输出，都是实时同步的，有点「终端版本的桌面共享」的意思。感觉用来做远程教学挺方便的。
 
 
 ## ssh 客户端配置文件 
@@ -26,7 +39,7 @@ ssh 是平时十分常用的工具，这里记录一些常见用法。
 Host *
 	 Port 1234
 
-	 # 是否加密
+	 # 是否压缩
 	 Compression yes
 
 	 # 在给定秒数内，没收到服务器数据，则向服务器请求一个回包，可用于连接保活
@@ -47,6 +60,10 @@ Host svr
 ```
 
 更多配置可参考 ``man ssh_config`` 。
+
+Tips:  
+  
+-   如果要移除一个过期了的服务器指纹（例如遇到 ``WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!`` 的警告），可以使用该命令： ``ssh-keygen -R github.com`` 
 
 
 ## ssh-agent
@@ -89,6 +106,61 @@ ssh-add -d ~/.ssh/id_rsa-svr
 ssh-add -D
 
 ```
+
+
+### 通过私钥导出公钥
+
+有时候我们只有私钥文件，这时可以通过如下命令导出其对应的公钥。
+
+```bash
+ssh-keygen -y -f ~/.ssh/id_rsa
+```
+
+
+### eval `ssh-agent` 或 eval "$(ssh-agent)" 的一点解释
+
+在运行 ssh-agent 的时候，一般使用  `eval `ssh-agent`` 或 ``eval "$(ssh-agent)"`` ，而不是直接运行 ssh-agent，什么原因呢？
+
+当你直接运行 ``ssh-agent`` 时，它会启动一个新的代理进程并输出一些环境变量（打印到标准输出），例如 ``SSH_AGENT_PID`` 和 ``SSH_AUTH_SOCK``。这些环境变量用于告诉 SSH 客户端如何与代理进程进行通信。然而，直接运行 ``ssh-agent`` 并不会设置这些环境变量，它们只会被输出到终端。
+
+```bash
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-xxxxxxxxxx/agent.12345; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=12345; export SSH_AGENT_PID;
+echo Agent pid 12345;
+
+
+```
+
+相反，当你使用 ``eval "$(ssh-agent)"`` 时，``eval`` 命令会解析并执行 ``ssh-agent`` 输出的环境变量设置命令。这样，环境变量就会被正确设置，SSH 客户端就能与代理进程进行通信。
+
+```bash
+$ eval "$(ssh-agent)"
+Agent pid 12345
+```
+
+总之，使用 ``eval "$(ssh-agent)"`` 能确保 SSH 客户端能够正确识别并使用代理进程，而直接运行 ``ssh-agent`` 只会输出环境变量，而不会将它们设置到当前 shell 环境中。为了确保 ``ssh-agent`` 能正常工作，建议使用 ``eval "$(ssh-agent)"`` 命令启动它。
+
+
+### 如何自动运行 ssh-agent
+
+可以将 ``eval "$(ssh-agent)"`` 添加到 ``~/.bash_profile`` 或 ``~/.profile`` 文件中（取决于你的系统配置）。这些文件仅在登录时执行一次，这样就可以避免重复启动 ``ssh-agent``。
+
+> 注意，请不要在 ``~/.bashrc`` 文件中添加 ``eval "$(ssh-agent)"``  原因如下：  
+
+然后，你需要确保 ``~/.bashrc`` 或其他会话初始化脚本中包含以下代码，以便在新的 shell 会话中继承父会话的环境变量：
+
+```bash
+if [ -n "$SSH_AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK
+fi
+
+if [ -n "$SSH_AGENT_PID" ]; then
+  export SSH_AGENT_PID
+fi
+```
+
+这样，在登录时启动的 ``ssh-agent`` 实例将在所有新的 shell 会话中可用，而不会启动额外的代理进程。
 
 
 ## 上传公钥
@@ -154,7 +226,7 @@ curl --header 'Host: www.baidu.com' localhost:11111
 ssh -NfL 11111:localhost:8118 svr
 
 # 本机的 11111 端口，可以作为代理端口来使用
-curl -x <http://localhost:11111> www.google.com
+curl -x http://localhost:11111 www.google.com
 
 ```
 
@@ -330,7 +402,7 @@ PasswordAuthentication no
 
 ```shell
 # 生成 key，-a 指定 KDF round 数量，默认 16，越高 passphrase 越难破解
-ssh-keygen -a 100 -t ed25519 -f ~/.ssh/id_ed25519 -C "min@ks"
+ssh-keygen -a 100 -t ed25519 -f ~/.ssh/id_ed25519 -C "min@mincodes.com"
 
 # add key to ssh-agent
 ssh-add ~/.ssh/id_ed25519
