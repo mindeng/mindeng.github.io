@@ -1,0 +1,210 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>设计模式：访问者 (Visitor) - MinCodes</title><meta name=Description content="MinCodes, Minimal but useful Codes"><meta property="og:title" content="设计模式：访问者 (Visitor)"><meta property="og:description" content="设计模式总目录请参考：设计模式所支持的设计的可变方面。 意图 当我们遍历一个对象结构的元素时，该模式允许我们在不修改各个元素的类结构的前提下，为"><meta property="og:type" content="article"><meta property="og:url" content="https://mincodes.com/posts/design-patterns-visitor/"><meta property="og:image" content="https://mincodes.com/favicon.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-07-03T17:37:00+08:00"><meta property="article:modified_time" content="2023-07-03T18:00:39+08:00"><meta property="og:site_name" content="My cool site"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mincodes.com/favicon.svg"><meta name=twitter:title content="设计模式：访问者 (Visitor)"><meta name=twitter:description content="设计模式总目录请参考：设计模式所支持的设计的可变方面。 意图 当我们遍历一个对象结构的元素时，该模式允许我们在不修改各个元素的类结构的前提下，为"><meta name=application-name content="MinCodes"><meta name=apple-mobile-web-app-title content="MinCodes"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/favicon.svg><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mincodes.com/posts/design-patterns-visitor/><link rel=prev href=https://mincodes.com/posts/design-patterns-memento/><link rel=next href=https://mincodes.com/posts/design-patterns-decorator/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"设计模式：访问者 (Visitor)","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mincodes.com\/posts\/design-patterns-visitor\/"},"genre":"posts","keywords":"design-pattern, architecture","wordcount":1102,"url":"https:\/\/mincodes.com\/posts\/design-patterns-visitor\/","datePublished":"2023-07-03T17:37:00+08:00","dateModified":"2023-07-03T18:00:39+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Min Deng"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>posts </a><a class=menu-item href=/tags/tools>tools </a><a class=menu-item href=/tags/>tags </a><a class=menu-item href=/about/>about </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>posts</a><a class=menu-item href=/tags/tools title>tools</a><a class=menu-item href=/tags/ title>tags</a><a class=menu-item href=/about/ title>about</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">设计模式：访问者 (Visitor)</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Min Deng</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023-07-03>2023-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1102 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 3 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#意图>意图</a></li><li><a href=#案例-富文本文档模型>案例: 富文本文档模型</a><ul><li><a href=#统计字符个数>统计字符个数</a></li><li><a href=#文档导出>文档导出</a></li><li><a href=#引入访问者模式>引入访问者模式</a></li></ul></li></ul></nav></div></div><div class=content id=content><p>设计模式总目录请参考：<a href=/posts/design-patterns/#设计模式所支持的设计的可变方面 rel>设计模式所支持的设计的可变方面</a>。</p><h2 id=意图>意图</h2><blockquote><p>当我们遍历一个对象结构的元素时，该模式允许我们在不修改各个元素的类结构的前提下，为每个元素增加任意类型的新操作。</p></blockquote><h2 id=案例-富文本文档模型>案例: 富文本文档模型</h2><p>假设我们要实现一个富文本文档模型，该模型的结构类似下图所示：</p><figure><img src=/ox-hugo/visitor-page-tree.svg></figure><p>对应的类图如下：</p><figure><img src=/ox-hugo/visitor-page-class.png></figure><h3 id=统计字符个数>统计字符个数</h3><p>我们希望为上述文档结构增加字符个数统计功能，一个简单的实现可能类似这样：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>Element</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>char_count</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Block</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>char_count</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>num</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>num</span> <span class=o>+=</span> <span class=n>c</span><span class=o>.</span><span class=n>char_count</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>RichText</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>char_count</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>FileLink</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>char_count</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>page</span> <span class=o>=</span> <span class=n>Page</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># ...</span>
+</span></span><span class=line><span class=cl><span class=n>total_count</span> <span class=o>=</span> <span class=n>page</span><span class=o>.</span><span class=n>char_count</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;total char count: </span><span class=si>{</span><span class=n>ccv</span><span class=o>.</span><span class=n>total_count</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>该实现会递归统计整个文档结构树，并返回最终的总和。</p><p>此时，类图变成类似这样：</p><figure><img src=/ox-hugo/visitor-page-class2.png></figure><p>可以看到，我们通过为基类 <code>Element</code> 增加一个方法 <code>char_count()</code>, 并在相应的子类中实现该方法，来实现字符个数的统计功能。</p><h3 id=文档导出>文档导出</h3><p>如果仅仅是增加一个字符个数统计功能，上述方法看起来并无大碍。接下来我们考虑一下，如果要增加文档导出功能，比如需要支持导出为如下不同格式的文档：</p><ul><li>markdown</li><li>html</li><li>pdf</li><li>纯文本</li><li>&mldr;</li></ul><p>我们应该如何应对？如果延续上面的简单方案，我们可以在 <code>Element</code> 中增加类似下面的接口：</p><ul><li>export_markdown()</li><li>export_html()</li><li>export_pdf()</li><li>export_text()</li><li>&mldr;</li></ul><p>如果我们希望再增加一个拼写检查的功能，可能还需要增加一个 <code>spellcheck()</code> 方法。这显然不是一个理想的方案，这会导致我们的类结构十分的不稳定，基类和子类的接口不断膨胀、不断引入新的变化点，既不符合<a href=/posts/design-patterns/#single-responsibility-principle-单一职责原则 rel>单一职责原则</a>，也不符合<a href=/posts/design-patterns/#open-closed-principle-开闭原则 rel>开闭原则</a>。</p><p>我们看一下这种方案下的类图：</p><figure><img src=/ox-hugo/visitor-page-class3.png></figure><h3 id=引入访问者模式>引入访问者模式</h3><p>如何在不修改 <code>Element</code> 及其子类结构的前提下，为我们的文档模型新增各种不同类型的操作呢？访问者模式可以帮助我们解决这类问题。</p><p>我们先看一下引入访问者模式之后，字符统计功能会怎么写：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>Element</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>accept</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>v</span><span class=p>:</span> <span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>raise</span> <span class=ne>NotImplementedError</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Block</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>accept</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>v</span><span class=p>:</span> <span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>v</span><span class=o>.</span><span class=n>visitBlock</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span><span class=o>.</span><span class=n>accept</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>RichText</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>accept</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>v</span><span class=p>:</span> <span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>v</span><span class=o>.</span><span class=n>visitRichText</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>FileLink</span><span class=p>(</span><span class=n>Element</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>accept</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>v</span><span class=p>:</span> <span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>v</span><span class=o>.</span><span class=n>visitFileLink</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>ListItemBlock</span><span class=p>(</span><span class=n>Block</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>accept</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>v</span><span class=p>:</span> <span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>v</span><span class=o>.</span><span class=n>visitListItemBlock</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>c</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>children</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span><span class=o>.</span><span class=n>accept</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Visitor</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitBlock</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>b</span><span class=p>:</span> <span class=n>Block</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>pass</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitRichText</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>t</span><span class=p>:</span> <span class=n>RichText</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>pass</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitFileLink</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>f</span><span class=p>:</span> <span class=n>FileLink</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>pass</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitListItemBlock</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>f</span><span class=p>:</span> <span class=n>FileLink</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>pass</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>CharCountVisitor</span><span class=p>(</span><span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>total_count</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitRichText</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>t</span><span class=p>:</span> <span class=n>RichText</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>total_count</span> <span class=o>+=</span> <span class=nb>len</span><span class=p>(</span><span class=n>t</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ccv</span> <span class=o>=</span> <span class=n>CharCountVisitor</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>page</span><span class=o>.</span><span class=n>accept</span><span class=p>(</span><span class=n>ccv</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&#34;total char count: </span><span class=si>{</span><span class=n>ccv</span><span class=o>.</span><span class=n>total_count</span><span class=si>}</span><span class=s2>&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>看起来似乎变复杂了，但是通用性和扩展性得到了大幅提升。例如，如果想增加一个
+markdown 导出功能，只需新增一个 <code>MarkdownExporterVisitor</code> 即可：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>MarkdownExporterVisitor</span><span class=p>(</span><span class=n>Visitor</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>content</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitRichText</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>t</span><span class=p>:</span> <span class=n>RichText</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>c</span> <span class=o>=</span> <span class=n>t</span><span class=o>.</span><span class=n>text</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>t</span><span class=o>.</span><span class=n>font_weight</span> <span class=o>==</span> <span class=s1>&#39;italic&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span> <span class=o>=</span> <span class=sa>f</span><span class=s1>&#39;*</span><span class=si>{</span><span class=n>t</span><span class=o>.</span><span class=n>text</span><span class=si>}</span><span class=s1>*&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=k>elif</span> <span class=n>t</span><span class=o>.</span><span class=n>font_weight</span> <span class=o>==</span> <span class=s1>&#39;bold&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>c</span> <span class=o>=</span> <span class=sa>f</span><span class=s1>&#39;**</span><span class=si>{</span><span class=n>t</span><span class=o>.</span><span class=n>text</span><span class=si>}</span><span class=s1>**&#39;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># ...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>content</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>visitListItemBlock</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>li</span><span class=p>:</span> <span class=n>ListItemBlock</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;- &#39;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>li</span><span class=o>.</span><span class=n>list_type</span> <span class=o>==</span> <span class=s1>&#39;ordered_list&#39;</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>prefix</span> <span class=o>=</span> <span class=s1>&#39;1. &#39;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># handle indentation...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>content</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>prefix</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># ...</span>
+</span></span></code></pre></td></tr></table></div></div><p>新增其他文档格式的导出功能，以及拼写检查等功能也是类似，只需独立的增加一个类即可。这使得在新增一项对文档模型的操作时，我们的系统做到了“对修改关闭，对扩展开放”，而且每一项新增功能都很好的封装在了独立的新增类当中，而不是散落在文档结构的各个层次的类当中。</p><p>我们看一下使用访问者模式之后的类图：</p><figure><img src=/ox-hugo/visitor-page-class4.png></figure></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-07-03</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://mincodes.com/posts/design-patterns-visitor/ data-title="设计模式：访问者 (Visitor)" data-hashtags=design-pattern,architecture><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://mincodes.com/posts/design-patterns-visitor/ data-hashtag=design-pattern><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://mincodes.com/posts/design-patterns-visitor/ data-title="设计模式：访问者 (Visitor)"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://mincodes.com/posts/design-patterns-visitor/ data-title="设计模式：访问者 (Visitor)"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://mincodes.com/posts/design-patterns-visitor/ data-title="设计模式：访问者 (Visitor)"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/design-pattern/>design-pattern</a>,&nbsp;<a href=/tags/architecture/>architecture</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/design-patterns-memento/ class=prev rel=prev title="设计模式：备忘录 (Memento)"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>设计模式：备忘录 (Memento)</a>
+<a href=/posts/design-patterns-decorator/ class=next rel=next title="设计模式：装饰器 (Decorator)">设计模式：装饰器 (Decorator)<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Min Deng</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{},data:{"id-1":"MinCodes","id-2":"MinCodes"},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:100}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-EPY7LC720X",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-EPY7LC720X" async></script></body></html>
