@@ -26,7 +26,7 @@ images = ["/favicon.svg"]
 # 网站描述
 description = "MinCodes, Minimal but useful Codes"
 # 网站关键词
-keywords = ["android", "design-patterns", "architechture", "linux", "golang", "python", "elisp", "emacs", "vim"]
+keywords = ["android", "design-patterns", "architechture", "rust", "golang", "python", "elisp", "emacs", "vim", "linux"]
 
 # Analytics config
 # 网站分析配置
