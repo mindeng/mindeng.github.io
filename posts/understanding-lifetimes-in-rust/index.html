@@ -1,0 +1,246 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>理解 Rust 的 生命周期 (Lifetime) - MinCodes</title><meta name=Description content="MinCodes, Minimal but useful Codes"><meta property="og:title" content="理解 Rust 的 生命周期 (Lifetime)">
+<meta property="og:description" content="Lifetime 的主要目的是防止悬空引用 (dangling references) 下面的例子中， borrow checker 会检查 r 的生命周期 'a 比其引用的数据的生命周期 'b 要长，因此会拒绝编译通过。 1 2 3 4 5 6 7 8 9 10"><meta property="og:type" content="article"><meta property="og:url" content="https://mincodes.com/posts/understanding-lifetimes-in-rust/"><meta property="og:image" content="https://mincodes.com/favicon.svg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-03-06T16:01:00+08:00"><meta property="article:modified_time" content="2024-03-06T16:10:53+08:00"><meta property="og:site_name" content="My cool site"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://mincodes.com/favicon.svg"><meta name=twitter:title content="理解 Rust 的 生命周期 (Lifetime)"><meta name=twitter:description content="Lifetime 的主要目的是防止悬空引用 (dangling references) 下面的例子中， borrow checker 会检查 r 的生命周期 'a 比其引用的数据的生命周期 'b 要长，因此会拒绝编译通过。 1 2 3 4 5 6 7 8 9 10"><meta name=application-name content="MinCodes"><meta name=apple-mobile-web-app-title content="MinCodes"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/favicon.svg><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://mincodes.com/posts/understanding-lifetimes-in-rust/><link rel=prev href=https://mincodes.com/posts/move-in-rust-and-cpp/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"理解 Rust 的 生命周期 (Lifetime)","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mincodes.com\/posts\/understanding-lifetimes-in-rust\/"},"genre":"posts","keywords":"rust","wordcount":1698,"url":"https:\/\/mincodes.com\/posts\/understanding-lifetimes-in-rust\/","datePublished":"2024-03-06T16:01:00+08:00","dateModified":"2024-03-06T16:10:53+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"Min Deng"},"description":""}</script><script src=https://mincodes.com/js/mathjax-config.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>posts </a><a class=menu-item href=/tags/tools>tools </a><a class=menu-item href=/tags/>tags </a><a class=menu-item href=/about/>about </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=MinCodes><img class="lazyload logo" src=/svg/loading.min.svg data-src=/favicon.svg data-srcset="/favicon.svg, /favicon.svg 1.5x, /favicon.svg 2x" data-sizes=auto alt=/favicon.svg title=/favicon.svg><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw'></i></span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>posts</a><a class=menu-item href=/tags/tools title>tools</a><a class=menu-item href=/tags/ title>tags</a><a class=menu-item href=/about/ title>about</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">理解 Rust 的 生命周期 (Lifetime)</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Min Deng</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024-03-06>2024-03-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1698 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#lifetime-的主要目的是防止悬空引用--dangling-references>Lifetime 的主要目的是防止悬空引用 (<em>dangling references</em>)</a></li><li><a href=#lifetime-是一种特殊的泛型参数>Lifetime 是一种特殊的泛型参数</a></li><li><a href=#在函数中使用-lifetime>在函数中使用 Lifetime</a></li><li><a href=#在结构体中使用-lifetime>在结构体中使用 Lifetime</a></li><li><a href=#lifetime-参数的省略规则--lifetime-elision-rules>Lifetime 参数的省略规则 (<em>Lifetime elision rules</em>)</a></li><li><a href=#理解-and-static-t-引用>理解 <code>&'static T</code> 引用</a><ul><li><a href=#通过-box-leak-生成-and-static-t-引用>通过 <code>Box::leak</code> 生成 <code>&'static T</code> 引用</a></li></ul></li><li><a href=#在泛型中使用-lifetime>在泛型中使用 Lifetime</a><ul><li><a href=#理解-t-static>理解 <code>T: 'static</code></a></li><li><a href=#理解-and-a-t-和-t-a>理解 <code>&'a T</code> 和 <code>T: 'a</code></a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=lifetime-的主要目的是防止悬空引用--dangling-references>Lifetime 的主要目的是防止悬空引用 (<em>dangling references</em>)</h2><p>下面的例子中， <em>borrow checker</em> 会检查 <code>r</code> 的生命周期 <code>'a</code> 比其引用的数据的生命周期 <code>'b</code>
+要长，因此会拒绝编译通过。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=c1>// ❌ borrowed value does not live long enough
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>r</span><span class=p>;</span><span class=w>                </span><span class=c1>// ---------+-- &#39;a
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                          </span><span class=c1>//          |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=p>{</span><span class=w>                     </span><span class=c1>//          |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>        </span><span class=kd>let</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>5</span><span class=p>;</span><span class=w>        </span><span class=c1>// -+-- &#39;b  |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>        </span><span class=n>r</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>&amp;</span><span class=n>x</span><span class=p>;</span><span class=w>           </span><span class=c1>//  |       |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=p>}</span><span class=w>                     </span><span class=c1>// -+       |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>                          </span><span class=c1>//          |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;r: </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>r</span><span class=p>);</span><span class=w> </span><span class=c1>//          |
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span><span class=w>                         </span><span class=c1>// ---------+
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=lifetime-是一种特殊的泛型参数>Lifetime 是一种特殊的泛型参数</h2><p>具体到形式层面，Lifetime 实际上是一种特殊的泛型参数，这些泛型参数为编译器提供了有关引用之间如何相互联系的信息。</p><p>参考 <a href=https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md target=_blank rel="noopener noreffer">common-rust-lifetime-misconceptions</a> 一文中的定义，可以加深对 Lifetime 的理解：</p><blockquote><p>🌟 变量的生命周期是指它所指向的数据可以被编译器静态验证在其当前内存地址上有效的时间长度。</p><p>A variable&rsquo;s lifetime is how long the data it points to can be statically
+verified by the compiler to be valid at its current memory address.</p></blockquote><h2 id=在函数中使用-lifetime>在函数中使用 Lifetime</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>fn</span> <span class=nf>longest</span><span class=o>&lt;</span><span class=na>&#39;a</span><span class=o>&gt;</span><span class=p>(</span><span class=n>x</span>: <span class=kp>&amp;</span><span class=na>&#39;a</span> <span class=kt>str</span><span class=p>,</span><span class=w> </span><span class=n>y</span>: <span class=kp>&amp;</span><span class=na>&#39;a</span> <span class=kt>str</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kp>&amp;</span><span class=na>&#39;a</span> <span class=kt>str</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>if</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>len</span><span class=p>()</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=n>y</span><span class=p>.</span><span class=n>len</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>x</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>y</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>string1</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;long string is long&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>let</span><span class=w> </span><span class=n>string2</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;xyz&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>let</span><span class=w> </span><span class=n>result</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>longest</span><span class=p>(</span><span class=n>string1</span><span class=p>.</span><span class=n>as_str</span><span class=p>(),</span><span class=w> </span><span class=n>string2</span><span class=p>.</span><span class=n>as_str</span><span class=p>());</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=fm>println!</span><span class=p>(</span><span class=s>&#34;The longest string is: </span><span class=si>{}</span><span class=s>&#34;</span><span class=p>,</span><span class=w> </span><span class=n>result</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>上例中，由于 <em>borrow checker</em> 无法推断出 x、y 的生命周期和返回值的生命周期之间的关系，因此必须通过生命周期参数来指定。该例中，返回值的生命周期和两个变量中生命周期较短的那个保持一致。</p><ul><li>生命周期注解并不影响引用的生存时间，而是用于描述多个引用的生命周期之间的关系（主要是描述返回值和入参的生命周期之间的关系）。</li></ul><h2 id=在结构体中使用-lifetime>在结构体中使用 Lifetime</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=k>struct</span> <span class=nc>ImportantExcerpt</span><span class=o>&lt;</span><span class=na>&#39;a</span><span class=o>&gt;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>part</span>: <span class=kp>&amp;</span><span class=na>&#39;a</span> <span class=kt>str</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>novel</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;Call me Ishmael. Some years ago...&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>first_sentence</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>novel</span><span class=p>.</span><span class=n>split</span><span class=p>(</span><span class=sc>&#39;.&#39;</span><span class=p>).</span><span class=n>next</span><span class=p>().</span><span class=n>expect</span><span class=p>(</span><span class=s>&#34;Could not find a &#39;.&#39;&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>ImportantExcerpt</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>part</span>: <span class=nc>first_sentence</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>};</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>上例中， <code>ImportantExcerpt</code> 实例的生命周期不能超出其 <code>part</code> 字段的生命周期。</p><h2 id=lifetime-参数的省略规则--lifetime-elision-rules>Lifetime 参数的省略规则 (<em>Lifetime elision rules</em>)</h2><p>对于一个函数来说：</p><ol><li>编译器为每个引用参数分配一个生命周期参数。</li><li>如果只有一个输入生命周期参数，则将该生命周期分配给所有的输出生命周期参数。</li><li>如果有多个输入生命周期参数，且其中一个是 <code>&amp;self</code> 或 <code>&amp;mut self</code> (即这是一个方法)，则将 <code>self</code> 的生命周期分配给所有的输出生命周期参数。</li></ol><p>当引用没有显式生命周期注解时，编译器按照上述规则来计算引用的生命周期。如果上述三条规则走到底，仍然存在无法计算出生命周期的引用时，编译器会停止并报错。</p><h2 id=理解-and-static-t-引用>理解 <code>&'static T</code> 引用</h2><p>请注意 <code>&'static T</code> 和 <a href=#%e7%90%86%e8%a7%a3-t-static rel>T: &lsquo;static</a> 二者之间的区别。</p><p><code>&'static T</code> 可以通过以下两种方式产生：</p><ul><li><p>对静态变量的引用</p><p>例如，字符串字面量因为存储在二进制文件中，在程序运行期间都有效，因此具有
+<code>'static</code> 生命周期。例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=w>  </span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=kd>let</span><span class=w> </span><span class=n>str_literal</span>: <span class=kp>&amp;</span><span class=nb>&#39;static</span> <span class=kt>str</span> <span class=o>=</span><span class=w> </span><span class=s>&#34;字符串字面量&#34;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div></li><li><p>通过 <code>Box::leak</code> 方法在运行时生成一个 <code>&'static T</code>, 下面将展开论述。</p></li></ul><h3 id=通过-box-leak-生成-and-static-t-引用>通过 <code>Box::leak</code> 生成 <code>&'static T</code> 引用</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=line><span class=cl><span class=c1>#[derive(Debug)]
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>struct</span><span class=w> </span><span class=n>A</span><span class=w> </span><span class=err>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>s</span><span class=p>:</span><span class=w> </span><span class=n>String</span><span class=p>,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=err>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>impl</span><span class=w> </span><span class=k>Drop</span><span class=w> </span><span class=k>for</span><span class=w> </span><span class=n>A</span><span class=w> </span><span class=err>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>fn</span><span class=w> </span><span class=k>drop</span><span class=p>(</span><span class=o>&amp;</span><span class=n>mut</span><span class=w> </span><span class=n>self</span><span class=p>)</span><span class=w> </span><span class=err>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>println</span><span class=o>!</span><span class=p>(</span><span class=s2>&#34;{:?} has been dropped!&#34;</span><span class=p>,</span><span class=w> </span><span class=n>self</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=err>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=err>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=n>fn</span><span class=w> </span><span class=nf>leak_a</span><span class=p>()</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=o>&amp;</span><span class=s1>&#39;static A {
+</span></span></span><span class=line><span class=cl><span class=s1>    let a = A {
+</span></span></span><span class=line><span class=cl><span class=s1>        s: &#34;hello&#34;.to_string(),
+</span></span></span><span class=line><span class=cl><span class=s1>    };
+</span></span></span><span class=line><span class=cl><span class=s1>    Box::leak(a.into())
+</span></span></span><span class=line><span class=cl><span class=s1>}
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>fn main() {
+</span></span></span><span class=line><span class=cl><span class=s1>    let a: &amp;&#39;</span><span class=n>static</span><span class=w> </span><span class=n>A</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nf>leak_a</span><span class=p>();</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>println</span><span class=o>!</span><span class=p>(</span><span class=s2>&#34;a = {:?}&#34;</span><span class=p>,</span><span class=w> </span><span class=n>a</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>//</span><span class=w> </span><span class=n>recover</span><span class=w> </span><span class=o>`</span><span class=n>a</span><span class=o>`</span><span class=w> </span><span class=n>Box</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>the</span><span class=w> </span><span class=n>leaked</span><span class=w> </span><span class=n>reference</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>let</span><span class=w> </span><span class=n>a</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>unsafe</span><span class=w> </span><span class=err>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>let</span><span class=w> </span><span class=n>const_ptr</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>a</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=o>*</span><span class=n>const</span><span class=w> </span><span class=n>A</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>let</span><span class=w> </span><span class=n>mut_ptr</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>const_ptr</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=o>*</span><span class=n>mut</span><span class=w> </span><span class=n>A</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Box</span><span class=p>::</span><span class=nf>from_raw</span><span class=p>(</span><span class=n>mut_ptr</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=err>}</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>println</span><span class=o>!</span><span class=p>(</span><span class=s2>&#34;a = {:?}&#34;</span><span class=p>,</span><span class=w> </span><span class=n>a</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=o>//</span><span class=w> </span><span class=o>`</span><span class=n>a</span><span class=o>`</span><span class=w> </span><span class=n>will</span><span class=w> </span><span class=n>be</span><span class=w> </span><span class=n>dropped</span><span class=w> </span><span class=n>here</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=err>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>a = A { s: &#34;hello&#34; }
+</span></span><span class=line><span class=cl>a = A { s: &#34;hello&#34; }
+</span></span><span class=line><span class=cl>A { s: &#34;hello&#34; } has been dropped!
+</span></span></code></pre></td></tr></table></div></div><p>上面这个例子有两个要点：</p><ul><li>通过 <code>Box::leak</code> 生成 <code>&'static T</code> 引用</li><li>通过 <code>Box::from_raw</code> 将引用恢复为一个 <code>Box</code> 对象（需结合 unsafe 代码）</li></ul><p>关于这个主题的进一步的讨论，可以参考<a href=https://github.com/pretzelhammer/rust-blog/pull/73 target=_blank rel="noopener noreffer">我给 rust-blog 提的一个 PR</a>。</p><h2 id=在泛型中使用-lifetime>在泛型中使用 Lifetime</h2><h3 id=理解-t-static>理解 <code>T: 'static</code></h3><p>请注意和 <a href=#%e7%90%86%e8%a7%a3-and-static-t-%e5%bc%95%e7%94%a8 rel>&&lsquo;static T 引用</a> 之间的区别。</p><p>下面的读法有助于正确理解 <code>T: 'static</code>:</p><blockquote><p>🌟 <code>T: 'static</code> 应读作： <code>T</code> 受到 <code>'static</code> 类型生命周期的约束。</p></blockquote><p><code>T: 'static</code>:</p><ul><li>包括所有的 <code>&'static T</code></li><li>也包括所有的 owned types, 因为 owner 可以确保数据一直有效。因此 <code>T: 'static</code> ：<ul><li>可以在运行时动态分配</li><li>不需要在整个程序生命周期内有效</li><li>可以安全、自由地修改</li><li>可以在运行时被释放</li><li>可以有不同持续时间的生命周期</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>fn drop_static&lt;T: &#39;static&gt;(t: T) {
+</span></span><span class=line><span class=cl>    std::mem::drop(t);
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>fn main() {
+</span></span><span class=line><span class=cl>    let mut strings: Vec&lt;String&gt; = Vec::new();
+</span></span><span class=line><span class=cl>    for i in 0..10 {
+</span></span><span class=line><span class=cl>        strings.push(i.to_string());
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    // strings are owned types so they&#39;re bounded by &#39;static
+</span></span><span class=line><span class=cl>    for mut string in strings {
+</span></span><span class=line><span class=cl>        // all the strings are mutable
+</span></span><span class=line><span class=cl>        string.push_str(&#34;a mutation&#34;);
+</span></span><span class=line><span class=cl>        // all the strings are droppable
+</span></span><span class=line><span class=cl>        drop_static(string); // ✅
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=理解-and-a-t-和-t-a>理解 <code>&'a T</code> 和 <code>T: 'a</code></h3><ul><li><p><code>&'a T</code> 隐含了 <code>T: 'a</code></p><p>如果一个 <code>T</code> 的引用在 <code>'a</code> 内有效，那么 <code>T</code> 在这个周期内也必须有效，否则前者不成立。</p></li><li><p><code>T:'a</code> 比 <code>&'a T</code> 更加通用和灵活</p><ul><li><p>前者可以接受 owned types (指非引用类型) 和引用</p></li><li><p>后者只能接受引用</p></li></ul></li><li><p>如果 <code>T: 'static</code>, 那么 <code>T: 'a</code>, 因为：</p><ul><li><p>前者读作：T 满足静态生命周期约束</p></li><li><p>后者读作：T 满足 <code>'a</code> 生命周期约束</p></li><li><p>静态生命周期 >= <code>'a</code> 生命周期，因此上述结论成立</p></li></ul></li></ul><p>案例（参考自<a href=https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md target=_blank rel="noopener noreffer">common-rust-lifetime-misconceptions</a>)：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-rust data-lang=rust><span class=line><span class=cl><span class=c1>// only takes ref types bounded by &#39;a
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>fn</span> <span class=nf>t_ref</span><span class=o>&lt;</span><span class=na>&#39;a</span><span class=p>,</span><span class=w> </span><span class=n>T</span>: <span class=na>&#39;a</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span>: <span class=kp>&amp;</span><span class=na>&#39;a</span> <span class=nc>T</span><span class=p>)</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// takes any types bounded by &#39;a
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>fn</span> <span class=nf>t_bound</span><span class=o>&lt;</span><span class=na>&#39;a</span><span class=p>,</span><span class=w> </span><span class=n>T</span>: <span class=na>&#39;a</span><span class=o>&gt;</span><span class=p>(</span><span class=n>t</span>: <span class=nc>T</span><span class=p>)</span><span class=w> </span><span class=p>{}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>// owned type which contains a reference
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=nc>Ref</span><span class=o>&lt;</span><span class=na>&#39;a</span><span class=p>,</span><span class=w> </span><span class=n>T</span>: <span class=na>&#39;a</span><span class=o>&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=na>&#39;a</span><span class=w> </span><span class=n>T</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>fn</span> <span class=nf>main</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=n>string</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=nb>String</span>::<span class=n>from</span><span class=p>(</span><span class=s>&#34;string&#34;</span><span class=p>);</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>t_bound</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>);</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>t_bound</span><span class=p>(</span><span class=n>Ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>));</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>t_bound</span><span class=p>(</span><span class=o>&amp;</span><span class=n>Ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>));</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>t_ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>);</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>t_ref</span><span class=p>(</span><span class=n>Ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>));</span><span class=w> </span><span class=c1>// ❌ - expected ref, found struct
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>t_ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>Ref</span><span class=p>(</span><span class=o>&amp;</span><span class=n>string</span><span class=p>));</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c1>// string var is bounded by &#39;static which is bounded by &#39;a
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>    </span><span class=n>t_bound</span><span class=p>(</span><span class=n>string</span><span class=p>);</span><span class=w> </span><span class=c1>// ✅
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-03-06</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://mincodes.com/posts/understanding-lifetimes-in-rust/ data-title="理解 Rust 的 生命周期 (Lifetime)" data-hashtags=rust><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://mincodes.com/posts/understanding-lifetimes-in-rust/ data-hashtag=rust><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://mincodes.com/posts/understanding-lifetimes-in-rust/ data-title="理解 Rust 的 生命周期 (Lifetime)"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://mincodes.com/posts/understanding-lifetimes-in-rust/ data-title="理解 Rust 的 生命周期 (Lifetime)"><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://mincodes.com/posts/understanding-lifetimes-in-rust/ data-title="理解 Rust 的 生命周期 (Lifetime)"><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/rust/>Rust</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/posts/move-in-rust-and-cpp/ class=prev rel=prev title="Rust 的 move 和 C++ 的 std::move"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Rust 的 move 和 C++ 的 std::move</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Min Deng</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{},data:{"id-1":"MinCodes","id-2":"MinCodes"},typeit:{cursorChar:"|",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:100}}</script><script type=text/javascript src=/js/theme.min.js></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-EPY7LC720X",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-EPY7LC720X" async></script></body></html>
