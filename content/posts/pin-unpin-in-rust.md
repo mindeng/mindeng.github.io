@@ -1,7 +1,7 @@
 +++
 title = "Rust 中的 Pin, Unpin 和 !Unpin"
 date = 2024-03-19T11:54:00+08:00
-lastmod = 2024-03-19T12:10:43+08:00
+lastmod = 2024-03-19T12:13:22+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -57,7 +57,7 @@ buf 指针失效。
     -   对于这些类型来讲，Pin 前和 Pin 后在使用上基本一样，不受影响。例如 `Pin<&mut
                 u8>` 的行为和 `&mut u8` 没啥区别。
     -   由于标准库为 `Unpin` 提供了 `DerefMut` 的一揽子实现，因此，如果 `T` 实现了 `Unpin`
-        trait, 则可以通过 Deref Coercion 自动获得 `&mut T`, 也可以通过 `Pin::get_mut` 方法手动获取 `&mut T`, 这意味着可以安全地对 `T` 进行修改。
+        trait, 则可以通过 Deref Coercion 自动获得 `Pin` 对象的可变引用 `&mut T`, 也可以通过 `Pin::get_mut` 方法手动获取 `&mut T`, 这意味着可以安全地对 `T` 进行修改。
 
         详情可参考 [Pin 的不可移动性是通过编译器来保证的](#pin-的不可移动性是通过编译器来保证的) 。
 
