@@ -31,7 +31,8 @@ keywords = ["android", "design-patterns", "architechture", "rust", "golang", "py
 # Analytics config
 # 网站分析配置
 [params.analytics]
-enable = true
+# enable = true
+enable = false
 # Google Analytics
 [params.analytics.google]
 id = "G-EPY7LC720X"
@@ -199,7 +200,16 @@ typeit = true
 enable = true
 # Custom content (HTML format is supported)
 # 自定义内容 (支持 HTML 格式)
-custom = ''
+custom = """<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7b760b677a021bf17f98d03f83124b62";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>"""
+
 # whether to show Hugo and theme info
 # 是否显示 Hugo 和主题信息
 hugo = false
