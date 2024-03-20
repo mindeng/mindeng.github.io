@@ -1,7 +1,7 @@
 +++
 title = "Rust 中的 Pin, Unpin 和 !Unpin"
 date = 2024-03-19T11:54:00+08:00
-lastmod = 2024-03-19T12:13:22+08:00
+lastmod = 2024-03-20T17:13:48+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -124,7 +124,7 @@ impl<P: DerefMut<Target: Unpin>> DerefMut for Pin<P> {
 
 示例：
 
-```rustic
+```rust
 use tokio::pin;
 
 async fn my_async_fn() {

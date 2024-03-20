@@ -1,7 +1,7 @@
 +++
 title = "理解 Rust 的 生命周期 (Lifetime)"
 date = 2024-03-06T16:01:00+08:00
-lastmod = 2024-03-06T16:10:53+08:00
+lastmod = 2024-03-20T17:13:48+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -116,7 +116,7 @@ fn main() {
 
 ### 通过 `Box::leak` 生成 `&'static T` 引用 {#通过-box-leak-生成-and-static-t-引用}
 
-```rustic
+```rust
 #[derive(Debug)]
 struct A {
     s: String,
@@ -188,7 +188,7 @@ A { s: "hello" } has been dropped!
 
 <!--listend-->
 
-```rustic
+```rust
 fn drop_static<T: 'static>(t: T) {
     std::mem::drop(t);
 }
