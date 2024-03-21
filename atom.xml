@@ -1,7 +1,463 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-03-20T09:34:29+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.124.0">Hugo</generator><entry><title type="text">Rust 中的 Pin, Unpin 和 !Unpin</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/pin-unpin-in-rust/"/><id>https://mincodes.com/posts/pin-unpin-in-rust/</id><updated>2024-03-20T17:13:48+08:00</updated><published>2024-03-19T11:54:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">为什么需要 Pin? 引入 Pin 的目的主要是为了支持 自引用类型 (self-referential types) 。下面我们以 Future 为例，解释一下自引用类型以及引入 Pin…</summary><content type="html">&lt;h2 id="为什么需要-pin">为什么需要 &lt;code>Pin&lt;/code>?&lt;/h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-03-21T14:55:14+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.124.1">Hugo</generator><entry><title type="text">理解 Rust 异步编程</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-async-rust/"/><id>https://mincodes.com/posts/understanding-async-rust/</id><updated>2024-03-21T22:53:31+08:00</updated><published>2024-03-21T22:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 的异步特性很强大，相对也比较复杂。 为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对…</summary><content type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
+&lt;p>为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向对比等多个方面进行阐述。&lt;/p>
+&lt;h2 id="rust-异步的特点">Rust 异步的特点&lt;/h2>
+&lt;h3 id="future-是惰性的--inert">&lt;code>Future&lt;/code> 是惰性的 (&lt;em>inert&lt;/em>)&lt;/h3>
+&lt;ul>
+&lt;li>Future 只有在轮询 (poll) 时才会取得进展&lt;/li>
+&lt;li>如果 Future 被 drop 了，则不会再取得更多进展&lt;/li>
+&lt;/ul>
+&lt;h3 id="async-是零成本的--zero-cost">Async 是零成本的 (&lt;em>zero-cost&lt;/em>)&lt;/h3>
+&lt;ul>
+&lt;li>无需堆内存分配&lt;/li>
+&lt;li>无需动态分派（dynamic dispatch）&lt;/li>
+&lt;/ul>
+&lt;p>关于这一点，可以参考&lt;a href="https://mincodes.com/posts/understanding-async-rust/#rust-%E7%9A%84%E5%BC%82%E6%AD%A5">Rust 的异步&lt;/a>中的进一步解释。&lt;/p>
+&lt;h3 id="不提供内置运行时">不提供内置运行时&lt;/h3>
+&lt;p>运行时由社区维护的 crates 提供。具体来说，Rust 的异步编程环境由以下几部分组成：&lt;/p>
+&lt;dl>
+&lt;dt>标准库&lt;/dt>
+&lt;dd>提供最基本的异步相关的 traits, 类型和函数。例如 &lt;code>Future&lt;/code> trait 就是标准库提供的。&lt;/dd>
+&lt;dt>编译器&lt;/dt>
+&lt;dd>&lt;code>async/await&lt;/code> 语法由 Rust 编译器直接提供支持。&lt;/dd>
+&lt;dt>&lt;a href="https://docs.rs/futures/"> &lt;code>futures&lt;/code> crate&lt;/a>&lt;/dt>
+&lt;dd>提供通用工具类型、宏和函数，它们可以在任何 async 程序中使用。这些东西将来可能会成为标准库的一部分。
+&lt;p>事实上 &lt;code>futures&lt;/code> crate 自带了一个 executor 可以用来&lt;a href="https://mincodes.com/posts/understanding-async-rust/#%E7%94%A8%E6%B3%95%E4%BB%8B%E7%BB%8D">执行简单的异步任务&lt;/a>，但是不包括 async I/O 以及 timer 的支持，可以看成是一个不完整的运行时环境，因此一般需要搭配其他运行时来使用。&lt;/p>
+&lt;/dd>
+&lt;dt>运行时&lt;/dt>
+&lt;dd>异步代码的执行，IO 和任务生成 (task spawning) 由 async 运行时提供，例如 Tokio
+和 async-std。大部分异步程序以及一些异步 crates 会依赖于特定的运行时。关于这部分的更多信息可参考：&lt;a href="https://rust-lang.github.io/async-book/08_ecosystem/00_chapter.html">The Async Ecosystem&lt;/a> 。&lt;/dd>
+&lt;/dl>
+&lt;h3 id="单线程-多线程两种运行时可供选择">单线程、多线程两种运行时可供选择&lt;/h3>
+&lt;p>以 Tokio 为例， &lt;em>rt&lt;/em> 和 &lt;em>rt-multi-thread&lt;/em> 两个 feature flag 分别代表了单线程运行时和多线程运行时。&lt;/p>
+&lt;h3 id="缺失部分语言功能">缺失部分语言功能&lt;/h3>
+&lt;p>一些同步 Rust 的语言功能在 async 中可能不可用，例如，不能在 trait 中定义 &lt;code>async&lt;/code>
+函数。&lt;/p>
+&lt;h2 id="与多线程的对比">与多线程的对比&lt;/h2>
+&lt;h3 id="线程适用于少量任务场景">线程适用于少量任务场景&lt;/h3>
+&lt;h4 id="缺点">缺点&lt;/h4>
+&lt;ul>
+&lt;li>线程会带来 CPU 和内存开销&lt;/li>
+&lt;li>创建和切换线程的成本很高，即使是空线程也会消耗系统资源&lt;/li>
+&lt;li>使用线程池有一定缓解作用，但无法全部消除&lt;/li>
+&lt;/ul>
+&lt;h4 id="优点">优点&lt;/h4>
+&lt;ul>
+&lt;li>由于不需要特殊的编程模型，因此在复用现有的同步代码时，无需太大的改造成本。&lt;/li>
+&lt;li>有些 OS 可以修改线程的优先级，在一些延迟敏感的应用中很有用（例如驱动程序）。&lt;/li>
+&lt;/ul>
+&lt;h3 id="async-可显著降低-cpu-和内存开销">Async 可显著降低 CPU 和内存开销&lt;/h3>
+&lt;h4 id="优点">优点&lt;/h4>
+&lt;ul>
+&lt;li>Async 可显著降低 CPU 和内存开销，尤其是对于 IO 密集型的任务来说，例如服务器和数据库应用。&lt;/li>
+&lt;li>同等条件下，Async 可以比线程拥有多出几个数量级的任务。&lt;/li>
+&lt;/ul>
+&lt;h4 id="缺点">缺点&lt;/h4>
+&lt;ul>
+&lt;li>
+&lt;p>会产生更大的二进制文件。&lt;/p>
+&lt;p>原因如下：&lt;/p>
+&lt;ul>
+&lt;li>async 函数的执行过程是通过状态机来管理的，因此编译器会自动为每个 async 函数生成状态机代码。&lt;/li>
+&lt;li>每个二进制文件都会捆绑一个 async 运行时。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>开发过程可能会遇到更多问题。&lt;/p>
+&lt;p>主要有以下几点：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>可能会碰到更多的编译错误:&lt;/strong> 由于涉及更复杂的语言功能，例如 lifetimes 和 pinning, 可能更容易碰到这类错误。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>运行时的错误堆栈会更复杂:&lt;/strong> 因为涉及编译器为 async 函数生成的状态机。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>一些新的错误模式:&lt;/strong> - 在异步上下文中调用一个阻塞函数&lt;/p>
+&lt;ul>
+&lt;li>没有正确实现 &lt;code>Future&lt;/code> trait&lt;/li>
+&lt;/ul>
+&lt;p>这些错误可以悄悄地通过编译器，有时甚至可以通过单元测试。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="用法介绍">用法介绍&lt;/h2>
+&lt;p>以下示例参考自 &lt;a href="https://rust-lang.github.io/async-book/01_getting_started/04_async_await_primer.html">async/.await Primer&lt;/a> 。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// `block_on` blocks the current thread until the provided future has run to
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// completion. Other executors provide more complex behavior, like scheduling
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// multiple futures onto the same thread.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">use&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">futures&lt;/span>::&lt;span class="n">executor&lt;/span>::&lt;span class="n">block_on&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="cp">#[derive(Debug)]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">struct&lt;/span> &lt;span class="nc">Song&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">name&lt;/span>: &lt;span class="nb">String&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">learn_song&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="nc">Song&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;learn song...&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">Song&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="n">name&lt;/span>: &lt;span class="s">&amp;#34;hello&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">to_string&lt;/span>&lt;span class="p">()}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">sing_song&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">song&lt;/span>: &lt;span class="nc">Song&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;sing song: &lt;/span>&lt;span class="si">{:?}&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">song&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">dance&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;dance ...&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">learn_and_sing&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// Wait until the song has been learned before singing it.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// We use `.await` here rather than `block_on` to prevent blocking the
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// thread, which makes it possible to `dance` at the same time.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">song&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">learn_song&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="k">await&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">sing_song&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">song&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="k">await&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">async_main&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">f1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">learn_and_sing&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">f2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">dance&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// `join!` is like `.await` but can wait for multiple futures concurrently.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// If we&amp;#39;re temporarily blocked in the `learn_and_sing` future, the `dance`
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// future will take over the current thread. If `dance` becomes blocked,
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// `learn_and_sing` can take back over. If both futures are blocked, then
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// `async_main` is blocked and will yield to the executor.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">futures&lt;/span>::&lt;span class="fm">join!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f1&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">f2&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">block_on&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">async_main&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">learn song...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sing song: Song { name: &amp;#34;hello&amp;#34; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dance ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>下面是对该示例的几点说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>learn_song&lt;/code> 在 &lt;code>sing_song&lt;/code> 之前，二者是顺序执行的。&lt;/li>
+&lt;li>&lt;code>dance&lt;/code> 和 &lt;code>learn_and_sing&lt;/code> 是并发执行的。&lt;/li>
+&lt;li>&lt;code>.await&lt;/code> 调用会导致 async 函数在当前 &lt;code>Future&lt;/code> 上等待直到完成，但是会在当前 &lt;code>Future&lt;/code>
+阻塞时，出让当前线程的控制权并允许其他 async 函数继续执行。&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用异步时的注意事项-容易踩的坑">使用异步时的注意事项（容易踩的坑）&lt;/h2>
+&lt;h3 id="async-的生命周期">&lt;code>async&lt;/code> 的生命周期&lt;/h3>
+&lt;p>&lt;code>async fn&lt;/code> 如果有 references 作为入参，则返回的 &lt;code>Future&lt;/code> 会受到该引用的生命周期的约束。也就是说，返回的 future 必须在入参还有效时执行完 &lt;code>.await&lt;/code> 。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="k">use&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">std&lt;/span>::&lt;span class="n">future&lt;/span>::&lt;span class="n">Future&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">// This function:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">foo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>: &lt;span class="kp">&amp;amp;&lt;/span>&lt;span class="kt">u8&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="kt">u8&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">// Is equivalent to this function:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">foo_expanded&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="na">&amp;#39;a&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>: &lt;span class="kp">&amp;amp;&lt;/span>&lt;span class="na">&amp;#39;a&lt;/span> &lt;span class="kt">u8&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="nc">impl&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Future&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Output&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">u8&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="na">&amp;#39;a&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">move&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在下面的例子中，通过将参数和对异步函数的调用打包到一个 &lt;code>async&lt;/code> 块中，来解决
+references-as-arguments 的生命周期问题。这种方式实际上将 &lt;code>borrow_x&lt;/code> 返回的带生命周期约束的 future 转变成了一个 &lt;code>'static&lt;/code> future。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="k">fn&lt;/span> &lt;span class="nf">bad&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="nc">impl&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Future&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Output&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">u8&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">5&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">borrow_x&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// ERROR: `x` does not live long enough
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">good&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="nc">impl&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Future&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Output&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">u8&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">5&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">borrow_x&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="k">await&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="async-move">&lt;code>async move&lt;/code>&lt;/h3>
+&lt;ul>
+&lt;li>async 块默认是以引用的方式捕获外部值的&lt;/li>
+&lt;li>async move 以 move 的方式捕获外部值，好处是生命周期可以超出该变量原来的作用域。&lt;/li>
+&lt;/ul>
+&lt;!--listend-->
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// `async` block:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">///
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// Multiple different `async` blocks can access the same local variable
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// so long as they&amp;#39;re executed within the variable&amp;#39;s scope
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">&lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">blocks&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">my_string&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;foo&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">to_string&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">future_one&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="si">{my_string}&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">future_two&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="si">{my_string}&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">};&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// Run both futures to completion, printing &amp;#34;foo&amp;#34; twice:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">((),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">())&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">futures&lt;/span>::&lt;span class="fm">join!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">future_one&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">future_two&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="sd">/// `async move` block:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">///
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// Only one `async move` block can access the same captured variable, since
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// captures are moved into the `Future` generated by the `async move` block.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// However, this allows the `Future` to outlive the original scope of the
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">/// variable:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd">&lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">move_block&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>-&amp;gt; &lt;span class="nc">impl&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Future&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">Output&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">my_string&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;foo&amp;#34;&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">to_string&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">async&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">move&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="fm">println!&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="si">{my_string}&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="future-的跨线程移动">&lt;code>Future&lt;/code> 的跨线程移动&lt;/h3>
+&lt;p>当使用多线程执行器时， &lt;code>Future&lt;/code> 可能会跨线程移动 (move), 这种移动发生在 &lt;code>.await&lt;/code> 调用时。因此，当变量的作用域涉及跨 &lt;code>.await&lt;/code> 调用时：&lt;/p>
+&lt;ul>
+&lt;li>该变量类型要求实现 &lt;code>Send&lt;/code> trait&lt;/li>
+&lt;li>如果涉及引用，则要求实现 &lt;code>Sync&lt;/code> trait&lt;/li>
+&lt;/ul>
+&lt;h3 id="future-和-pin">&lt;code>Future&lt;/code> 和 &lt;code>Pin&lt;/code>&lt;/h3>
+&lt;p>关于 &lt;code>Pin&lt;/code> 的解释以及使用场景，可以参考我之前发布的 &lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/">Rust 中的 &lt;code>Pin&lt;/code>, &lt;code>Unpin&lt;/code> 和 &lt;code>!Unpin&lt;/code>
+&lt;/a>一文。&lt;/p>
+&lt;h3 id="传统互斥体的局限性">传统互斥体的局限性&lt;/h3>
+&lt;p>由于 &lt;code>Future&lt;/code> 潜在的跨线程移动特性，在使用 &lt;code>Mutex&lt;/code> 时也需要注意，不能在跨 &lt;code>.await&lt;/code> 调用中持有传统的 non-futures-aware 锁，因为这样做可能会导致死锁的发生。&lt;/p>
+&lt;p>死锁案例分析（其中 task 的概念&lt;a href="https://mincodes.com/posts/understanding-async-rust/#%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90-task-executor-%E5%92%8C-spawner">在后文中有解释&lt;/a>）：&lt;/p>
+&lt;ol>
+&lt;li>假设 task A 和 task B 共享同一把锁 L&lt;/li>
+&lt;li>task A 先拿到锁 L&lt;/li>
+&lt;li>task A 中执行了 &lt;code>.await&lt;/code>, 并将当前线程让度给 task B&lt;/li>
+&lt;li>task B 执行获取锁 L 的操作。由于此时 L 已经被 task A 所持有，且 task A 已经挂起没有机会再释放锁 L, 因此 task B 永远拿不到该锁，从而导致死锁发生。&lt;/li>
+&lt;/ol>
+&lt;p>Task B 要想顺利拿到该锁，应该要具备两个条件：&lt;/p>
+&lt;ul>
+&lt;li>task A 和 task B 在同一个线程内调度执行&lt;/li>
+&lt;li>L 是一把可重入锁 (reentrant lock)&lt;/li>
+&lt;/ul>
+&lt;p>因此，这种情况下应该使用 &lt;code>futures::lock::Mutex&lt;/code> (如果使用的是 tokio 运行时，则可以使用 &lt;code>tokio::sync::Mutex&lt;/code>), 而不是 &lt;code>std::sync::Mutex&lt;/code> 。&lt;/p>
+&lt;p>更多细节请参考：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://rust-lang.github.io/async-book/03_async_await/01_chapter.html#awaiting-on-a-multithreaded-executor">async/await&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://tokio.rs/tokio/tutorial/shared-state#holding-a-mutexguard-across-an-await">Shared state | Tokio&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="内部实现分析-task-executor-和-spawner">内部实现分析：Task, Executor 和 Spawner&lt;/h2>
+&lt;p>要进一步理解 Rust 异步编程，Task, Executor 和 Spawner 这几个概念不可避免。下面对这些概念进行逐一解释。&lt;/p>
+&lt;h3 id="task">Task&lt;/h3>
+&lt;ul>
+&lt;li>Task 是对一个或多个 Future 的封装，代表了一个可以被 Executor 执行的独立的异步工作单元。&lt;/li>
+&lt;li>一个 Task 通常会包含一个顶层 Future，这个 Future 可能会依赖其他更多的 Future。&lt;/li>
+&lt;li>Task 在被创建后会被提交给 Executor，由 Executor 负责调度和执行。&lt;/li>
+&lt;/ul>
+&lt;h3 id="executor">Executor&lt;/h3>
+&lt;ul>
+&lt;li>Executor 是一个负责调度和执行 Task 的组件。&lt;/li>
+&lt;li>它会不断轮询已经提交给它的 Task，通过调用 Task 内部 Future 的 poll 方法来驱动这些 Future 向完成状态前进。&lt;/li>
+&lt;li>Executor 可以是单线程的，也可以是多线程的，以支持不同的并发需求。&lt;/li>
+&lt;/ul>
+&lt;h3 id="spawner">Spawner&lt;/h3>
+&lt;ul>
+&lt;li>Spawner 是一个用于创建和提交 Task 到 Executor 的组件。&lt;/li>
+&lt;li>在一些异步运行时（如 tokio 或 async-std）中，Spawner 通常是与 Executor 紧密绑定的，提供了方便的接口来启动新的 Task。&lt;/li>
+&lt;li>在 &lt;a href="https://rust-lang.github.io/async-book/02_execution/04_executor.html">Build an Executor&lt;/a> 这个示例中，Spawner 内部持有一个 channel 的 Sender, 而
+Executor 则持有该 channel 对应的 Receiver, 用于接收 Spawner 发送过来的 task。
+Executor 会在一个循环中持续接收 task 并执行 poll 逻辑。&lt;/li>
+&lt;/ul>
+&lt;h3 id="对-build-an-executor-示例的几点理解">对 &lt;a href="https://rust-lang.github.io/async-book/02_execution/04_executor.html">Build an Executor&lt;/a> 示例的几点理解&lt;/h3>
+&lt;ul>
+&lt;li>Future 先被 Box 装箱, 然后存在 Task 中&lt;/li>
+&lt;li>Task 被包装在 Arc 中，以便跨线程共享所有权&lt;/li>
+&lt;li>Task 中除了 Future, 还包含一个 task_sender
+&lt;ul>
+&lt;li>task_sender 是 channel 的 Sender 的克隆&lt;/li>
+&lt;li>该 sender 用来在被唤醒时，重新将该 Task 发送到 channel 队列中，以便 executor
+重新调度执行该 Task。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Executor 中包含一个 channel 的 Receiver, 不断接收 task, 取出 Future 并执行
+poll。&lt;/li>
+&lt;li>poll 有一个 context 参数，是 Executor 创建的，context 中包含了 waker。
+&lt;ul>
+&lt;li>waker 底层其实就是 task 的引用，只是以 &lt;code>Waker&lt;/code> 接口的形式存在。当任务阻塞时会注册到某个触发器当中（例如 timer, 或者 epoll 事件等）。&lt;/li>
+&lt;li>事件触发时，意味着任务可以继续执行。此时会调用 &lt;code>waker.wake()&lt;/code> 方法，该方法会调到 Task 自身实现的 &lt;code>ArcWake&lt;/code> trait 中的 &lt;code>wake_by_ref&lt;/code> 方法，这里面就会调用
+&lt;code>task_sender.send()&lt;/code> 将 task 的克隆重新发送到 channel 中。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="和其他语言的横向对比">和其他语言的横向对比&lt;/h2>
+&lt;p>Rust 的异步和其他语言相比，最显著的特点就是 Future 的惰性。&lt;/p>
+&lt;p>下面分别对 Rust, Kotlin, Dart 和 Go 这几种语言的异步特性进行一个简单的概括性介绍，希望通过这种对比来加深对 Rust 异步特性的理解。&lt;/p>
+&lt;h3 id="rust-的异步">Rust 的异步&lt;/h3>
+&lt;dl>
+&lt;dt>懒执行（Lazy Execution）&lt;/dt>
+&lt;dd>在 Rust 中，当你定义一个 async 函数时，调用这个函数实际上并不会立即执行它的代码。相反，它返回一个未执行的 future。这个 future 必须被显式地轮询（poll），通常是在一个异步上下文中调用 .await ，或者使用某种执行器（executor）来驱动。&lt;/dd>
+&lt;dt>零成本抽象（Zero-Cost Abstractions）&lt;/dt>
+&lt;dd>Rust 的异步实现旨在尽可能减少运行时开销。它通过状态机的转换来实现异步操作，并不直接依赖于线程或其他重量级的并发机制。
+&lt;p>Rust 通过在编译时将 async 函数转换成状态机来实现异步函数的运行、挂起和恢复。这种方法允许精细控制异步操作的执行，同时与 Rust 的零成本抽象原则相符。&lt;/p>
+&lt;/dd>
+&lt;dt>明确的所有权和借用&lt;/dt>
+&lt;dd>由于 Rust 的所有权和借用规则，异步代码在编译时就能最大限度的避免数据竞争和并发相关的安全性问题。&lt;/dd>
+&lt;/dl>
+&lt;h3 id="kotlin-的异步">Kotlin 的异步&lt;/h3>
+&lt;dl>
+&lt;dt>协程（Coroutines）&lt;/dt>
+&lt;dd>Kotlin 使用协程来处理异步操作，这是一种轻量级的线程。Kotlin 的协程是立即执行的。
+&lt;p>Kotlin 中的协程也是通过编译时转换来实现的。当你在 Kotlin 中使用协程时，编译器会将协程代码转换为状态机（参考 &lt;a href="https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html#coroutine-state-machine">Kotlin language specification&lt;/a>）。这种转换类似于
+Rust 的处理方式，但在细节上有所不同，最大的区别是 Kotlin 的协程是基于 JVM 的，因此它们必须在 JVM 的限制和特性（如垃圾收集、JVM 线程模型等）下工作。&lt;/p>
+&lt;/dd>
+&lt;dt>结构化并发（Structured Concurrency）&lt;/dt>
+&lt;dd>Kotlin 强调在协程中使用&lt;a href="https://mincodes.com/posts/understanding-async-rust/#%E7%BB%93%E6%9E%84%E5%8C%96%E5%B9%B6%E5%8F%91">结构化并发&lt;/a>，这有助于防止常见的并发相关错误。&lt;/dd>
+&lt;dt>上下文感知&lt;/dt>
+&lt;dd>Kotlin 协程可以很容易地切换上下文，例如从后台线程切换到主线程。&lt;/dd>
+&lt;/dl>
+&lt;h4 id="结构化并发">结构化并发&lt;/h4>
+&lt;p>在 Kotlin 中，当你启动一个协程，它总是与一个特定的作用域（协程作用域）相关联。这个作用域负责管理协程的生命周期，包括启动和取消。结构化并发的关键点在于：&lt;/p>
+&lt;dl>
+&lt;dt>作用域绑定&lt;/dt>
+&lt;dd>每个协程都运行在一个明确的作用域内，这个作用域定义了协程的生命周期。协程只在这个作用域内活动，一旦作用域结束，所有在这个作用域中启动的协程也会被自动取消。&lt;/dd>
+&lt;dt>父子关系&lt;/dt>
+&lt;dd>在结构化并发中，父协程会等待其所有子协程完成。如果父协程被取消，所有的子协程也会被取消。&lt;/dd>
+&lt;dt>异常传播&lt;/dt>
+&lt;dd>在子协程中发生的异常会被传播到父协程中，这使得异常处理更加一致和可预测。&lt;/dd>
+&lt;/dl>
+&lt;h3 id="dart-的异步">Dart 的异步&lt;/h3>
+&lt;dl>
+&lt;dt>事件循环（Event Loop）&lt;/dt>
+&lt;dd>Dart 使用单线程事件循环模型，所有的异步操作都是围绕这个事件循环来调度的。&lt;/dd>
+&lt;dt>Future 和 Stream&lt;/dt>
+&lt;dd>Dart 中的异步模式主要是通过 Future 和 Stream 实现的。&lt;/dd>
+&lt;/dl>
+&lt;h3 id="go-的异步">Go 的异步&lt;/h3>
+&lt;dl>
+&lt;dt>协程（Goroutines）&lt;/dt>
+&lt;dd>Go 使用 Goroutines 来处理并发，这是一种非常轻量级的线程。Goroutines 在创建时就开始执行。&lt;/dd>
+&lt;dt>通道（Channels）&lt;/dt>
+&lt;dd>Go 使用 &lt;code>chan&lt;/code> 来在 Goroutines 之间进行通信，这是一种非常强大的并发模型。&lt;/dd>
+&lt;dt>简单直接&lt;/dt>
+&lt;dd>Go 的并发模型非常简单直接，易于理解和使用。&lt;/dd>
+&lt;/dl></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/async/" term="Async" label="Async"/></entry><entry><title type="text">Rust 中的 Pin, Unpin 和 !Unpin</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/pin-unpin-in-rust/"/><id>https://mincodes.com/posts/pin-unpin-in-rust/</id><updated>2024-03-21T22:53:27+08:00</updated><published>2024-03-19T11:54:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">为什么需要 Pin? 引入 Pin 的目的主要是为了支持 自引用类型 (self-referential types) 。下面我们以 Future 为例，解释一下自引用类型以及引入 Pin…</summary><content type="html">&lt;h2 id="为什么需要-pin">为什么需要 &lt;code>Pin&lt;/code>?&lt;/h2>
 &lt;p>引入 &lt;code>Pin&lt;/code> 的目的主要是为了支持 &lt;strong>自引用类型 (self-referential types)&lt;/strong> 。下面我们以
 &lt;code>Future&lt;/code> 为例，解释一下自引用类型以及引入 &lt;code>Pin&lt;/code> 的必要性。&lt;/p>
-&lt;p>由于异步函数中可能包含对局部变量的引用，例如下面的代码：&lt;/p>
+&lt;p>由于异步块/异步函数中可能包含对局部变量的引用，例如下面的代码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -20,7 +476,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这类代码在生成 Future 结构时，就会出现 &lt;strong>自引用类型 (self-referential types)&lt;/strong>, 例如，上面的代码可能生成类似下面的 Future 结构：&lt;/p>
+&lt;/div>&lt;p>这类代码在生成 Future 结构时，就会出现 &lt;strong>自引用类型 (self-referential types)&lt;/strong> 。例如，上面的代码可能生成类似下面的 Future 结构：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -8416,7 +8872,7 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">adb&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">shell&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">am&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">start&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">BrowserActivity&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-03-20T09:34:26+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Emacs 中的变量 要解释本地变量，先解释一下 Emacs 里面变量的作用。 Emacs 中有很多功能（内置的或者插件提供的）都可以通…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-03-21T14:55:12+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Emacs 中的变量 要解释本地变量，先解释一下 Emacs 里面变量的作用。 Emacs 中有很多功能（内置的或者插件提供的）都可以通…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
 &lt;p>要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p>
 &lt;p>Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
 进行一些个性化的定制。&lt;/p>
@@ -9336,7 +9792,7 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://talks.golang.org/2012/concurrency.slide#1">Go Concurrency Patterns - slide&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://cs.opensource.google/go/x/website/+/master:_content/talks/2012/concurrency.slide">Go Concurrency Patterns - source code of slide&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-03-20T09:34:26+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。 这里在 Emacs 中模拟一下这个功能，而且还是增强版本…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-03-21T14:55:12+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。 这里在 Emacs 中模拟一下这个功能，而且还是增强版本…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
 &lt;p>这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
 起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -9404,7 +9860,7 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>Emacs 最大的魅力，也许就是可以按照自己的喜好，随心定制各种功能吧！另外
-各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-03-20T09:34:26+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 git throught ssh 1 git remote add origin ssh://user@my.git.svr/path/to/repo 通过 crontab 实现开机自启动 # 每次系统重启时，都会…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-03-21T14:55:12+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 git throught ssh 1 git remote add origin ssh://user@my.git.svr/path/to/repo 通过 crontab 实现开机自启动 # 每次系统重启时，都会…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
 &lt;h2 id="git-throught-ssh">git throught ssh&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
