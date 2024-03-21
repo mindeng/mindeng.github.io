@@ -1,7 +1,7 @@
 +++
 title = "Rust 中的 Pin, Unpin 和 !Unpin"
 date = 2024-03-19T11:54:00+08:00
-lastmod = 2024-03-20T17:13:48+08:00
+lastmod = 2024-03-21T22:53:27+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -11,7 +11,7 @@ draft = false
 引入 `Pin` 的目的主要是为了支持 **自引用类型 (self-referential types)** 。下面我们以
 `Future` 为例，解释一下自引用类型以及引入 `Pin` 的必要性。
 
-由于异步函数中可能包含对局部变量的引用，例如下面的代码：
+由于异步块/异步函数中可能包含对局部变量的引用，例如下面的代码：
 
 ```rust
 async {
@@ -22,7 +22,7 @@ async {
 }
 ```
 
-这类代码在生成 Future 结构时，就会出现 **自引用类型 (self-referential types)**, 例如，上面的代码可能生成类似下面的 Future 结构：
+这类代码在生成 Future 结构时，就会出现 **自引用类型 (self-referential types)** 。例如，上面的代码可能生成类似下面的 Future 结构：
 
 ```rust
 struct ReadIntoBuf<'a> {
