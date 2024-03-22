@@ -1,7 +1,7 @@
 +++
 title = "理解 Rust 异步编程"
 date = 2024-03-21T22:37:00+08:00
-lastmod = 2024-03-21T22:53:31+08:00
+lastmod = 2024-03-22T10:32:46+08:00
 tags = ["rust", "async"]
 draft = false
 +++
@@ -415,3 +415,13 @@ Future 和 Stream
 
 简单直接
 : Go 的并发模型非常简单直接，易于理解和使用。
+
+
+## 参考资料 {#参考资料}
+
+-   [Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/)
+-   [futures - Rust](https://docs.rs/futures/latest/futures/)
+-   [Tokio - An asynchronous Rust runtime](https://tokio.rs/tokio/tutorial)
+-   [Kotlin language specification](https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html)
+-   [Asynchronous Programming in Dart](https://dart.dev/codelabs/async-await)
+-   [Rust 中的 `Pin`, `Unpin` 和 `!Unpin` ]({{< relref "pin-unpin-in-rust" >}})
