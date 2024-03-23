@@ -1,4 +1,351 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-03-22T03:20:05+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.124.1">Hugo</generator><entry><title type="text">理解 Rust 异步编程</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-async-rust/"/><id>https://mincodes.com/posts/understanding-async-rust/</id><updated>2024-03-22T10:32:46+08:00</updated><published>2024-03-21T22:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 的异步特性很强大，相对也比较复杂。 为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向…</summary><content type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-03-23T12:41:56+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.124.1">Hugo</generator><entry><title type="text">理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-isobmff/"/><id>https://mincodes.com/posts/understanding-isobmff/</id><updated>2024-03-23T20:41:00+08:00</updated><published>2024-03-23T20:12:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">前段时间用 Rust 写了一个 Exif/Metadata 解析库 nom-exif，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。 ISOBMFF 英文全称 ISO Base Media File Format ，顾名思义主要用于封装多媒体文件。…</summary><content type="html">&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+&lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
+ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
+&lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
+&lt;p>该格式已广泛用于媒体文件存储，并作为各种其他媒体文件格式（例如 MP4 和 3GP 容器格式）的基础。&lt;/p>
+&lt;h2 id="哪些文件类型在使用-isobmff">哪些文件类型在使用 ISOBMFF?&lt;/h2>
+&lt;p>下面这个表格列举了常见的使用了 ISOBMFF 格式的文件：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>文件类型&lt;/th>
+&lt;th>互联网媒体类型（MIME）&lt;/th>
+&lt;th>常用扩展名&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>QuickTime&lt;/td>
+&lt;td>video/quicktime&lt;/td>
+&lt;td>.mov, .movie, .qt&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>HEIF&lt;/td>
+&lt;td>image/heif, image/heic&lt;/td>
+&lt;td>.heif, .heifs; .heic, .heics; .avci, .avcs; .HIF&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>MP4&lt;/td>
+&lt;td>video/mp4, audio/mp4&lt;/td>
+&lt;td>.mp4, .m4a, .m4p, .m4b, .m4r, .m4v&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>3GP&lt;/td>
+&lt;td>video/3gpp&lt;/td>
+&lt;td>.3gp, 3g2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>JPEG 2000&lt;/td>
+&lt;td>image/jp2, image/jpx&lt;/td>
+&lt;td>.jp2, .j2k, .jpf, .jpm, .jpg2, .j2c, .jpc, .jpx, .mj2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Flash Video&lt;/td>
+&lt;td>video/x-flv&lt;/td>
+&lt;td>.flv, .fla, .f4v, .f4a, .f4b, .f4p&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="isobmff-文件结构概述">ISOBMFF 文件结构概述&lt;/h2>
+&lt;p>ISOBMFF 文件由 Box (也叫 Atom) 组成，并且每个 Box 内部都可以任意嵌套，组成一棵
+Box 树。顶层 Box 可以有多个。&lt;/p>
+&lt;p>一个正常的 ISOBMFF 文件，第一个 Box 一定是 type 为 &amp;ldquo;ftyp&amp;rdquo; 的 Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-isobmff/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。通过解析第一个 Box, 我们可以：&lt;/p>
+&lt;ul>
+&lt;li>检测该文件是否是 ISOBMFF 格式。&lt;/li>
+&lt;li>识别该文件的具体文件类型。例如是 QuickTime, 或者 HEIF 等。&lt;/li>
+&lt;/ul>
+&lt;p>具体怎么做我们在&lt;a href="https://mincodes.com/posts/understanding-isobmff/#ftyp-box"> &lt;em>ftyp&lt;/em> Box &lt;/a>一节中介绍。&lt;/p>
+&lt;p>除了约定第一个 Box 是 ftyp Box, 后面的 Box 就没有任何限制了，不同的文件类型都可能不同。&lt;/p>
+&lt;h3 id="基本-box-结构">基本 Box 结构&lt;/h3>
+&lt;p>下面是一个最简单的 Box 结构：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size, 含自身&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type&lt;/td>
+&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>box_size - 8&lt;/td>
+&lt;td>box_data&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="ftyp-box">&lt;em>ftyp&lt;/em> Box&lt;/h3>
+&lt;p>对于 ftyp Box 来说，box_data 里面存放的就是该文件的文件类型信息，其结构如下表所示：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>Major brand, 文件格式代码&lt;/td>
+&lt;td>&amp;ldquo;qt &amp;ldquo;: QuickTime, &amp;ldquo;heic&amp;rdquo;: HEIC&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>Minor version, 文件格式规范版本&lt;/td>
+&lt;td>目前很少使用&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>box_size - 8 - 8&lt;/td>
+&lt;td>Compatible brands, 兼容的文件格式，四字节一个，可能有多个&lt;/td>
+&lt;td>&amp;ldquo;mif1MiHEmiafMiHBheic&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>有了上述 ftyp box_data 的结构，我们就可以很容易对 ftyp Box 进行解析，从而判断该文件是否是 ISOBMFF, 以及识别出具体的文件类型。&lt;/p>
+&lt;h2 id="几种特殊的-box">几种特殊的 Box&lt;/h2>
+&lt;p>除了&lt;a href="https://mincodes.com/posts/understanding-isobmff/#%E5%9F%BA%E6%9C%AC-box-%E7%BB%93%E6%9E%84">基本的 Box 结构&lt;/a>，还有几种比较特殊的 Box 类型：&lt;/p>
+&lt;ul>
+&lt;li>size 为 1 的 Box (扩展尺寸 Box)&lt;/li>
+&lt;li>size 为 0 的 Box&lt;/li>
+&lt;li>&lt;em>wide&lt;/em> Box&lt;/li>
+&lt;/ul>
+&lt;p>下面我们逐一介绍。&lt;/p>
+&lt;h3 id="size-为-1-的-box--扩展尺寸-box">size 为 1 的 Box (扩展尺寸 Box)&lt;/h3>
+&lt;p>如果 box_size == 1, 则表示 box_size 超过 4 字节上限，Box 结构变成：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size == 1&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type&lt;/td>
+&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>8&lt;/td>
+&lt;td>extended_size&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>extended_size - 16&lt;/td>
+&lt;td>box_data&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>从上面的结构中可以看到，实际的 Box 长度变成了 extended_size, 长度的存储空间扩展为 8 字节。&lt;/p>
+&lt;h3 id="size-为-0-的-box">size 为 0 的 Box&lt;/h3>
+&lt;p>如果 box_size == 0, 并不意味着该 Box 长度为 0。这种 Box 只能是顶层 Box, 并且只能是最后一个 Box, 其长度一直延伸至文件末尾。其结构如下所示：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size == 0&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type&lt;/td>
+&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>*&lt;/td>
+&lt;td>box_data, 长度一直延伸到文件末尾&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="wide-box">&lt;em>wide&lt;/em> Box&lt;/h3>
+&lt;p>&lt;em>wide&lt;/em> Box 比较有意思，其结构如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size == 8&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type == &amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;td>&amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>可以看到，wide Box 的长度固定为 8, box_type 固定为 &amp;ldquo;wide&amp;rdquo;, 且没有 box_data。&lt;/p>
+&lt;p>wide box 的作用是为了预留出 8 个字节的空间，这个 8 字节空间可能用来干嘛呢？答案就在名字上 —— &amp;ldquo;wide&amp;rdquo;, 顾名思义，是用于扩展 Box 长度的。下面我们具体解释一下。&lt;/p>
+&lt;p>wide Box 后面紧挨着的 Box (命名为 Box B 吧), 一般是一个普通的 size 为 4 字节的
+Box。如果将来某一天，B 的长度不够，需要括容，则可以按照下面的步骤操作：&lt;/p>
+&lt;ol>
+&lt;li>将 wide Box 的 size 改成 1&lt;/li>
+&lt;li>将 wide Box 的 type 修改为 B 的 type&lt;/li>
+&lt;li>将 B 的 size 填充到 B 的头 8 个字节（即 size + type 部分）&lt;/li>
+&lt;/ol>
+&lt;p>这样，就完成了 Box B 从 4 字节长度到 8 字节长度的原地括容。这种方式的好处是，B
+的 data 部分的 offset 可以保持不变。&lt;/p>
+&lt;h2 id="full-box">Full Box&lt;/h2>
+&lt;p>有些 Box 为了进一步控制其 data 部分的结构和处理方式，会在 size/type 后面增加四个字节，其中一个字节为 version, 三个字节为 flags, 这类 Box 我们称为 Full Box。&lt;/p>
+&lt;p>Full Box 结构示意：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type&lt;/td>
+&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>1&lt;/td>
+&lt;td>version&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>3&lt;/td>
+&lt;td>flags&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>box_size - 12&lt;/td>
+&lt;td>box_data&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>version 和 flags 的含义根据 Box 类型的不同而不同。&lt;/p>
+&lt;p>除了增加了 version 和 flags 字段之外，Full Box 和普通 Box 一样，例如 size 为 1
+时也表示该 Box 是一个扩展尺寸的 Box。&lt;/p>
+&lt;p>扩展尺寸 Full Box 的结构示意：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>bytes&lt;/th>
+&lt;th>description&lt;/th>
+&lt;th>example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_size == 1&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>box_type&lt;/td>
+&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>8&lt;/td>
+&lt;td>extended_size&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>1&lt;/td>
+&lt;td>version&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>3&lt;/td>
+&lt;td>flags&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>extended_size - 20&lt;/td>
+&lt;td>box_data&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="在-heic-heif-文件中查找-exif-信息">在 HEIC/HEIF 文件中查找 Exif 信息&lt;/h2>
+&lt;p>本节介绍一下在 HEIC/HEIF 中定位 Exif 信息的过程，算是对上述知识点的一个综合应用吧。&lt;/p>
+&lt;p>由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来表达我们要找的某个 Box, 路径由 Box type 组成。&lt;/p>
+&lt;p>例如， &lt;code>/moov/trak/tkhd&lt;/code> 表示查找顶层 Box &lt;code>moov&lt;/code> 下面的第一个 &lt;code>trak&lt;/code> Box, 然后在该
+&lt;code>trak&lt;/code> 下面找到第一个 &lt;code>tkhd&lt;/code> Box。 &lt;code>moov&lt;/code>, &lt;code>trak&lt;/code>, &lt;code>tkhd&lt;/code> 都是 Box type。注意，因为在同一层级上可能存在多个相同类型的 Box, 所以这种表达方式只能匹配每个层级中同类型的第一个。&lt;/p>
+&lt;p>有了上述背景信息，我们可以按照下面这个步骤来查找 Exif 信息：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>查找 Exif &lt;code>infe&lt;/code>&lt;/p>
+&lt;p>&lt;code>infe&lt;/code> Box 的路径是 &lt;code>/meta/iinf/infe&lt;/code>, 但 &lt;code>infe&lt;/code> Box 不止一个， &lt;code>iinf&lt;/code> 下面挂着一系列的 &lt;code>infe&lt;/code>, 我们需要找的是 Exif &lt;code>infe&lt;/code>, 因此需要对 &lt;code>infe&lt;/code> list 进行遍历查找。&lt;/p>
+&lt;p>&lt;code>infe&lt;/code> 的解析过程有点复杂，这里不展开讨论，这里只提两个字段，一个是 &lt;code>item_id&lt;/code>, 另一个是 &lt;code>item_type&lt;/code> 。我们在遍历 &lt;code>infe&lt;/code> list 时, 需要找到 &lt;code>item_type == &amp;quot;Exif&amp;quot;&lt;/code> 的
+&lt;code>infe&lt;/code>, 然后记录其 &lt;code>item_id&lt;/code> 。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>解析 Exif 的偏移和长度信息&lt;/p>
+&lt;p>得到 Exif &lt;code>infe&lt;/code> 的 &lt;code>item_id&lt;/code> 之后，可以根据该信息在 &lt;code>iloc&lt;/code> Box 中获取到 Exif 的偏移和长度信息。其过程如下：&lt;/p>
+&lt;ol>
+&lt;li>找到 &lt;code>/meta/iloc&lt;/code> Box。&lt;/li>
+&lt;li>&lt;code>iloc&lt;/code> 的 data 部分包含一系列的 &lt;code>ItemLocation&lt;/code>, 需要根据 &lt;code>item_id&lt;/code> 找到 Exif 所对应的 &lt;code>ItemLocation&lt;/code> 。&lt;/li>
+&lt;li>解析 Exif &lt;code>ItemLocation&lt;/code>, 从中提取出 Exif 偏移和长度信息。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>根据 Exif 偏移和长度信息，获取 Exif 数据&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>当然，上述步骤是一个简化描述，实际情况会复杂很多，其中不少 Box 都涉及
+version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更多细节可参考 &lt;a href="https://github.com/mindeng/nom-exif/blob/5c4220ebbf4965a3a25e8031a9036f92b62d57b2/src/heif.rs#L50">nom-exif
+的源码实现&lt;/a>。&lt;/p>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://en.wikipedia.org/wiki/ISO_base_media_file_format">ISO base media file format - Wikipedia&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://developer.apple.com/documentation/quicktime-file-format">QuickTime File Format&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/nokiatech/heif">GitHub - nokiatech/heif&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/strukturag/libheif">GitHub - strukturag/libheif&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://gpac.github.io/mp4box.js/test/filereader.html">mp4box.js - file inspection&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>这里其实有一个特例，从 iOS 实况图片中导出的 .mov 视频文件，第一个 Box 不是 ftyp, 需要稍微注意一下。&amp;#160;&lt;a href="https://mincodes.com/posts/understanding-isobmff/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></content><category scheme="https://mincodes.com/tags/parser/" term="Parser" label="Parser"/><category scheme="https://mincodes.com/tags/multimedia/" term="Multimedia" label="Multimedia"/></entry><entry><title type="text">理解 Rust 异步编程</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-async-rust/"/><id>https://mincodes.com/posts/understanding-async-rust/</id><updated>2024-03-22T10:32:46+08:00</updated><published>2024-03-21T22:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 的异步特性很强大，相对也比较复杂。 为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向…</summary><content type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
 &lt;p>为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向对比等多个方面进行阐述。&lt;/p>
 &lt;h2 id="rust-异步的特点">Rust 异步的特点&lt;/h2>
 &lt;h3 id="future-是惰性的--inert">&lt;code>Future&lt;/code> 是惰性的 (&lt;em>inert&lt;/em>)&lt;/h3>
@@ -8883,7 +9230,7 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">adb&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">shell&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">am&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">start&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">BrowserActivity&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-03-22T03:20:02+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Emacs 中的变量 要解释本地变量，先解释一下 Emacs 里面变量的作用。 Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来 进行一些个性化的定制。 这里举几个例子加以…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-03-23T12:41:52+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Emacs 中的变量 要解释本地变量，先解释一下 Emacs 里面变量的作用。 Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来 进行一些个性化的定制。 这里举几个例子加以…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
 &lt;p>要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p>
 &lt;p>Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
 进行一些个性化的定制。&lt;/p>
@@ -9803,7 +10150,7 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://talks.golang.org/2012/concurrency.slide#1">Go Concurrency Patterns - slide&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://cs.opensource.google/go/x/website/+/master:_content/talks/2012/concurrency.slide">Go Concurrency Patterns - source code of slide&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-03-22T03:20:02+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。 这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉 起不同的 terminal，拉起的 terminal 路径和…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-03-23T12:41:52+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。 这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉 起不同的 terminal，拉起的 terminal 路径和…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
 &lt;p>这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
 起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -9871,7 +10218,7 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>Emacs 最大的魅力，也许就是可以按照自己的喜好，随心定制各种功能吧！另外
-各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-03-22T03:20:02+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 git throught ssh 1 git remote add origin ssh://user@my.git.svr/path/to/repo 通过 crontab 实现开机自启动 # 每次系统重启时，都会运行 ss.sh @reboot ss.sh xxd 十六进制（二进制） dump xxd 以十六进制形式 dump 文件内容 xxd…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-03-23T12:41:52+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 git throught ssh 1 git remote add origin ssh://user@my.git.svr/path/to/repo 通过 crontab 实现开机自启动 # 每次系统重启时，都会运行 ss.sh @reboot ss.sh xxd 十六进制（二进制） dump xxd 以十六进制形式 dump 文件内容 xxd…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
 &lt;h2 id="git-throught-ssh">git throught ssh&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
