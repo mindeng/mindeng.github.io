@@ -1,8 +1,8 @@
 +++
 title = "理解 ISO 基本媒体文件格式 (ISOBMFF)"
 date = 2024-03-23T20:12:00+08:00
-lastmod = 2024-03-23T20:41:00+08:00
-tags = ["parser", "multimedia"]
+lastmod = 2024-03-25T09:26:36+08:00
+tags = ["parser", "multimedia", "rust"]
 draft = false
 +++
 
@@ -196,8 +196,7 @@ version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更
 
 -   [ISO base media file format - Wikipedia](https://en.wikipedia.org/wiki/ISO_base_media_file_format)
 -   [QuickTime File Format](https://developer.apple.com/documentation/quicktime-file-format)
--   [GitHub - nokiatech/heif](https://github.com/nokiatech/heif)
--   [GitHub - strukturag/libheif](https://github.com/strukturag/libheif)
+-   [GitHub - mindeng/nom-exif](https://github.com/mindeng/nom-exif)
 -   [mp4box.js - file inspection](https://gpac.github.io/mp4box.js/test/filereader.html)
 
 [^fn:1]: 这里其实有一个特例，从 iOS 实况图片中导出的 .mov 视频文件，第一个 Box 不是 ftyp, 需要稍微注意一下。
