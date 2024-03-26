@@ -1,7 +1,7 @@
 +++
 title = "理解 ISO 基本媒体文件格式 (ISOBMFF)"
 date = 2024-03-23T20:12:00+08:00
-lastmod = 2024-03-25T09:26:36+08:00
+lastmod = 2024-03-26T11:42:33+08:00
 tags = ["parser", "multimedia", "rust"]
 draft = false
 +++
@@ -34,7 +34,12 @@ ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开
 ISOBMFF 文件由 Box (也叫 Atom) 组成，并且每个 Box 内部都可以任意嵌套，组成一棵
 Box 树。顶层 Box 可以有多个。
 
-一个正常的 ISOBMFF 文件，第一个 Box 一定是 type 为 "ftyp" 的 Box&nbsp;[^fn:1]。通过解析第一个 Box, 我们可以：
+一个典型的 ISOBMFF 文件结构如下图所示（以 MP4 文件为例）：
+
+{{< figure src="/ox-hugo/ISOBMFF-mp4.png" link="/ox-hugo/ISOBMFF-mp4.png" >}}
+
+如上图所示，一个正常的 ISOBMFF 文件，第一个顶层 Box 一般是 type 为 "ftyp" 的
+Box&nbsp;[^fn:1]。通过解析 ftyp Box, 我们可以：
 
 -   检测该文件是否是 ISOBMFF 格式。
 -   识别该文件的具体文件类型。例如是 QuickTime, 或者 HEIF 等。
@@ -68,7 +73,7 @@ Box 树。顶层 Box 可以有多个。
 有了上述 ftyp box_data 的结构，我们就可以很容易对 ftyp Box 进行解析，从而判断该文件是否是 ISOBMFF, 以及识别出具体的文件类型。
 
 
-## 几种特殊的 Box {#几种特殊的-box}
+## 几种特殊的 Box 类型 {#几种特殊的-box-类型}
 
 除了[基本的 Box 结构](#基本-box-结构)，还有几种比较特殊的 Box 类型：
 
@@ -163,10 +168,12 @@ version 和 flags 的含义根据 Box 类型的不同而不同。
 
 本节介绍一下在 HEIC/HEIF 中定位 Exif 信息的过程，算是对上述知识点的一个综合应用吧。
 
-由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来表达我们要找的某个 Box, 路径由 Box type 组成。
+先看一下一个典型的 HEIC/HEIF 文件的结构示意图：
 
-例如， `/moov/trak/tkhd` 表示查找顶层 Box `moov` 下面的第一个 `trak` Box, 然后在该
-`trak` 下面找到第一个 `tkhd` Box。 `moov`, `trak`, `tkhd` 都是 Box type。注意，因为在同一层级上可能存在多个相同类型的 Box, 所以这种表达方式只能匹配每个层级中同类型的第一个。
+{{< figure src="/ox-hugo/ISOBMFF-heic.png" link="/ox-hugo/ISOBMFF-heic.png" >}}
+
+由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来标识某个 Box, 路径名即为 Box type。例如，在上图中，我们可以用
+`/meta/iinf` 表示顶层 Box `meta` 下面的 `iinf` Box。
 
 有了上述背景信息，我们可以按照下面这个步骤来查找 Exif 信息：
 
