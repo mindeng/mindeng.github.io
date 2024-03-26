@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.124.1 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Mon, 25 Mar 2024 01:27:34 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.124.1 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Tue, 26 Mar 2024 03:44:08 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
 &lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
 ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
 &lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
@@ -49,7 +49,11 @@ ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开
 &lt;h2 id="isobmff-文件结构概述">ISOBMFF 文件结构概述&lt;/h2>
 &lt;p>ISOBMFF 文件由 Box (也叫 Atom) 组成，并且每个 Box 内部都可以任意嵌套，组成一棵
 Box 树。顶层 Box 可以有多个。&lt;/p>
-&lt;p>一个正常的 ISOBMFF 文件，第一个 Box 一定是 type 为 &amp;ldquo;ftyp&amp;rdquo; 的 Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-isobmff/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。通过解析第一个 Box, 我们可以：&lt;/p>
+&lt;p>一个典型的 ISOBMFF 文件结构如下图所示（以 MP4 文件为例）：&lt;/p>
+&lt;figure>&lt;a href="https://mincodes.com/ox-hugo/ISOBMFF-mp4.png">&lt;img src="https://mincodes.com/ox-hugo/ISOBMFF-mp4.png">&lt;/a>
+&lt;/figure>
+&lt;p>如上图所示，一个正常的 ISOBMFF 文件，第一个顶层 Box 一般是 type 为 &amp;ldquo;ftyp&amp;rdquo; 的
+Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-isobmff/#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。通过解析 ftyp Box, 我们可以：&lt;/p>
 &lt;ul>
 &lt;li>检测该文件是否是 ISOBMFF 格式。&lt;/li>
 &lt;li>识别该文件的具体文件类型。例如是 QuickTime, 或者 HEIF 等。&lt;/li>
@@ -113,7 +117,7 @@ Box 树。顶层 Box 可以有多个。&lt;/p>
 &lt;/tbody>
 &lt;/table>
 &lt;p>有了上述 ftyp box_data 的结构，我们就可以很容易对 ftyp Box 进行解析，从而判断该文件是否是 ISOBMFF, 以及识别出具体的文件类型。&lt;/p>
-&lt;h2 id="几种特殊的-box">几种特殊的 Box&lt;/h2>
+&lt;h2 id="几种特殊的-box-类型">几种特殊的 Box 类型&lt;/h2>
 &lt;p>除了&lt;a href="https://mincodes.com/posts/understanding-isobmff/#%E5%9F%BA%E6%9C%AC-box-%E7%BB%93%E6%9E%84">基本的 Box 结构&lt;/a>，还有几种比较特殊的 Box 类型：&lt;/p>
 &lt;ul>
 &lt;li>size 为 1 的 Box (扩展尺寸 Box)&lt;/li>
@@ -303,9 +307,11 @@ Box。如果将来某一天，B 的长度不够，需要括容，则可以按照
 &lt;/table>
 &lt;h2 id="在-heic-heif-文件中查找-exif-信息">在 HEIC/HEIF 文件中查找 Exif 信息&lt;/h2>
 &lt;p>本节介绍一下在 HEIC/HEIF 中定位 Exif 信息的过程，算是对上述知识点的一个综合应用吧。&lt;/p>
-&lt;p>由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来表达我们要找的某个 Box, 路径由 Box type 组成。&lt;/p>
-&lt;p>例如， &lt;code>/moov/trak/tkhd&lt;/code> 表示查找顶层 Box &lt;code>moov&lt;/code> 下面的第一个 &lt;code>trak&lt;/code> Box, 然后在该
-&lt;code>trak&lt;/code> 下面找到第一个 &lt;code>tkhd&lt;/code> Box。 &lt;code>moov&lt;/code>, &lt;code>trak&lt;/code>, &lt;code>tkhd&lt;/code> 都是 Box type。注意，因为在同一层级上可能存在多个相同类型的 Box, 所以这种表达方式只能匹配每个层级中同类型的第一个。&lt;/p>
+&lt;p>先看一下一个典型的 HEIC/HEIF 文件的结构示意图：&lt;/p>
+&lt;figure>&lt;a href="https://mincodes.com/ox-hugo/ISOBMFF-heic.png">&lt;img src="https://mincodes.com/ox-hugo/ISOBMFF-heic.png">&lt;/a>
+&lt;/figure>
+&lt;p>由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来标识某个 Box, 路径名即为 Box type。例如，在上图中，我们可以用
+&lt;code>/meta/iinf&lt;/code> 表示顶层 Box &lt;code>meta&lt;/code> 下面的 &lt;code>iinf&lt;/code> Box。&lt;/p>
 &lt;p>有了上述背景信息，我们可以按照下面这个步骤来查找 Exif 信息：&lt;/p>
 &lt;ol>
 &lt;li>
