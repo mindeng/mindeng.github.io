@@ -1,7 +1,7 @@
 +++
 title = "理解 ISO 基本媒体文件格式 (ISOBMFF)"
 date = 2024-03-23T20:12:00+08:00
-lastmod = 2024-03-26T11:42:33+08:00
+lastmod = 2024-03-26T11:46:35+08:00
 tags = ["parser", "multimedia", "rust"]
 draft = false
 +++
@@ -36,7 +36,7 @@ Box 树。顶层 Box 可以有多个。
 
 一个典型的 ISOBMFF 文件结构如下图所示（以 MP4 文件为例）：
 
-{{< figure src="/ox-hugo/ISOBMFF-mp4.png" link="/ox-hugo/ISOBMFF-mp4.png" >}}
+{{< figure src="/ox-hugo/isobmff-mp4.png" link="/ox-hugo/isobmff-mp4.png" >}}
 
 如上图所示，一个正常的 ISOBMFF 文件，第一个顶层 Box 一般是 type 为 "ftyp" 的
 Box&nbsp;[^fn:1]。通过解析 ftyp Box, 我们可以：
@@ -170,7 +170,7 @@ version 和 flags 的含义根据 Box 类型的不同而不同。
 
 先看一下一个典型的 HEIC/HEIF 文件的结构示意图：
 
-{{< figure src="/ox-hugo/ISOBMFF-heic.png" link="/ox-hugo/ISOBMFF-heic.png" >}}
+{{< figure src="/ox-hugo/isobmff-heic.png" link="/ox-hugo/isobmff-heic.png" >}}
 
 由于 Box 的嵌套特性，每个顶层 Box 都可以视为一棵 Box 树。因此，我们可以采用类似文件路径的方式，来标识某个 Box, 路径名即为 Box type。例如，在上图中，我们可以用
 `/meta/iinf` 表示顶层 Box `meta` 下面的 `iinf` Box。
