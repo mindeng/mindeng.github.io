@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.125.4 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Sun, 28 Apr 2024 10:00:38 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.125.4 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Sun, 28 Apr 2024 10:17:40 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
 &lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
 ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
 &lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
@@ -3972,7 +3972,7 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;figure>&lt;img src="https://mincodes.com/ox-hugo/2024-04-28_16-29-15_screenshot.png">
 &lt;/figure>
-&lt;p>上面两张图有助于理解梯度下降算法。&lt;/p>
+&lt;p>上面两张图有助于理解梯度下降算法（图片参考自 &lt;a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch/lecture/cEwJV/pytorch-linear-regression-training-slope-and-bias">PyTorch Linear Regression Training Slope and Bias&lt;/a> ）。&lt;/p>
 &lt;p>上图中的 \(l\)（损失函数）是均方误差（MSE），即：&lt;/p>
 &lt;p>\[
 l(w,b)=\frac{1}{N}\sum_{n=1}^N(y_n-(wx_n+b))^2
@@ -4049,7 +4049,12 @@ W_{new}=W_{old}−η⋅∇L(W_{old})
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>这些网络可以根据具体问题和数据类型进行选择和定制。&lt;/p></description><category domain="https://mincodes.com/tags/ai/">Ai</category><category domain="https://mincodes.com/tags/deep-learning/">Deep-Learning</category></item><item><title>设计模式：行为型 (Behavioral)</title><link>https://mincodes.com/posts/design-patterns-behavioral/</link><guid isPermaLink="true">https://mincodes.com/posts/design-patterns-behavioral/</guid><pubDate>Fri, 07 Jul 2023 18:36:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;p>这些网络可以根据具体问题和数据类型进行选择和定制。&lt;/p>
+&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch/home/week/1">Deep Neural Networks with PyTorch&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics — PyTorch Tutorials 2.3.0+cu121 documentation&lt;/a>&lt;/li>
+&lt;/ul></description><category domain="https://mincodes.com/tags/ai/">Ai</category><category domain="https://mincodes.com/tags/deep-learning/">Deep-Learning</category></item><item><title>设计模式：行为型 (Behavioral)</title><link>https://mincodes.com/posts/design-patterns-behavioral/</link><guid isPermaLink="true">https://mincodes.com/posts/design-patterns-behavioral/</guid><pubDate>Fri, 07 Jul 2023 18:36:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
 &lt;h2 id="责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/h2>
 &lt;h3 id="意图">意图&lt;/h3>
 &lt;blockquote>
