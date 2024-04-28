@@ -1,7 +1,7 @@
 +++
 title = "深度学习笔记：理论基础"
 date = 2023-12-07T16:34:00+08:00
-lastmod = 2024-04-28T17:58:50+08:00
+lastmod = 2024-04-28T18:16:19+08:00
 tags = ["ai", "deep-learning"]
 draft = false
 +++
@@ -235,7 +235,7 @@ draft = false
 
 {{< figure src="/ox-hugo/2024-04-28_16-29-15_screenshot.png" >}}
 
-上面两张图有助于理解梯度下降算法。
+上面两张图有助于理解梯度下降算法（图片参考自 [PyTorch Linear Regression Training Slope and Bias](https://www.coursera.org/learn/deep-neural-networks-with-pytorch/lecture/cEwJV/pytorch-linear-regression-training-slope-and-bias) ）。
 
 上图中的 \\(l\\)（损失函数）是均方误差（MSE），即：
 
@@ -307,3 +307,9 @@ W\_{new}=W\_{old}−η⋅∇L(W\_{old})
     -   依赖于“注意力机制”，能够同时处理整个序列，提高了处理长序列的能力。
 
 这些网络可以根据具体问题和数据类型进行选择和定制。
+
+
+## 参考资料 {#参考资料}
+
+-   [Deep Neural Networks with PyTorch](https://www.coursera.org/learn/deep-neural-networks-with-pytorch/home/week/1)
+-   [Learn the Basics — PyTorch Tutorials 2.3.0+cu121 documentation](https://pytorch.org/tutorials/beginner/basics/intro.html)
