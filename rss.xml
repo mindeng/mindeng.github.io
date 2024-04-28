@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.124.1 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Tue, 26 Mar 2024 03:47:11 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.125.4 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Sun, 28 Apr 2024 10:00:38 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
 &lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
 ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
 &lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
@@ -3643,7 +3643,7 @@ trait 的实现上。&lt;/p>
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/doomemacs/doomemacs">GitHub - doomemacs/doomemacs: An Emacs framework for the stubborn martian hacker&lt;/a>&lt;/li>
-&lt;/ul></description><category domain="https://mincodes.com/tags/emacs/">Emacs</category></item><item><title>深度学习笔记：理论基础</title><link>https://mincodes.com/posts/deep-learning-notes-theory-foundation/</link><guid isPermaLink="true">https://mincodes.com/posts/deep-learning-notes-theory-foundation/</guid><pubDate>Thu, 07 Dec 2023 08:34:00 +0000</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="深度学习和神经网络">深度学习和神经网络&lt;/h2>
+&lt;/ul></description><category domain="https://mincodes.com/tags/emacs/">Emacs</category></item><item><title>深度学习笔记：理论基础</title><link>https://mincodes.com/posts/deep-learning-notes-theory-foundation/</link><guid isPermaLink="true">https://mincodes.com/posts/deep-learning-notes-theory-foundation/</guid><pubDate>Thu, 07 Dec 2023 16:34:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="深度学习和神经网络">深度学习和神经网络&lt;/h2>
 &lt;p>深度学习是一种实现机器学习的技术，而神经网络是实现深度学习的基本结构。&lt;/p>
 &lt;p>具体来说：&lt;/p>
 &lt;ol>
@@ -3669,7 +3669,7 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>总的来说，神经网络是构成深度学习的基础，而深度学习则是利用这些神经网络来实现复杂任务的学习方法。通过构建和训练深层神经网络，深度学习模型能够学习从简单到复杂的数据模式，解决各种复杂的实际问题。&lt;/p>
+&lt;p>神经网络是构成深度学习的基础，而深度学习则是利用这些神经网络来实现复杂任务的学习方法。通过构建和训练深层神经网络，深度学习模型能够学习从简单到复杂的数据模式，解决各种复杂的实际问题。&lt;/p>
 &lt;h2 id="神经网络和模型">神经网络和模型&lt;/h2>
 &lt;p>神经网络和模型之间的关系可以这样来阐述：&lt;/p>
 &lt;ol>
@@ -3703,7 +3703,7 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>总的来说，神经网络在训练过程中自动更新其权重和参数，而训练完成后，这些优化过的权重和参数值构成了最终的模型。这个模型可以用来做预测或进一步分析。&lt;/p>
+&lt;p>综上，神经网络在训练过程中自动更新其权重和参数，而训练完成后，这些优化过的权重和参数值构成了最终的模型。这个模型可以用来做预测或进一步分析。&lt;/p>
 &lt;h2 id="神经网络的学习过程">神经网络的学习过程&lt;/h2>
 &lt;p>以图片分类问题为例：&lt;/p>
 &lt;ol>
@@ -3723,6 +3723,7 @@ trait 的实现上。&lt;/p>
 &lt;p>&lt;strong>进行预测&lt;/strong>:&lt;/p>
 &lt;ul>
 &lt;li>对于每张图片，网络根据当前的权重和偏差进行预测，尝试判断图片所属的类别。&lt;/li>
+&lt;li>在 PyTorch 中，相当于 &lt;code>forward()&lt;/code> 或者 &lt;code>model()&lt;/code> 所做的事情。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -3735,7 +3736,8 @@ trait 的实现上。&lt;/p>
 &lt;p>&lt;strong>调整权重和偏差&lt;/strong>:&lt;/p>
 &lt;ul>
 &lt;li>根据损失函数的结果，网络通过梯度下降（或其他优化算法）来调整其权重和偏差。这个调整是为了减少损失，即减少预测值和真实值之间的差异。&lt;/li>
-&lt;li>这个过程涉及到计算损失函数相对于每个权重和偏差的梯度，然后按这些梯度的方向来更新参数。&lt;/li>
+&lt;li>这个过程涉及到计算损失函数相对于每个权重和偏差的梯度，然后按这些梯度的反方向来更新参数。&lt;/li>
+&lt;li>在 PyTorch 中，相当于执行 &lt;code>optimizer.step()&lt;/code> 。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -3746,8 +3748,8 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>总的来说，这是一个迭代的学习过程，神经网络通过不断调整自身的参数，以最小化损失函数，进而提高对数据的理解和分类的准确性。&lt;/p>
-&lt;h3 id="批量学习batch-learning">批量学习（Batch Learning）&lt;/h3>
+&lt;p>综上，这是一个迭代的学习过程，神经网络通过不断调整自身的参数，以最小化损失函数，进而提高对数据的理解和分类的准确性。&lt;/p>
+&lt;h3 id="批量学习-batch-learning">批量学习（Batch Learning）&lt;/h3>
 &lt;p>神经网络在计算损失时通常采用的是分组（批处理）的方式。这种方法被称为批量学习（Batch Learning）。在这种方法中，网络不是对每张图片单独进行预测和计算损失，而是对一组图片（即一个批次）进行预测，然后计算这个批次的总损失。以下是这个过程的关键点：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -3774,12 +3776,12 @@ trait 的实现上。&lt;/p>
 &lt;li>
 &lt;p>&lt;strong>优势&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>批处理可以提高数据处理的效率，特别是在使用GPU等硬件加速时。&lt;/li>
+&lt;li>批处理可以提高数据处理的效率，特别是在使用 GPU 等硬件加速时。&lt;/li>
 &lt;li>它还有助于稳定学习过程，因为每次更新是基于多个样本的平均损失，而不是单个样本的损失。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>总的来说，通过批量处理方法，神经网络在每次更新参数之前，都会考虑一组数据的总体表现，而不是单个数据点。这种方法有助于提高训练的效率和稳定性。&lt;/p>
+&lt;p>通过批量处理方法，神经网络在每次更新参数之前，都会考虑一组数据的总体表现，而不是单个数据点。这种方法有助于提高训练的效率和稳定性。&lt;/p>
 &lt;h3 id="训练数据的顺序">训练数据的顺序&lt;/h3>
 &lt;p>在训练分类模型时，输入数据的随机化（即将不同类别的样本混合）通常是推荐的做法。以下是这种做法的原因：&lt;/p>
 &lt;ol>
@@ -3823,7 +3825,7 @@ trait 的实现上。&lt;/p>
 &lt;li>
 &lt;p>&lt;strong>激活函数&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>神经元的输出不仅仅是其输入的线性组合。输入的加权和通常会通过一个非线性函数，即激活函数，如Sigmoid、ReLU或tanh等。&lt;/li>
+&lt;li>神经元的输出不仅仅是其输入的线性组合。输入的加权和通常会通过一个非线性函数，即激活函数，如 Sigmoid、ReLU 或 tanh 等。&lt;/li>
 &lt;li>这个激活函数使得神经网络能够捕捉和学习复杂的非线性关系。&lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -3837,7 +3839,9 @@ trait 的实现上。&lt;/p>
 &lt;li>
 &lt;p>&lt;strong>数学表示&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>从数学的角度来看，一个神经元的操作可以表示为，其中 是权重， 是输入， 是偏差， 是激活函数。&lt;/li>
+&lt;li>从数学的角度来看，一个神经元的操作可以表示为
+\(f(w_1x_1+w_2x_2+&amp;hellip;+w_nx_n+b)\) ，其中 \(w_1,w_2,&amp;hellip;,w_n\) 是权重，
+\(x_1,x_2,&amp;hellip;,x_n\) 是输入， \(b\) 是偏差， \(f\) 是激活函数。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
@@ -3903,7 +3907,7 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;h3 id="导数偏导数和梯度">导数、偏导数和梯度&lt;/h3>
+&lt;h3 id="导数-偏导数和梯度">导数、偏导数和梯度&lt;/h3>
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>导数（Derivative）&lt;/strong>:&lt;/p>
@@ -3915,7 +3919,7 @@ trait 的实现上。&lt;/p>
 &lt;li>
 &lt;p>&lt;strong>偏导数（Partial Derivative）&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>偏导数是多变量函数对其中一个变量的导数，同时假设其他变量保持不变。例如，对于函数 f(x,y)，对 x 的偏导数 表示当 x 发生微小变化而 y 保持不变时，函数值的变化率。&lt;/li>
+&lt;li>偏导数是多变量函数对其中一个变量的导数，同时假设其他变量保持不变。例如，对于函数 f(x,y)，对 x 的偏导数 \(\frac{∂f}{∂x}\) 表示当 x 发生微小变化而 y 保持不变时，函数值的变化率。&lt;/li>
 &lt;li>偏导数描述的是在多维空间中，函数沿着某一个坐标轴的变化率。&lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -3936,7 +3940,7 @@ trait 的实现上。&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;p>在神经网络的背景下，考虑到网络参数通常是多维的（例如权重矩阵），因此更多地使用梯度而不是单一的导数。梯度指明了在参数空间中减少损失函数的最快路径。&lt;/p>
-&lt;h2 id="梯度下降gradient-descent">梯度下降（Gradient Descent）&lt;/h2>
+&lt;h2 id="梯度下降-gradient-descent">梯度下降（Gradient Descent）&lt;/h2>
 &lt;p>梯度下降算法是一种用于优化神经网络参数的方法，其目的是最小化损失函数。我们可以用一个比喻来理解梯度下降：&lt;/p>
 &lt;p>想象你在一个山的顶部，目标是到达山谷（这里的山谷代表损失函数的最小值）。但是，你的眼睛被蒙住了，看不到周围的环境。你只能通过感觉脚下的坡度（这就像是梯度）来判断哪个方向是下坡。&lt;/p>
 &lt;ol>
@@ -3960,36 +3964,45 @@ trait 的实现上。&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ol>
-&lt;p>总的来说，梯度下降是一个迭代过程，它通过不断地计算梯度并更新参数，来帮助神经网络找到损失函数的最小值。这个过程就像是在盲目中找到一条通往山谷的路径。&lt;/p>
-&lt;h3 id="成本表面和等值线图cost-surface--contour-plot">成本表面和等值线图（Cost Surface &amp;amp; Contour Plot）&lt;/h3>
+&lt;p>总体来讲，梯度下降是一个迭代过程，它通过不断地计算梯度并更新参数，来帮助神经网络找到损失函数的最小值。这个过程就像是在盲目中找到一条通往山谷的路径。&lt;/p>
+&lt;h3 id="成本表面和等值线图-cost-surface-and-contour-plot">成本表面和等值线图（Cost Surface &amp;amp; Contour Plot）&lt;/h3>
 &lt;ul>
 &lt;li>高度代表成本&lt;/li>
-&lt;li>其余两个轴分别为权重 &lt;strong>w&lt;/strong>eight、偏差 &lt;strong>b&lt;/strong>ias&lt;/li>
+&lt;li>其余两个轴分别为权重 &lt;strong>w&lt;/strong>​eight、偏差 &lt;strong>b&lt;/strong>​ias&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://mincodes.com/uploads/images/a800519e-361a-4f5f-964e-3ddf81927d6e/Untitled.png" alt="">&lt;/p>
-&lt;p>这两张图有助于理解梯度下降算法。&lt;/p>
-&lt;p>上图中的（损失函数）是均方误差（MSE），即： \(l(w,b)=\frac{1}{N}\sum_{n=1}^N(y_n-(wx_n+b))^2\)&lt;/p>
+&lt;figure>&lt;img src="https://mincodes.com/ox-hugo/2024-04-28_16-29-15_screenshot.png">
+&lt;/figure>
+&lt;p>上面两张图有助于理解梯度下降算法。&lt;/p>
+&lt;p>上图中的 \(l\)（损失函数）是均方误差（MSE），即：&lt;/p>
+&lt;p>\[
+l(w,b)=\frac{1}{N}\sum_{n=1}^N(y_n-(wx_n+b))^2
+\]&lt;/p>
 &lt;p>学习（训练）的目标，就是找到让这个函数的函数值最小的 w 和 b。&lt;/p>
-&lt;h3 id="如何根据损失函数的梯度学习率更新权重">如何根据损失函数的梯度、学习率更新权重&lt;/h3>
+&lt;h3 id="如何根据损失函数的梯度-学习率更新权重">如何根据损失函数的梯度、学习率更新权重&lt;/h3>
 &lt;p>在深度学习中，使用梯度来更新权重是优化模型的关键步骤，这通常在反向传播过程中进行。梯度本质上是损失函数相对于模型权重的偏导数，它指示了损失函数相对于每个权重增加或减少的方向和幅度。通过梯度，我们可以知道如何调整权重以减少损失。&lt;/p>
-&lt;p>权重更新的基本公式如下： \(W_{new}=W_{old}−η⋅∇L(W_{old})\)&lt;/p>
+&lt;p>权重更新的基本公式如下：&lt;/p>
+&lt;p>\[
+W_{new}=W_{old}−η⋅∇L(W_{old})
+\]&lt;/p>
 &lt;p>其中：&lt;/p>
 &lt;ul>
-&lt;li>是更新后的权重。&lt;/li>
-&lt;li>是当前的权重。&lt;/li>
+&lt;li>\(W_{new}\) 是更新后的权重。&lt;/li>
+&lt;li>\(W_{old}\) 是当前的权重。&lt;/li>
 &lt;li>η 是学习率。&lt;/li>
-&lt;li>是损失函数相对于当前权重的梯度。&lt;/li>
+&lt;li>\(∇L(W_{old})\) 是损失函数相对于当前权重的梯度。&lt;/li>
 &lt;/ul>
 &lt;p>梯度的作用可以这样理解：&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>方向&lt;/strong>：梯度的方向指向损失函数增长最快的方向。在优化过程中，我们希望减少损失，因此需要向梯度的相反方向更新权重。&lt;/li>
-&lt;li>&lt;strong>幅度&lt;/strong>：梯度的幅度（大小）告诉我们在该方向上损失函数变化的速度。如果梯度很大，意味着在那个方向上损失函数变化很快。&lt;/li>
-&lt;/ul>
+&lt;dl>
+&lt;dt>方向&lt;/dt>
+&lt;dd>梯度的方向指向损失函数增长最快的方向。在优化过程中，我们希望减少损失，因此需要向梯度的相反方向更新权重。&lt;/dd>
+&lt;dt>幅度&lt;/dt>
+&lt;dd>梯度的幅度（大小）告诉我们在该方向上损失函数变化的速度。如果梯度很大，意味着在那个方向上损失函数变化很快。&lt;/dd>
+&lt;/dl>
 &lt;p>学习率的作用：&lt;/p>
 &lt;ul>
 &lt;li>学习率决定了我们在梯度指示的方向上移动的步长。较高的学习率意味着更大的步长，可以加快学习过程，但也可能导致超过最优点，甚至导致模型不稳定。相反，较低的学习率意味着更小的步长，学习过程更稳定，但训练速度会减慢，且可能陷入局部最小值。&lt;/li>
 &lt;/ul>
-&lt;p>因此，选择合适的学习率是非常重要的。太高或太低的学习率都可能导致训练效果不佳。在实践中，通常需要通过实验来确定最佳的学习率。此外，也有一些自适应学习率的优化算法（如Adam、RMSprop等），它们可以在训练过程中自动调整学习率，以提高训练的效果和稳定性。&lt;/p>
+&lt;p>因此，选择合适的学习率是非常重要的。太高或太低的学习率都可能导致训练效果不佳。在实践中，通常需要通过实验来确定最佳的学习率。此外，也有一些自适应学习率的优化算法（如 Adam、RMSprop 等），它们可以在训练过程中自动调整学习率，以提高训练的效果和稳定性。&lt;/p>
 &lt;h2 id="常见的神经网络类型">常见的神经网络类型&lt;/h2>
 &lt;p>常见的神经网络类型：&lt;/p>
 &lt;ol>
@@ -4003,7 +4016,7 @@ trait 的实现上。&lt;/p>
 &lt;li>
 &lt;p>&lt;strong>卷积神经网络（Convolutional Neural Networks, CNNs）&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>特别适用于处理图像数据。通过卷积层，CNN能够捕捉图像中的局部特征。&lt;/li>
+&lt;li>特别适用于处理图像数据。通过卷积层，CNN 能够捕捉图像中的局部特征。&lt;/li>
 &lt;li>广泛应用于图像分类、物体检测、图像分割等任务。&lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -4011,20 +4024,20 @@ trait 的实现上。&lt;/p>
 &lt;p>&lt;strong>循环神经网络（Recurrent Neural Networks, RNNs）&lt;/strong>:&lt;/p>
 &lt;ul>
 &lt;li>设计用来处理序列数据，如时间序列数据或自然语言。&lt;/li>
-&lt;li>RNN能够处理输入数据的时间动态特性，适用于语音识别、语言建模等任务。&lt;/li>
+&lt;li>RNN 能够处理输入数据的时间动态特性，适用于语音识别、语言建模等任务。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>长短时记忆网络（Long Short-Term Memory, LSTM）&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>LSTM是RNN的一种变体，它能够学习长期依赖关系，解决了普通RNN难以捕捉长期依赖的问题。&lt;/li>
+&lt;li>LSTM 是 RNN 的一种变体，它能够学习长期依赖关系，解决了普通 RNN 难以捕捉长期依赖的问题。&lt;/li>
 &lt;li>常用于复杂的序列任务，如机器翻译、文本生成等。&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>生成对抗网络（Generative Adversarial Networks, GANs）&lt;/strong>:&lt;/p>
 &lt;ul>
-&lt;li>由两部分组成：生成器和鉴别器。GANs能够生成新的、与真实数据类似的数据。&lt;/li>
+&lt;li>由两部分组成：生成器和鉴别器。GANs 能够生成新的、与真实数据类似的数据。&lt;/li>
 &lt;li>应用于图像生成、图像风格转换等领域。&lt;/li>
 &lt;/ul>
 &lt;/li>
