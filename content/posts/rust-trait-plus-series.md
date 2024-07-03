@@ -1,6 +1,7 @@
 +++
 title = "Rust Trait+ 系列"
-lastmod = 2024-07-03T17:52:03+08:00
+lastmod = 2024-07-03T18:11:30+08:00
+tags = ["rust"]
 draft = false
 +++
 
