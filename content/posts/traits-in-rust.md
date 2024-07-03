@@ -1,113 +1,86 @@
 +++
 title = "Rust 中的特征 (Trait)"
 date = 2023-12-19T20:46:00+08:00
-lastmod = 2024-01-01T06:17:40+08:00
+lastmod = 2024-07-03T17:21:49+08:00
 tags = ["rust"]
 draft = false
 +++
 
-## 概述 {#概述}
+## Trait 初探 {#trait-初探}
 
-简单来说， _trait_ 是 Rust 中用来定义共享行为的抽象机制，和 Java 的 interface、
-Swift 的 protocol 有点类似：
+_trait_ 是 Rust 中用来定义共享行为的抽象机制，和 Java 的 _interface_, Swift 的
+_protocol_ 等接口抽象机制有点类似。
 
+定义一个 trait 很简单：
+
+<a id="code-snippet--callable"></a>
 ```rust
-pub trait Summary {
-    fn summarize(&self) -> String;
+trait Callable {
+    fn call(&self);
 }
 ```
 
-单纯从提供的功能和灵活性角度来看，相比之下，trait 会比 Java 的 interface 更灵活和强大一些，可能和 Swift 的 protocol 更接近一点。例如：
-
--   trait 和 protocol 都支持关联类型，而 interface 不支持。
--   Rust/Swift 允许为外部类型增加 trait/protocol 实现, 可以很方便的为外部类型扩展一些额外的方法，并满足协议的要求。而 Java 并不支持这点。
-    -   Java 可以通过[装饰器 (Decorator)](https://mincodes.com/posts/design-patterns-structural/#%E8%A3%85%E9%A5%B0%E5%99%A8--decorator)模式或者继承来实现类似的能力。
-    -   Rust 在该功能上有额外限制（[孤儿规则](#孤儿规则--orphan-rule)），而 Swift 似乎并没有，这也导致 Swift
-        中类型的行为一致性更难得到保证。
-
-Trait 是 Rust 中比较有意思的语法特性，在标准库、第三方库中广泛使用（例如
-[Derivable Traits](#可派生的特征--derivable-traits) 中所列的）。结合其语法特性及在库中的广泛性，让 trait 具有了非常强的灵活性和实用价值，因此值得我们深入探究。
-
-
-## Trait 的语法特点 {#trait-的语法特点}
-
-
-### 孤儿规则 (Orphan Rule) {#孤儿规则--orphan-rule}
-
-为类型实现 trait 有一个限制：该类型和要实现的 trait 至少要有一个是在当前 crate
-中定义的（crate 是 Rust 中的最小编译单元，参考[Packages and Crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html)）。
-
-该限制是一致性 (_coherence_) 属性的一部分，叫做孤儿规则 (_orphan rule_)。该规则确保其他人的代码不会破坏你的代码，反之亦然。
-
-例如，你无法为标准库中的 `IpAddr` 类型增加 `Iterator` trait 的实现（因为这二者都定义在外部 crate 中）：
+为 Rust 的 `str` 类型实现该 trait (**impl**​ements `Callable` **for** `str`):
 
 ```rust
-use std::net::IpAddr;
-
-// 编译失败❗
-impl Iterator for IpAddr {
-    type Item = u8;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        return None
-    }
-
-}
-```
-
-编译器报告的错误如下：
-
-```text
-error[E0117]: only traits defined in the current crate can be implemented for types defined outside of the crate
- --> src/main.rs:5:1
-  |
-5 | impl Iterator for IpAddr {
-  | ^^^^^^^^^^^^^^^^^^------
-  | |                 |
-  | |                 `IpAddr` is not defined in the current crate
-  | impl doesn't use only types from inside the current crate
-  |
-  = note: define and implement a trait or new type instead
-
-For more information about this error, try `rustc --explain E0117`.
-error: could not compile `cargo0Pk8IQ` (bin "cargo0Pk8IQ") due to previous error
-```
-
-错误信息十分详尽，不仅解释了错误原因、指出了错误位置，还提供了解决方案和相关文档说明。
-
-下面我们演示一下为标准库中的类型实现一个自己定义的 trait:
-
-```rust
-use std::net::{IpAddr, Ipv4Addr};
-
-pub trait Openable {
-    type Connection;
-
-    fn open(&self) -> Option<Self::Connection>;
-}
-
-impl Openable for IpAddr {
-    type Connection = String;
-
-    fn open(&self) -> Option<Self::Connection> {
-        Some(String::from("I'm connected!"))
+impl Callable for str {
+    fn call(&self) {
+        println!("call on {self}");
     }
 }
 
-fn main() {
-    if let Ok(localhost) = "127.0.0.1".parse::<IpAddr>() {
-        if let Some(conn) = localhost.open() {
-            println!("{conn}");
-        }
-    }
-}
+"job-1".call();
 ```
 
 ```text
-I'm connected!
+call on job-1
 ```
 
-上面是程序运行的结果。
+上面的代码为基本类型 `str` 扩展了一个 `call` 方法，语法上还是挺简洁、直观的。
+
+这种为现有类型扩展 trait 实现的能力，除了可以应用在 Rust 的基本类型上，也可以应用在标准库、外部第三方库以及自定义的各种类型上，前提只要不违反 [孤儿规则 (Orphan
+Rule)](#孤儿规则--orphan-rule) 即可。
+
+Java 不支持这种能力，Kotlin 通过 _extension function_ 可以为现有类型扩展新方法（仅限于增加方法，不支持增加新的 interface 实现），而 Swift 是支持的。
+
+当然，trait 的能力远不止于此，远比 interface/protocol 强大和复杂得多。下面我们来逐一探析 trait 的这些强大功能。
+
+
+## Trait 的基本用法 {#trait-的基本用法}
+
+
+### Rust 中的操作符定义 {#rust-中的操作符定义}
+
+前面介绍了如何为外部类型扩展方法，当然也可以反过来，为自定义类型实现标准库中定义的 trait, 或者实现外部库中定义的 trait。
+
+为自定义类型 `Offset` 扩展操作符 `+` 的实现（附带 += ​​实现）：
+
+```rust
+use std::ops::AddAssign;
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+struct Offset {
+    x: i32,
+    y: i32,
+}
+
+impl AddAssign<i32> for Offset {
+    fn add_assign(&mut self, v: i32) {
+        *self = Self {
+            x: self.x + v,
+            y: self.y + v,
+        };
+    }
+}
+
+let mut offset = Offset { x: 1, y: 0 };
+offset += 2;
+assert_eq!(offset, Offset { x: 3, y: 2 });
+```
+
+> 🌟 _Tips_
+>
+> 上述代码说明了一个事实，即 Rust 中的操作符也是通过 trait 来定义的。因此，我们可以轻松通过实现 trait 来为自定义类型增加操作符的支持。用法也是标准的 trait 用法，并没有引入新的『操作符重载』的概念。
 
 
 ### Trait 中的默认实现 {#trait-中的默认实现}
@@ -176,7 +149,7 @@ where
 ```
 
 
-#### 使用特征约束有条件地实现方法 {#使用特征约束有条件地实现方法}
+#### 使用特征约束有条件地实现方法 (Conditional APIs) {#使用特征约束有条件地实现方法--conditional-apis}
 
 这个功能很有意思，可以为泛型的特定类型（实现了某些 trait 的类型）增加额外的方法定义：
 
@@ -267,12 +240,155 @@ fn returns_summarizable() -> impl Summary {
 由于泛型类型是编译时确定的，因此上述这种方式有个限制，就是不能在函数中的分支代码里，分别返回不同的具体类型。
 
 如果需要支持返回多个不同的实现了某个 trait 的具体类型，需要使用 _trait object_
-(`Box<dyn T>`, 参考
-[Using Trait Objects
-That Allow for Values of Different Types](https://doc.rust-lang.org/book/ch17-02-trait-objects.html)) 。
+(`Box<dyn Trait>` 或 `&dyn Trait`, 参考 [Using Trait Objects That Allow for Values
+of Different Types](https://doc.rust-lang.org/book/ch17-02-trait-objects.html))。
 
 
-## 可派生的特征 (Derivable Traits) {#可派生的特征--derivable-traits}
+### 孤儿规则 (Orphan Rule) {#孤儿规则--orphan-rule}
+
+为类型实现 trait 有一个限制：该类型和要实现的 trait 至少要有一个是在当前 crate
+中定义的（crate 是 Rust 中的最小编译单元，参考 [Packages and Crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html)）。
+
+该限制是一致性 (_coherence_) 属性的一部分，叫做孤儿规则 (_orphan rule_)。该规则确保其他人的代码不会破坏你的代码，反之亦然。
+
+例如，你无法为标准库中的 `IpAddr` 类型增加 `Iterator` trait 的实现（因为这二者都定义在外部 crate 中）：
+
+```rust
+use std::net::IpAddr;
+
+// 编译失败❗
+impl Iterator for IpAddr {
+    type Item = u8;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        return None
+    }
+}
+```
+
+编译器报告的错误如下：
+
+```text
+error[E0117]: only traits defined in the current crate can be implemented for types defined outside of the crate
+ --> src/main.rs:5:1
+  |
+5 | impl Iterator for IpAddr {
+  | ^^^^^^^^^^^^^^^^^^------
+  | |                 |
+  | |                 `IpAddr` is not defined in the current crate
+  | impl doesn't use only types from inside the current crate
+  |
+  = note: define and implement a trait or new type instead
+
+For more information about this error, try `rustc --explain E0117`.
+error: could not compile `cargo0Pk8IQ` (bin "cargo0Pk8IQ") due to previous error
+```
+
+错误信息十分详尽，不仅解释了错误原因、指出了错误位置，还提供了解决方案和相关文档说明。
+
+
+## 静态分派 &amp; 动态分派 (Static dispatch &amp; Dynamic dispatch) {#静态分派-and-动态分派--static-dispatch-and-dynamic-dispatch}
+
+Trait 支持两种分派方式，一种是静态的，即在编译期确定的分派方式；第二种是动态的，即在运行时确定如何分派。
+
+
+### 静态派发的特点 {#静态派发的特点}
+
+上面提到 trait 在泛型中的用法，都是编译期确定的，因此都属于静态派发。这种派发方式的特点如下：
+
+-   编译期确定，没有运行时开销，无性能损失，即所谓的“零成本抽象” (_Zero-cost
+    Abstraction_)。
+-   针对每个具体类型，都会在编译期产生一个“副本”，这会在一定程度增加二进制文件尺寸，有点“以空间换时间”的意思。
+
+    当然，即使不使用 trait + 泛型特性，自己手写代码也并不会比这个更小，这就是
+    Stroustrup 所说的 _"What you do use, you couldn't hand code any better"_ 的意思。
+-   支持函数调用的内联优化 (inline)。
+
+
+### 动态派发的动机、用法 {#动态派发的动机-用法}
+
+当涉及 _trait object_ (`&dyn Trait` 或 `Box<dyn Trait>`, 其中 `Trait` 表示某个 trait）时，就会出现动态分派。
+
+动态派发的动机主要是希望实现面向对象语言中的多态功能，类似 C++ 的虚函数。
+
+例如，假设我们要实现一个任务队列，队列中的任务希望足够抽象和通用，因此希望通过一个 trait 来进行约束，类似这样：
+
+<a id="code-snippet--task"></a>
+```rust
+trait Task {
+    fn do_job(&self);
+}
+
+struct TaskQueue {
+    tasks: Vec<Box<dyn Task>>,
+}
+```
+
+上述案例中，我们无法在编译期确定 `Vec` 中存储的具体类型，因此，静态分派显然已经无法满足我们的需求，只能使用 `Box<dyn Task>` 这类对象，从而引入动态分派。
+
+有了这个定义，我们可以用一种统一的方式，对 tasks 中的任务进行操作，而无需关心
+task 的具体类型：
+
+```rust
+impl TaskQueue {
+    fn new() -> TaskQueue {
+        TaskQueue {
+            tasks: Vec::new(),
+        }
+    }
+
+    fn add(&mut self, t: Box<dyn Task>) {
+        self.tasks.push(t)
+    }
+
+    fn process(&self) {
+        self.tasks.iter().for_each(|t| t.do_job());
+    }
+}
+
+impl Task for &str {
+    fn do_job(&self) {
+        println!("do job: {self}");
+    }
+}
+
+impl Task for i32 {
+    fn do_job(&self) {
+        println!("do job: {self}");
+    }
+}
+
+let mut q = TaskQueue::new();
+q.add(Box::new("task 1"));
+q.add(Box::new(2));
+q.process();
+```
+
+```text
+do job: task 1
+do job: 2
+```
+
+
+### 动态派发的实现原理和特点 {#动态派发的实现原理和特点}
+
+trait 的动态派发的实现也和 C++ 的虚函数类似，借用了虚函数表 (vtable) 来进行动态派发：
+
+-   trait object 存储了指向实现了该 trait 的类型实例的指针
+-   trait object 存储了在该类型上查找 trait 方法的表（虚函数表）
+
+有了以上两个信息，trait object 就可以在运行时确定具体应该调用哪个函数了。
+
+了解了动态派发的实现原理，其特点也很明显了：
+
+-   有额外的运行时开销（查表开销）
+-   不会造成编译膨胀
+-   不支持函数调用的内联优化 (inline)
+
+Trait 的对两种派发方式的支持，也体现了 _pay as you go_ 的设计原则：当你需要更高级的抽象能力时，你可以使用动态派发；当你不需要时，trait 的抽象会在编译期被还原成具体类型，无需付出任何额外的代价。
+
+
+## 可派生的 Trait (Derivable Traits) {#可派生的-trait--derivable-traits}
 
 _Derivable trait_ 指可以通过编译器自动实现的 trait。对于某些标准库中定义的 trait，
 Rust 允许你在自定义类型上通过简单地添加一个属性（attribute）来自动实现这些 trait，而不需要手动编写实现代码。这个过程被称为 "派生"（deriving）。
@@ -449,7 +565,7 @@ dbg!(man1.partial_cmp(&dog1));
 
 -   调用 slice 的 `to_vec` 方法要求其存储的值实现 `Clone` trait。
 
-在“[Trait 和生命周期](#trait-和所有权--ownership)”中我们会再次提到 `Copy` trait。
+在“[Trait 和生命周期](#trait-plus-所有权--ownership)”中我们会再次提到 `Copy` trait。
 
 
 ### `Hash` {#hash}
@@ -497,12 +613,17 @@ dbg!(r1);
 ```
 
 
-## Trait 和类型转换 {#trait-和类型转换}
+## Trait+ 系列 {#trait-plus-系列}
+
+这个章节介绍了一系列 Rust 中利用 trait 实现的通用能力，也是 Rust 编程中常见的用法和概念，我称之为“Trait+ 系列”。
 
 
-### `From` 和 `Into` {#from-和-into}
+### Trait + 类型转换 {#trait-plus-类型转换}
 
-`From` 和 `Int` trait 规定了一种惯用的类型转换方式。实现了 `From`, 就可以“免费”获得
+
+#### `From` 和 `Into` {#from-和-into}
+
+`From` 和 `Into` trait 规定了一种惯用的类型转换方式。实现了 `From`, 就可以“免费”获得
 `Into`:
 
 ```rust
@@ -528,8 +649,13 @@ fn main() {
 }
 ```
 
+```text
+My number is Number { value: 30 }
+My number is Number { value: 40 }
+```
 
-### `TryFrom` 和 `TryInto` {#tryfrom-和-tryinto}
+
+#### `TryFrom` 和 `TryInto` {#tryfrom-和-tryinto}
 
 和 `From`, `Into` 类似，只不过返回的是 `Result`:
 
@@ -568,57 +694,59 @@ fn main() {
 ```
 
 
-### String 转换 {#string-转换}
+#### String 转换 {#string-转换}
 
+<!--list-separator-->
 
-#### 转换成 String: `fmt::Display` {#转换成-string-fmt-display}
+-  转换成 String: `fmt::Display`
 
-一个类型要转换成 `String`, 一般会实现 `fmt::Display` trait, 而不是 `ToString` (参考“[一揽子实现](#一揽子实现--blanket-implementations)”中的说明):
+    一个类型要转换成 `String`, 一般会实现 `fmt::Display` trait, 而不是 `ToString` (参考“[一揽子实现](#一揽子实现--blanket-implementations)”中的说明):
 
-```rust
-use std::fmt;
+    ```rust
+    use std::fmt;
 
-struct Circle {
-    radius: i32
-}
-
-impl fmt::Display for Circle {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Circle of radius {}", self.radius)
+    struct Circle {
+        radius: i32
     }
-}
 
-fn main() {
-    let circle = Circle { radius: 6 };
-    println!("{}", circle.to_string());
-}
-```
+    impl fmt::Display for Circle {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            write!(f, "Circle of radius {}", self.radius)
+        }
+    }
 
-```text
-Circle of radius 6
-```
+    fn main() {
+        let circle = Circle { radius: 6 };
+        println!("{}", circle.to_string());
+    }
+    ```
+
+    ```text
+    Circle of radius 6
+    ```
+
+<!--list-separator-->
+
+-  解析 String: `FromStr`
+
+    一个类型要支持从一个字符串中解析出来，需要实现 `FromStr` trait:
+
+    ```rust
+    fn main() {
+        let parsed: i32 = "5".parse().unwrap();
+        let turbo_parsed = "10".parse::<i32>().unwrap();
+
+        let sum = parsed + turbo_parsed;
+        println!("Sum: {:?}", sum);
+    }
+    ```
+
+    ```text
+    Sum: 15
+    ```
 
 
-#### 解析 String: `FromStr` {#解析-string-fromstr}
-
-一个类型要支持从一个字符串中解析出来，需要实现 `FromStr` trait:
-
-```rust
-fn main() {
-    let parsed: i32 = "5".parse().unwrap();
-    let turbo_parsed = "10".parse::<i32>().unwrap();
-
-    let sum = parsed + turbo_parsed;
-    println!("Sum: {:?}", sum);
-}
-```
-
-```text
-Sum: 15
-```
-
-
-### `Box<dyn Trait>` 的 `downcast` {#box-dyn-trait-的-downcast}
+#### `Box<dyn Trait>` 的 `downcast` {#box-dyn-trait-的-downcast}
 
 我有一个 trait 的包装类型 `Box<dyn Trait>` 的变量，如何获得其底层的具体类型的引用呢？即如何获得该变量对应的实现该 trait 的 struct 的引用呢？
 
@@ -688,7 +816,7 @@ count: 1
 类似地， `&dyn Trait` 也可以通过上述方法来获取其底层具体的 struct 的引用。
 
 
-## Trait 和闭包 {#trait-和闭包}
+### Trait + 闭包 (_Closure_) {#trait-plus-闭包--closure}
 
 根据闭包 (closure) 处理参数的方式，闭包会自动实现以下三个 `Fn` traits 中的一个或多个：
 
@@ -706,7 +834,7 @@ count: 1
 的要求最严格。
 
 
-### `FnOnce` 的例子 {#fnonce-的例子}
+#### `FnOnce` 的例子 {#fnonce-的例子}
 
 `Option<T>.unwrap_or_else` 方法中的闭包参数就声明了 `FnOnce` 约束，意味着该方法可以接受任意类型的闭包：
 
@@ -730,7 +858,7 @@ impl<T> Option<T> {
 > `None` 时，我们可以获得一个新的空 vector。
 
 
-### `FnMut` 的例子 {#fnmut-的例子}
+#### `FnMut` 的例子 {#fnmut-的例子}
 
 下面的示例演示了通过 `sort_by_key` 方法给数组排序。该方法接受 `FnMut` 闭包 (或者 `Fn`
 闭包), 原因是它会调用该闭包多次，每个 item 一次。
@@ -863,7 +991,7 @@ fn main() {
 ```
 
 
-## Trait 和所有权 (Ownership) {#trait-和所有权--ownership}
+### Trait + 所有权 (_Ownership_) {#trait-plus-所有权--ownership}
 
 Rust 在处理 _ownership_ 规则时，会根据类型是否实现了 `Copy` trait 来区别对待。具体而言：
 
@@ -875,7 +1003,7 @@ Rust 在处理 _ownership_ 规则时，会根据类型是否实现了 `Copy` tra
 > 💡 如果一个类型（或者该类型的一部分）实现了 `Drop` trait, 则不能实现 `Copy` trait。这二者是互斥的，如果同时存在，会导致编译错误。
 
 
-### `Copy` trait {#copy-trait}
+#### `Copy` trait {#copy-trait}
 
 存储在 stack 上的数据拷贝速度很快，而且深拷贝和浅拷贝没有任何区别，因此可以直接采用 copy 的方式处理。Rust 通过 `Copy` trait 来标识这类数据。
 
@@ -886,7 +1014,7 @@ Rust 在处理 _ownership_ 规则时，会根据类型是否实现了 `Copy` tra
     -   例如 `(i32, i32)` 实现了 `Copy`, 但 `(i32, String)` 则未实现。
 
 
-### `Drop` trait {#drop-trait}
+#### `Drop` trait {#drop-trait}
 
 存储在 heap 上的数据一般 size 不确定，且拷贝成本较高，因此采用 _move_ 的方式处理。
 
@@ -955,109 +1083,115 @@ Just exited block A
 end of the main function
 ```
 
+<!--list-separator-->
 
-#### String 类型 {#string-类型}
+-  String 类型
 
-执行 `let s2 = s1;` 时发生的事情（参考下方的 String 内存布局图）：
+    执行 `let s2 = s1;` 时发生的事情（参考下方的 String 内存布局图）：
 
--   ptr, len, capacity 都是存储在 stack 上的，因此会直接拷贝。
--   ptr 指向的字符串数据存储在 heap 上，不会发生拷贝，而是被 _move_ 了。
+    -   ptr, len, capacity 都是存储在 stack 上的，因此会直接拷贝。
+    -   ptr 指向的字符串数据存储在 heap 上，不会发生拷贝，而是被 _move_ 了。
 
-`String s1` 的内存布局：
+    `String s1` 的内存布局：
 
-{{< figure src="/ox-hugo/2023-07-16_07-16-48_trpl04-01.svg" >}}
+    {{< figure src="/ox-hugo/2023-07-16_07-16-48_trpl04-01.svg" >}}
 
 
-### 隐含的设计上的选择 {#隐含的设计上的选择}
+#### 隐含的设计上的选择 {#隐含的设计上的选择}
 
+> 🌟 _Tips_
+>
 > Rust 永远不会为你的数据自动创建“深拷贝”。
 >
 > 因此，任何自动发生的拷贝都可以认为是成本较低的（就运行时性能而言）。
 
 
-## Trait 和解引用 (Deref) {#trait-和解引用--deref}
+### Trait + 解引用 (_Deref_) {#trait-plus-解引用--deref}
 
 通过实现 `Deref` trait, 可以自定义类型的解引用操作符 (_dereference operator_) `*` 的行为。
 
 不仅如此，Rust 还支持隐式 Deref 强制转换 (_Deref Coercion_)。下面重点解释一下这一概念。
 
+<!--list-separator-->
 
-#### 隐式 Deref 强制转换的特点 {#隐式-deref-强制转换的特点}
+-  隐式 Deref 强制转换的特点
 
--   Deref coercion 作用在函数和方法的参数上，可以自动将一种类型的引用转换为另一种类型的引用。要求被转换的类型实现了对应的 `Deref` trait。
--   Deref coercion 可以按需连续转换多次，以获得参数所需类型的引用。
--   Deref coercion 发生在编译期，因此没有额外的运行时开销（符合零成本抽象原则 _Zero
-    Cost Abstractions_ ）。
+    -   Deref coercion 作用在函数和方法的参数上，可以自动将一种类型的引用转换为另一种类型的引用。要求被转换的类型实现了对应的 `Deref` trait。
+    -   Deref coercion 可以按需连续转换多次，以获得参数所需类型的引用。
+    -   Deref coercion 发生在编译期，因此没有额外的运行时开销（符合零成本抽象原则 _Zero
+        Cost Abstractions_ ）。
 
+<!--list-separator-->
 
-#### 隐式 Deref 强制转换示例 {#隐式-deref-强制转换示例}
+-  隐式 Deref 强制转换示例
 
-```rust
-use std::ops::Deref;
+    ```rust
+    use std::ops::Deref;
 
-struct MyBox<T>(T);
+    struct MyBox<T>(T);
 
-impl<T> MyBox<T> {
-    fn new(x: T) -> MyBox<T> {
-        MyBox(x)
+    impl<T> MyBox<T> {
+        fn new(x: T) -> MyBox<T> {
+            MyBox(x)
+        }
     }
-}
 
-impl<T> Deref for MyBox<T> {
-    type Target = T;
+    impl<T> Deref for MyBox<T> {
+        type Target = T;
 
-    fn deref(&self) -> &Self::Target {
-        &self.0
+        fn deref(&self) -> &Self::Target {
+            &self.0
+        }
     }
-}
 
-fn need_a_ref(x: &i32) {
-    println!("{}", x);
-}
+    fn need_a_ref(x: &i32) {
+        println!("{}", x);
+    }
 
-fn hello(name: &str) {
-    println!("Hello, {name}!");
-}
+    fn hello(name: &str) {
+        println!("Hello, {name}!");
+    }
 
-fn main() {
-    let x = 5;
-    let y = MyBox::new(x);
-    assert_eq!(5, *y);
+    fn main() {
+        let x = 5;
+        let y = MyBox::new(x);
+        assert_eq!(5, *y);
 
-    // 这里传参时发生了 Deref coercion, 将 &MyBox<i32> 自动转换成 &i32
-    need_a_ref(&y);
+        // 这里传参时发生了 Deref coercion, 将 &MyBox<i32> 自动转换成 &i32
+        need_a_ref(&y);
 
-    let m = MyBox::new(String::from("Rust"));
-    // 下面两行是等价的
-    hello(&m);                  // 使用了隐式 Deref 强制转换
-    hello(&(*m)[..]);           // 未使用隐式 Deref 强制转换
-}
-```
+        let m = MyBox::new(String::from("Rust"));
+        // 下面两行是等价的
+        hello(&m);                  // 使用了隐式 Deref 强制转换
+        hello(&(*m)[..]);           // 未使用隐式 Deref 强制转换
+    }
+    ```
 
-```text
-5
-Hello, Rust!
-Hello, Rust!
-```
+    ```text
+    5
+    Hello, Rust!
+    Hello, Rust!
+    ```
+
+<!--list-separator-->
+
+-  Deref 和 DerefMut 强制转换规则
+
+    在隐式转换中，如果原参数是可变引用 (`&mut`), 需要转换的目标参数也是可变引用，则必须实现 `DerefMut` trait 才能支持。
+
+    具体规则如下：
+
+    `&T` &rarr; `&U`
+    : 当 `T: Deref<Target=U>`
+
+    `&mut T` &rarr; `&mut U`
+    : 当 `T: DerefMut<Target=U>`
+
+    `&mut T` &rarr; `&U`
+    : 当 `T: Deref<Target=U>`
 
 
-#### Deref 和 DerefMut 强制转换规则 {#deref-和-derefmut-强制转换规则}
-
-在隐式转换中，如果原参数是可变引用 (`&mut`), 需要转换的目标参数也是可变引用，则必须实现 `DerefMut` trait 才能支持。
-
-具体规则如下：
-
-`&T` &rarr; `&U`
-: 当 `T: Deref<Target=U>`
-
-`&mut T` &rarr; `&mut U`
-: 当 `T: DerefMut<Target=U>`
-
-`&mut T` &rarr; `&U`
-: 当 `T: Deref<Target=U>`
-
-
-## Trait 和迭代器 {#trait-和迭代器}
+### Trait + 迭代器 {#trait-plus-迭代器}
 
 为了说明 trait 在迭代器中的作用，我们先思考一个开发过程中常遇到的问题：
 
@@ -1113,10 +1247,10 @@ trait 的实现上。
 对于 `Option` 类型， `FromIterator` 的实现也是类似的，这里不再赘述。
 
 
-## Trait 和错误处理 {#trait-和错误处理}
+### Trait + 错误处理 {#trait-plus-错误处理}
 
 
-### 传播错误 (Propagating Errors) {#传播错误--propagating-errors}
+#### 传播错误 (Propagating Errors) {#传播错误--propagating-errors}
 
 Rust 采用传播错误（即函数返回值）的形式来处理“可恢复性错误” (_recoverable_ errors)，而不是异常机制。
 
@@ -1164,9 +1298,9 @@ fn read_username_from_file() -> Result<String, io::Error> {
 3.  `?` 运算符会自动执行 `from` 转换，将 `io::Error` 转换为 `OurError` 并返回。
 
 
-### main 函数的返回值 {#main-函数的返回值}
+#### `main` 函数的返回值 {#main-函数的返回值}
 
-main 函数可以返回两类值：
+`main` 函数可以返回两类值：
 
 `Result<T, E>`
 : 返回 `Ok<T>` 表示成功， `Err<E>` 表示失败。
@@ -1175,9 +1309,35 @@ main 函数可以返回两类值：
 : 该 trait 包含一个 `report` 方法，用来返回一个 [ExitCode](https://doc.rust-lang.org/std/process/struct.ExitCode.html)。
 
 
+### <span class="org-todo todo TODO">TODO</span> Trait + 并发 {#trait-plus-并发}
+
+`Send`, `Sync` 相关，待补充。
+
+
+## 总结 {#总结}
+
+上面整理了一大堆 trait 相关的功能，看起来很复杂，实际上其底层却是一个统一、通用的概念。只需掌握 trait 这一套概念和用法，就可以类推到各个方面：
+
+-   为外部类型扩展方法
+-   实现“操作符重载”
+-   泛型中的特征约束
+-   面向对象的“多态”
+-   类型转换
+-   闭包
+-   所有权
+-   解引用
+-   迭代器
+-   错误处理
+-   并发
+-   ......
+
+这种在底层概念和能力上的统一和复用，值得我们学习和借鉴。
+
+
 ## 参考资料 {#参考资料}
 
 -   [Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
+-   [Trait objects](https://doc.rust-lang.org/book/ch17-02-trait-objects.html)
+-   [Abstraction without overhead: traits in Rust](https://blog.rust-lang.org/2015/05/11/traits.html)
 -   [Derivable Traits](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html)
 -   [Treating Smart Pointers Like Regular References with the Deref Trait](https://doc.rust-lang.org/book/ch15-02-deref.html)
--   [TryFrom and TryInto - Rust By Example](https://doc.rust-lang.org/rust-by-example/conversion/try_from_try_into.html)
