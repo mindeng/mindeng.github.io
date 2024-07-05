@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 00:05:47 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Wed, 03 Jul 2024 18:11:30 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 00:39:05 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Fri, 05 Jul 2024 08:33:46 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
 &lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>
 &lt;h2 id="trait-plus-类型转换">Trait + 类型转换&lt;/h2>
@@ -1051,8 +1051,25 @@ trait 的实现上。&lt;/p>
 &lt;dt>&lt;code>Termination&lt;/code> trait&lt;/dt>
 &lt;dd>该 trait 包含一个 &lt;code>report&lt;/code> 方法，用来返回一个 &lt;a href="https://doc.rust-lang.org/std/process/struct.ExitCode.html">ExitCode&lt;/a>。&lt;/dd>
 &lt;/dl>
-&lt;h2 id="trait-plus-并发">&lt;span class="org-todo todo TODO">TODO&lt;/span> Trait + 并发&lt;/h2>
-&lt;p>&lt;code>Send&lt;/code>, &lt;code>Sync&lt;/code> 相关，待补充。&lt;/p></description><category domain="https://mincodes.com/tags/rust/">Rust</category></item><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+&lt;h2 id="trait-plus-并发">Trait + 并发&lt;/h2>
+&lt;h3 id="send-sync">&lt;code>Send&lt;/code>, &lt;code>Sync&lt;/code>&lt;/h3>
+&lt;p>在 Rust 中，有一种 trait 被称为 &lt;em>marker&lt;/em> trait, 即不包含任何方法定义，只是一个标记，表明该类型具有某种特殊性质。 &lt;code>Send&lt;/code> 和 &lt;code>Sync&lt;/code> 就是 marker trait, 二者在并发编程中起到很关键的作用。&lt;/p>
+&lt;h4 id="send-trait-允许跨线程移动-转移所有权">&lt;code>Send&lt;/code> trait 允许跨线程移动（转移所有权）&lt;/h4>
+&lt;p>被标记为实现了 &lt;code>Send&lt;/code> trait 的类型，表明其值可以跨线程移动。&lt;/p>
+&lt;p>大部分类型都被自动标记为 &lt;code>Send&lt;/code> 类型：&lt;/p>
+&lt;ul>
+&lt;li>几乎所有的基本类型都是 &lt;code>Send&lt;/code> （裸指针除外）&lt;/li>
+&lt;li>任何由 &lt;code>Send&lt;/code> 类型组成的类型，都会自动标记为 &lt;code>Send&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h4 id="sync-trait-允许跨线程共享-共享引用">&lt;code>Sync&lt;/code> trait 允许跨线程共享（共享引用）&lt;/h4>
+&lt;p>被标记为 &lt;code>Sync&lt;/code> 的类型，表明其值允许从多个线程引用，即：&lt;/p>
+&lt;style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }&lt;/style>
+&lt;div class="org-center">
+&lt;p>当且仅当 &lt;code>&amp;amp;T&lt;/code> 是 &lt;code>Send&lt;/code> 时， &lt;code>T&lt;/code> 是 &lt;code>Sync&lt;/code> 。&lt;/p>
+&lt;/div>
+&lt;p>和 &lt;code>Send&lt;/code> 类似，几乎所有的原始类型都是 &lt;code>Sync&lt;/code>, 由 &lt;code>Sync&lt;/code> 类型组成的类型也是 &lt;code>Sync&lt;/code> 。&lt;/p>
+&lt;h3 id="unpin-unpin">&lt;code>Unpin&lt;/code>, &lt;code>!Unpin&lt;/code>&lt;/h3>
+&lt;p>参见 &lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/">Rust 中的 &lt;code>Pin&lt;/code>, &lt;code>Unpin&lt;/code> 和 &lt;code>!Unpin&lt;/code>​&lt;/a> 。&lt;/p></description><category domain="https://mincodes.com/tags/rust/">Rust</category></item><item><title>理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link>https://mincodes.com/posts/understanding-isobmff/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-isobmff/</guid><pubDate>Sat, 23 Mar 2024 20:12:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
 &lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
 ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
 &lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
@@ -2173,6 +2190,16 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">a: test1, b: test1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">a: test2, b: test2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
 &lt;/div>&lt;h2 id="unpin-和-pin-box-t-示例">&lt;code>Unpin&lt;/code> 和 &lt;code>Pin&amp;lt;Box&amp;lt;T&amp;gt;&amp;gt;&lt;/code> 示例&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2228,7 +2255,15 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description><category domain="https://mincodes.com/tags/rust/">Rust</category></item><item><title>理解 Rust 的 生命周期 (Lifetime)</title><link>https://mincodes.com/posts/understanding-lifetimes-in-rust/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-lifetimes-in-rust/</guid><pubDate>Wed, 06 Mar 2024 16:01:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Updated value: 11
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description><category domain="https://mincodes.com/tags/rust/">Rust</category><category domain="https://mincodes.com/tags/async/">Async</category></item><item><title>理解 Rust 的 生命周期 (Lifetime)</title><link>https://mincodes.com/posts/understanding-lifetimes-in-rust/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-lifetimes-in-rust/</guid><pubDate>Wed, 06 Mar 2024 16:01:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
 &lt;p>下面的例子中， &lt;em>borrow checker&lt;/em> 会检查 &lt;code>r&lt;/code> 的生命周期 &lt;code>'a&lt;/code> 比其引用的数据的生命周期 &lt;code>'b&lt;/code>
 要长，因此会拒绝编译通过。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
