@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.1 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Wed, 03 Jul 2024 10:12:24 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Wed, 03 Jul 2024 18:11:30 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 00:05:47 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Wed, 03 Jul 2024 18:11:30 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
 &lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>
 &lt;h2 id="trait-plus-类型转换">Trait + 类型转换&lt;/h2>
@@ -1436,8 +1436,8 @@ version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更
 &lt;h3 id="单线程-多线程两种运行时可供选择">单线程、多线程两种运行时可供选择&lt;/h3>
 &lt;p>以 Tokio 为例， &lt;em>rt&lt;/em> 和 &lt;em>rt-multi-thread&lt;/em> 两个 feature flag 分别代表了单线程运行时和多线程运行时。&lt;/p>
 &lt;h3 id="缺失部分语言功能">缺失部分语言功能&lt;/h3>
-&lt;p>一些同步 Rust 的语言功能在 async 中可能不可用，例如，不能在 trait 中定义 &lt;code>async&lt;/code>
-函数。&lt;/p>
+&lt;p>一些同步 Rust 的语言功能在 async 中可能不可用，例如， &lt;del>不能在 trait 中定义 &lt;code>async&lt;/code>
+函数&lt;/del> （该功能已经在 1.75 版本中支持) 。&lt;/p>
 &lt;h2 id="与多线程的对比">与多线程的对比&lt;/h2>
 &lt;h3 id="线程适用于少量任务场景">线程适用于少量任务场景&lt;/h3>
 &lt;h4 id="缺点">缺点&lt;/h4>
