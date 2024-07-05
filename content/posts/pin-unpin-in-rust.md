@@ -1,8 +1,8 @@
 +++
 title = "Rust 中的 Pin, Unpin 和 !Unpin"
 date = 2024-03-19T11:54:00+08:00
-lastmod = 2024-03-21T22:53:27+08:00
-tags = ["rust"]
+lastmod = 2024-07-05T08:35:03+08:00
+tags = ["rust", "async"]
 draft = false
 +++
 
@@ -206,6 +206,11 @@ pub fn main() {
 }
 ```
 
+```text
+a: test1, b: test1
+a: test2, b: test2
+```
+
 
 ## `Unpin` 和 `Pin<Box<T>>` 示例 {#unpin-和-pin-box-t-示例}
 
@@ -234,4 +239,8 @@ fn main() {
 
     println!("Updated value: {}", pinned_example.value);
 }
+```
+
+```text
+Updated value: 11
 ```

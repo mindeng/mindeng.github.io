@@ -1,6 +1,6 @@
 +++
 title = "Rust Trait+ 系列"
-lastmod = 2024-07-03T18:11:30+08:00
+lastmod = 2024-07-05T08:33:46+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -696,6 +696,39 @@ fn read_username_from_file() -> Result<String, io::Error> {
 : 该 trait 包含一个 `report` 方法，用来返回一个 [ExitCode](https://doc.rust-lang.org/std/process/struct.ExitCode.html)。
 
 
-## <span class="org-todo todo TODO">TODO</span> Trait + 并发 {#trait-plus-并发}
+## Trait + 并发 {#trait-plus-并发}
 
-`Send`, `Sync` 相关，待补充。
+
+### `Send`, `Sync` {#send-sync}
+
+在 Rust 中，有一种 trait 被称为 _marker_ trait, 即不包含任何方法定义，只是一个标记，表明该类型具有某种特殊性质。 `Send` 和 `Sync` 就是 marker trait, 二者在并发编程中起到很关键的作用。
+
+
+#### `Send` trait 允许跨线程移动（转移所有权） {#send-trait-允许跨线程移动-转移所有权}
+
+被标记为实现了 `Send` trait 的类型，表明其值可以跨线程移动。
+
+大部分类型都被自动标记为 `Send` 类型：
+
+-   几乎所有的基本类型都是 `Send` （裸指针除外）
+-   任何由 `Send` 类型组成的类型，都会自动标记为 `Send`
+
+
+#### `Sync` trait 允许跨线程共享（共享引用） {#sync-trait-允许跨线程共享-共享引用}
+
+被标记为 `Sync` 的类型，表明其值允许从多个线程引用，即：
+
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+
+<div class="org-center">
+
+当且仅当 `&T` 是 `Send` 时， `T` 是 `Sync` 。
+
+</div>
+
+和 `Send` 类似，几乎所有的原始类型都是 `Sync`, 由 `Sync` 类型组成的类型也是 `Sync` 。
+
+
+### `Unpin`, `!Unpin` {#unpin-unpin}
+
+参见 [Rust 中的 `Pin`, `Unpin` 和 `!Unpin`​]({{< relref "pin-unpin-in-rust" >}}) 。
