@@ -1,7 +1,7 @@
 +++
 title = "Rust 中的 Pin, Unpin 和 !Unpin"
 date = 2024-03-19T11:54:00+08:00
-lastmod = 2024-07-05T22:04:54+08:00
+lastmod = 2024-07-05T23:34:00+08:00
 tags = ["rust", "async"]
 draft = false
 +++
@@ -76,7 +76,7 @@ buf 指针失效。
     > `set` 方法会引起旧的值的析构，因此是安全的，没有违反 `Pin` 协议。
 
 -   Pin 可以发生在栈上，也可以发生在堆上。
-    -   栈上的 Pin 依赖于 `unsafe` 代码，且需要由 我们自己提供被 Pin 值的生存期的保证，否则可能违反 Pin 契约。（更新：Rust 1.68 引入了 [安全版本的栈上 pin 宏](https://doc.rust-lang.org/std/pin/macro.pin.html)
+    -   栈上的 Pin 依赖于 `unsafe` 代码，且需要由 我们自己提供被 Pin 值的生命周期的保证，否则可能违反 Pin 契约。（更新：Rust 1.68 引入了 [安全版本的栈上 pin 宏](https://doc.rust-lang.org/std/pin/macro.pin.html)
         `std::pin::pin!()` ）。参考 [ `!Unpin` 和 `Pin<Box<T>>` 示例](#unpin-和-pin-box-t-示例) 。
 
     -   堆上的 Pin 直接用 `Box::pin()` 即可。参考 [ `Unpin` 和 `Pin<Box<T>>` 示例](#unpin-和-pin-box-t-示例) 。
