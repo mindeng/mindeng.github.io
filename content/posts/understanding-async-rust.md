@@ -1,7 +1,7 @@
 +++
 title = "理解 Rust 异步编程"
 date = 2024-03-21T22:37:00+08:00
-lastmod = 2024-07-05T08:04:52+08:00
+lastmod = 2024-07-05T22:05:11+08:00
 tags = ["rust", "async"]
 draft = false
 +++
@@ -177,9 +177,9 @@ dance ...
 ## 使用异步时的注意事项（容易踩的坑） {#使用异步时的注意事项-容易踩的坑}
 
 
-### `async` 的生命周期 {#async-的生命周期}
+### `async` 的生存期 {#async-的生存期}
 
-`async fn` 如果有 references 作为入参，则返回的 `Future` 会受到该引用的生命周期的约束。也就是说，返回的 future 必须在入参还有效时执行完 `.await` 。
+`async fn` 如果有 references 作为入参，则返回的 `Future` 会受到该引用的生存期的约束。也就是说，返回的 future 必须在入参还有效时执行完 `.await` 。
 
 ```rust
 use std::future::Future;
@@ -193,7 +193,7 @@ fn foo_expanded<'a>(x: &'a u8) -> impl Future<Output = u8> + 'a {
 ```
 
 在下面的例子中，通过将参数和对异步函数的调用打包到一个 `async` 块中，来解决
-references-as-arguments 的生命周期问题。这种方式实际上将 `borrow_x` 返回的带生命周期约束的 future 转变成了一个 `'static` future。
+references-as-arguments 的生存期问题。这种方式实际上将 `borrow_x` 返回的带生命周期约束的 future 转变成了一个 `'static` future。
 
 ```rust
 fn bad() -> impl Future<Output = u8> {
@@ -213,7 +213,7 @@ fn good() -> impl Future<Output = u8> {
 ### `async move` {#async-move}
 
 -   async 块默认是以引用的方式捕获外部值的
--   async move 以 move 的方式捕获外部值，好处是生命周期可以超出该变量原来的作用域。
+-   async move 以 move 的方式捕获外部值，好处是生存期可以超出该变量原来的作用域。
 
 <!--listend-->
 

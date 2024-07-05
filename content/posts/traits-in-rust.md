@@ -1,7 +1,7 @@
 +++
 title = "Rust 中的特征 (Trait)"
 date = 2023-12-19T20:46:00+08:00
-lastmod = 2024-07-03T17:54:27+08:00
+lastmod = 2024-07-05T22:08:51+08:00
 tags = ["rust"]
 draft = false
 +++
@@ -565,7 +565,7 @@ dbg!(man1.partial_cmp(&dog1));
 
 -   调用 slice 的 `to_vec` 方法要求其存储的值实现 `Clone` trait。
 
-在“[Trait 和生命周期]({{< relref "rust-trait-plus-series#trait-plus-所有权--ownership" >}})”中我们会再次提到 `Copy` trait。
+在“[Trait + 所有权]({{< relref "rust-trait-plus-series#trait-plus-所有权--ownership" >}})”中我们会再次提到 `Copy` trait。
 
 
 ### `Hash` {#hash}

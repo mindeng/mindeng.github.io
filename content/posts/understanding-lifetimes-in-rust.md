@@ -1,14 +1,14 @@
 +++
-title = "理解 Rust 的 生命周期 (Lifetime)"
+title = "理解 Rust 的生存期 (Lifetime)"
 date = 2024-03-06T16:01:00+08:00
-lastmod = 2024-03-20T17:13:48+08:00
+lastmod = 2024-07-05T22:10:16+08:00
 tags = ["rust"]
 draft = false
 +++
 
 ## Lifetime 的主要目的是防止悬空引用 (_dangling references_) {#lifetime-的主要目的是防止悬空引用--dangling-references}
 
-下面的例子中， _borrow checker_ 会检查 `r` 的生命周期 `'a` 比其引用的数据的生命周期 `'b`
+下面的例子中， _borrow checker_ 会检查 `r` 的生存期 `'a` 比其引用的数据的生存期 `'b`
 要长，因此会拒绝编译通过。
 
 ```rust
@@ -32,7 +32,7 @@ fn main() {
 
 参考 [common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md) 一文中的定义，可以加深对 Lifetime 的理解：
 
-> 🌟 变量的生命周期是指它所指向的数据可以被编译器静态验证在其当前内存地址上有效的时间长度。
+> 🌟 变量的生存期是指它所指向的数据可以被编译器静态验证在其当前内存地址上有效的时间长度。
 >
 > A variable's lifetime is how long the data it points to can be statically
 > verified by the compiler to be valid at its current memory address.
@@ -60,9 +60,13 @@ fn main() {
 }
 ```
 
-上例中，由于 _borrow checker_ 无法推断出 x、y 的生命周期和返回值的生命周期之间的关系，因此必须通过生命周期参数来指定。该例中，返回值的生命周期和两个变量中生命周期较短的那个保持一致。
+```text
+The longest string is: long string is long
+```
 
--   生命周期注解并不影响引用的生存时间，而是用于描述多个引用的生命周期之间的关系（主要是描述返回值和入参的生命周期之间的关系）。
+上例中，由于 _borrow checker_ 无法推断出 x、y 的生存期和返回值的生存期之间的关系，因此必须通过生存期参数来指定。该例中，返回值的生存期和两个变量中生存期较短的那个保持一致。
+
+-   生存期注解并不影响引用的生存时间，而是用于描述多个引用的生存期之间的关系（主要是描述返回值和入参的生存期之间的关系）。
 
 
 ## 在结构体中使用 Lifetime {#在结构体中使用-lifetime}
@@ -81,18 +85,18 @@ fn main() {
 }
 ```
 
-上例中， `ImportantExcerpt` 实例的生命周期不能超出其 `part` 字段的生命周期。
+上例中， `ImportantExcerpt` 实例的生存期不能超出其 `part` 字段的生存期。
 
 
 ## Lifetime 参数的省略规则 (_Lifetime elision rules_) {#lifetime-参数的省略规则--lifetime-elision-rules}
 
 对于一个函数来说：
 
-1.  编译器为每个引用参数分配一个生命周期参数。
-2.  如果只有一个输入生命周期参数，则将该生命周期分配给所有的输出生命周期参数。
-3.  如果有多个输入生命周期参数，且其中一个是 `&self` 或 `&mut self` (即这是一个方法)，则将 `self` 的生命周期分配给所有的输出生命周期参数。
+1.  编译器为每个引用参数分配一个生存期参数。
+2.  如果只有一个输入生存期参数，则将该生存期分配给所有的输出生存期参数。
+3.  如果有多个输入生存期参数，且其中一个是 `&self` 或 `&mut self` (即这是一个方法)，则将 `self` 的生存期分配给所有的输出生存期参数。
 
-当引用没有显式生命周期注解时，编译器按照上述规则来计算引用的生命周期。如果上述三条规则走到底，仍然存在无法计算出生命周期的引用时，编译器会停止并报错。
+当引用没有显式生存期注解时，编译器按照上述规则来计算引用的生存期。如果上述三条规则走到底，仍然存在无法计算出生存期的引用时，编译器会停止并报错。
 
 
 ## 理解 `&'static T` 引用 {#理解-and-static-t-引用}
@@ -104,11 +108,11 @@ fn main() {
 -   对静态变量的引用
 
     例如，字符串字面量因为存储在二进制文件中，在程序运行期间都有效，因此具有
-    `'static` 生命周期。例如：
+    `'static` 生存期。例如：
     ```rust
-      fn main() {
-          let str_literal: &'static str = "字符串字面量";
-      }
+    fn main() {
+        let str_literal: &'static str = "字符串字面量";
+    }
     ```
 
 -   通过 `Box::leak` 方法在运行时生成一个 `&'static T`, 下面将展开论述。
@@ -174,7 +178,7 @@ A { s: "hello" } has been dropped!
 
 下面的读法有助于正确理解 `T: 'static`:
 
-> 🌟 `T: 'static` 应读作： `T` 受到 `'static` 类型生命周期的约束。
+> 🌟 `T: 'static` 应读作： `T` 受到 `'static` 类型生存期的约束。
 
 `T: 'static`:
 
@@ -184,7 +188,7 @@ A { s: "hello" } has been dropped!
     -   不需要在整个程序生命周期内有效
     -   可以安全、自由地修改
     -   可以在运行时被释放
-    -   可以有不同持续时间的生命周期
+    -   可以有不同持续时间的生存期
 
 <!--listend-->
 
@@ -222,11 +226,11 @@ fn main() {
     -   后者只能接受引用
 
 -   如果 `T: 'static`, 那么 `T: 'a`, 因为：
-    -   前者读作：T 满足静态生命周期约束
+    -   前者读作：T 满足静态生存期约束
 
-    -   后者读作：T 满足 `'a` 生命周期约束
+    -   后者读作：T 满足 `'a` 生存期约束
 
-    -   静态生命周期 &gt;= `'a` 生命周期，因此上述结论成立
+    -   静态生存期 &gt;= `'a` 生存期，因此上述结论成立
 
 案例（参考自[common-rust-lifetime-misconceptions](https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md))：
 
