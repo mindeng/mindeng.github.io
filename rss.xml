@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 00:39:05 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Fri, 05 Jul 2024 08:33:46 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 14:11:32 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Fri, 05 Jul 2024 08:33:46 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
 &lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>
 &lt;h2 id="trait-plus-类型转换">Trait + 类型转换&lt;/h2>
@@ -1620,8 +1620,8 @@ version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更
 阻塞时，出让当前线程的控制权并允许其他 async 函数继续执行。&lt;/li>
 &lt;/ul>
 &lt;h2 id="使用异步时的注意事项-容易踩的坑">使用异步时的注意事项（容易踩的坑）&lt;/h2>
-&lt;h3 id="async-的生命周期">&lt;code>async&lt;/code> 的生命周期&lt;/h3>
-&lt;p>&lt;code>async fn&lt;/code> 如果有 references 作为入参，则返回的 &lt;code>Future&lt;/code> 会受到该引用的生命周期的约束。也就是说，返回的 future 必须在入参还有效时执行完 &lt;code>.await&lt;/code> 。&lt;/p>
+&lt;h3 id="async-的生存期">&lt;code>async&lt;/code> 的生存期&lt;/h3>
+&lt;p>&lt;code>async fn&lt;/code> 如果有 references 作为入参，则返回的 &lt;code>Future&lt;/code> 会受到该引用的生存期的约束。也就是说，返回的 future 必须在入参还有效时执行完 &lt;code>.await&lt;/code> 。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1645,7 +1645,7 @@ version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>在下面的例子中，通过将参数和对异步函数的调用打包到一个 &lt;code>async&lt;/code> 块中，来解决
-references-as-arguments 的生命周期问题。这种方式实际上将 &lt;code>borrow_x&lt;/code> 返回的带生命周期约束的 future 转变成了一个 &lt;code>'static&lt;/code> future。&lt;/p>
+references-as-arguments 的生存期问题。这种方式实际上将 &lt;code>borrow_x&lt;/code> 返回的带生命周期约束的 future 转变成了一个 &lt;code>'static&lt;/code> future。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1677,7 +1677,7 @@ references-as-arguments 的生命周期问题。这种方式实际上将 &lt;cod
 &lt;/div>&lt;h3 id="async-move">&lt;code>async move&lt;/code>&lt;/h3>
 &lt;ul>
 &lt;li>async 块默认是以引用的方式捕获外部值的&lt;/li>
-&lt;li>async move 以 move 的方式捕获外部值，好处是生命周期可以超出该变量原来的作用域。&lt;/li>
+&lt;li>async move 以 move 的方式捕获外部值，好处是生存期可以超出该变量原来的作用域。&lt;/li>
 &lt;/ul>
 &lt;!--listend-->
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1980,7 +1980,7 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;p>Pin 可以发生在栈上，也可以发生在堆上。&lt;/p>
 &lt;ul>
 &lt;li>
-&lt;p>栈上的 Pin 依赖于 &lt;code>unsafe&lt;/code> 代码，且需要由 我们自己提供被 Pin 值的生命周期的保证，否则可能违反 Pin 契约。（更新：Rust 1.68 引入了 &lt;a href="https://doc.rust-lang.org/std/pin/macro.pin.html">安全版本的栈上 pin 宏&lt;/a>
+&lt;p>栈上的 Pin 依赖于 &lt;code>unsafe&lt;/code> 代码，且需要由 我们自己提供被 Pin 值的生存期的保证，否则可能违反 Pin 契约。（更新：Rust 1.68 引入了 &lt;a href="https://doc.rust-lang.org/std/pin/macro.pin.html">安全版本的栈上 pin 宏&lt;/a>
 &lt;code>std::pin::pin!()&lt;/code> ）。参考 &lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/#unpin-%E5%92%8C-pin-box-t-%E7%A4%BA%E4%BE%8B"> &lt;code>!Unpin&lt;/code> 和 &lt;code>Pin&amp;lt;Box&amp;lt;T&amp;gt;&amp;gt;&lt;/code> 示例&lt;/a> 。&lt;/p>
 &lt;/li>
 &lt;li>
@@ -2263,8 +2263,8 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Updated value: 11
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description><category domain="https://mincodes.com/tags/rust/">Rust</category><category domain="https://mincodes.com/tags/async/">Async</category></item><item><title>理解 Rust 的 生命周期 (Lifetime)</title><link>https://mincodes.com/posts/understanding-lifetimes-in-rust/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-lifetimes-in-rust/</guid><pubDate>Wed, 06 Mar 2024 16:01:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
-&lt;p>下面的例子中， &lt;em>borrow checker&lt;/em> 会检查 &lt;code>r&lt;/code> 的生命周期 &lt;code>'a&lt;/code> 比其引用的数据的生命周期 &lt;code>'b&lt;/code>
+&lt;/div></description><category domain="https://mincodes.com/tags/rust/">Rust</category><category domain="https://mincodes.com/tags/async/">Async</category></item><item><title>理解 Rust 的生存期 (Lifetime)</title><link>https://mincodes.com/posts/understanding-lifetimes-in-rust/</link><guid isPermaLink="true">https://mincodes.com/posts/understanding-lifetimes-in-rust/</guid><pubDate>Wed, 06 Mar 2024 16:01:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
+&lt;p>下面的例子中， &lt;em>borrow checker&lt;/em> 会检查 &lt;code>r&lt;/code> 的生存期 &lt;code>'a&lt;/code> 比其引用的数据的生存期 &lt;code>'b&lt;/code>
 要长，因此会拒绝编译通过。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -2298,7 +2298,7 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;p>具体到形式层面，Lifetime 实际上是一种特殊的泛型参数，这些泛型参数为编译器提供了有关引用之间如何相互联系的信息。&lt;/p>
 &lt;p>参考 &lt;a href="https://github.com/pretzelhammer/rust-blog/blob/master/posts/common-rust-lifetime-misconceptions.md">common-rust-lifetime-misconceptions&lt;/a> 一文中的定义，可以加深对 Lifetime 的理解：&lt;/p>
 &lt;blockquote>
-&lt;p>🌟 变量的生命周期是指它所指向的数据可以被编译器静态验证在其当前内存地址上有效的时间长度。&lt;/p>
+&lt;p>🌟 变量的生存期是指它所指向的数据可以被编译器静态验证在其当前内存地址上有效的时间长度。&lt;/p>
 &lt;p>A variable&amp;rsquo;s lifetime is how long the data it points to can be statically
 verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;/blockquote>
@@ -2343,9 +2343,17 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>上例中，由于 &lt;em>borrow checker&lt;/em> 无法推断出 x、y 的生命周期和返回值的生命周期之间的关系，因此必须通过生命周期参数来指定。该例中，返回值的生命周期和两个变量中生命周期较短的那个保持一致。&lt;/p>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">The longest string is: long string is long
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上例中，由于 &lt;em>borrow checker&lt;/em> 无法推断出 x、y 的生存期和返回值的生存期之间的关系，因此必须通过生存期参数来指定。该例中，返回值的生存期和两个变量中生存期较短的那个保持一致。&lt;/p>
 &lt;ul>
-&lt;li>生命周期注解并不影响引用的生存时间，而是用于描述多个引用的生命周期之间的关系（主要是描述返回值和入参的生命周期之间的关系）。&lt;/li>
+&lt;li>生存期注解并不影响引用的生存时间，而是用于描述多个引用的生存期之间的关系（主要是描述返回值和入参的生存期之间的关系）。&lt;/li>
 &lt;/ul>
 &lt;h2 id="在结构体中使用-lifetime">在结构体中使用 Lifetime&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2376,15 +2384,15 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>上例中， &lt;code>ImportantExcerpt&lt;/code> 实例的生命周期不能超出其 &lt;code>part&lt;/code> 字段的生命周期。&lt;/p>
+&lt;/div>&lt;p>上例中， &lt;code>ImportantExcerpt&lt;/code> 实例的生存期不能超出其 &lt;code>part&lt;/code> 字段的生存期。&lt;/p>
 &lt;h2 id="lifetime-参数的省略规则--lifetime-elision-rules">Lifetime 参数的省略规则 (&lt;em>Lifetime elision rules&lt;/em>)&lt;/h2>
 &lt;p>对于一个函数来说：&lt;/p>
 &lt;ol>
-&lt;li>编译器为每个引用参数分配一个生命周期参数。&lt;/li>
-&lt;li>如果只有一个输入生命周期参数，则将该生命周期分配给所有的输出生命周期参数。&lt;/li>
-&lt;li>如果有多个输入生命周期参数，且其中一个是 &lt;code>&amp;amp;self&lt;/code> 或 &lt;code>&amp;amp;mut self&lt;/code> (即这是一个方法)，则将 &lt;code>self&lt;/code> 的生命周期分配给所有的输出生命周期参数。&lt;/li>
+&lt;li>编译器为每个引用参数分配一个生存期参数。&lt;/li>
+&lt;li>如果只有一个输入生存期参数，则将该生存期分配给所有的输出生存期参数。&lt;/li>
+&lt;li>如果有多个输入生存期参数，且其中一个是 &lt;code>&amp;amp;self&lt;/code> 或 &lt;code>&amp;amp;mut self&lt;/code> (即这是一个方法)，则将 &lt;code>self&lt;/code> 的生存期分配给所有的输出生存期参数。&lt;/li>
 &lt;/ol>
-&lt;p>当引用没有显式生命周期注解时，编译器按照上述规则来计算引用的生命周期。如果上述三条规则走到底，仍然存在无法计算出生命周期的引用时，编译器会停止并报错。&lt;/p>
+&lt;p>当引用没有显式生存期注解时，编译器按照上述规则来计算引用的生存期。如果上述三条规则走到底，仍然存在无法计算出生存期的引用时，编译器会停止并报错。&lt;/p>
 &lt;h2 id="理解-and-static-t-引用">理解 &lt;code>&amp;amp;'static T&lt;/code> 引用&lt;/h2>
 &lt;p>请注意 &lt;code>&amp;amp;'static T&lt;/code> 和 &lt;a href="https://mincodes.com/posts/understanding-lifetimes-in-rust/#%E7%90%86%E8%A7%A3-t-static">T: &amp;lsquo;static&lt;/a> 二者之间的区别。&lt;/p>
 &lt;p>&lt;code>&amp;amp;'static T&lt;/code> 可以通过以下两种方式产生：&lt;/p>
@@ -2392,7 +2400,7 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;li>
 &lt;p>对静态变量的引用&lt;/p>
 &lt;p>例如，字符串字面量因为存储在二进制文件中，在程序运行期间都有效，因此具有
-&lt;code>'static&lt;/code> 生命周期。例如：&lt;/p>
+&lt;code>'static&lt;/code> 生存期。例如：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -2400,9 +2408,9 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;/span>&lt;span class="lnt">3
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">fn&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-rust" data-lang="rust">&lt;span class="line">&lt;span class="cl">&lt;span class="k">fn&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">let&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">str_literal&lt;/span>: &lt;span class="kp">&amp;amp;&lt;/span>&lt;span class="nb">&amp;#39;static&lt;/span> &lt;span class="kt">str&lt;/span> &lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;字符串字面量&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;/li>
@@ -2504,7 +2512,7 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;p>请注意和 &lt;a href="https://mincodes.com/posts/understanding-lifetimes-in-rust/#%E7%90%86%E8%A7%A3-and-static-t-%E5%BC%95%E7%94%A8">&amp;amp;&amp;lsquo;static T 引用&lt;/a> 之间的区别。&lt;/p>
 &lt;p>下面的读法有助于正确理解 &lt;code>T: 'static&lt;/code>:&lt;/p>
 &lt;blockquote>
-&lt;p>🌟 &lt;code>T: 'static&lt;/code> 应读作： &lt;code>T&lt;/code> 受到 &lt;code>'static&lt;/code> 类型生命周期的约束。&lt;/p>
+&lt;p>🌟 &lt;code>T: 'static&lt;/code> 应读作： &lt;code>T&lt;/code> 受到 &lt;code>'static&lt;/code> 类型生存期的约束。&lt;/p>
 &lt;/blockquote>
 &lt;p>&lt;code>T: 'static&lt;/code>:&lt;/p>
 &lt;ul>
@@ -2515,7 +2523,7 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;li>不需要在整个程序生命周期内有效&lt;/li>
 &lt;li>可以安全、自由地修改&lt;/li>
 &lt;li>可以在运行时被释放&lt;/li>
-&lt;li>可以有不同持续时间的生命周期&lt;/li>
+&lt;li>可以有不同持续时间的生存期&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -2583,13 +2591,13 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;p>如果 &lt;code>T: 'static&lt;/code>, 那么 &lt;code>T: 'a&lt;/code>, 因为：&lt;/p>
 &lt;ul>
 &lt;li>
-&lt;p>前者读作：T 满足静态生命周期约束&lt;/p>
+&lt;p>前者读作：T 满足静态生存期约束&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>后者读作：T 满足 &lt;code>'a&lt;/code> 生命周期约束&lt;/p>
+&lt;p>后者读作：T 满足 &lt;code>'a&lt;/code> 生存期约束&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>静态生命周期 &amp;gt;= &lt;code>'a&lt;/code> 生命周期，因此上述结论成立&lt;/p>
+&lt;p>静态生存期 &amp;gt;= &lt;code>'a&lt;/code> 生存期，因此上述结论成立&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;/li>
@@ -2653,7 +2661,7 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;dt>所有权转移&lt;/dt>
 &lt;dd>Rust 中的 move 语义是其所有权系统的核心部分。当一个值从一个变量移动到另一个变量时，原始变量不再有权访问该值。这避免了悬垂指针和数据竞争等问题。&lt;/dd>
 &lt;dt>编译时检查&lt;/dt>
-&lt;dd>Rust 的编译器在编译时就会检查所有权、借用和生命周期规则，确保内存安全而无需运行时开销。&lt;/dd>
+&lt;dd>Rust 的编译器在编译时就会检查所有权、借用和生存期规则，确保内存安全而无需运行时开销。&lt;/dd>
 &lt;dt>自动控制&lt;/dt>
 &lt;dd>Rust 的 move 语义是通过编译器自动实现的，不需要程序员提供特殊的代码来支持 move
 语义。&lt;/dd>
@@ -3610,7 +3618,7 @@ Rust 允许你在自定义类型上通过简单地添加一个属性（attribute
 &lt;ul>
 &lt;li>调用 slice 的 &lt;code>to_vec&lt;/code> 方法要求其存储的值实现 &lt;code>Clone&lt;/code> trait。&lt;/li>
 &lt;/ul>
-&lt;p>在“&lt;a href="https://mincodes.com/posts/rust-trait-plus-series/#trait-plus-所有权--ownership">Trait 和生命周期&lt;/a>”中我们会再次提到 &lt;code>Copy&lt;/code> trait。&lt;/p>
+&lt;p>在“&lt;a href="https://mincodes.com/posts/rust-trait-plus-series/#trait-plus-所有权--ownership">Trait + 所有权&lt;/a>”中我们会再次提到 &lt;code>Copy&lt;/code> trait。&lt;/p>
 &lt;h3 id="hash">&lt;code>Hash&lt;/code>&lt;/h3>
 &lt;p>主要在哈希表中应用, &lt;code>HashMap&amp;lt;K, V&amp;gt;&lt;/code> 要求 key 值实现 &lt;code>Hash&lt;/code> trait。&lt;/p>
 &lt;h3 id="default">&lt;code>Default&lt;/code>&lt;/h3>
