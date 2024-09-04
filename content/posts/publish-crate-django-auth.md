@@ -1,7 +1,7 @@
 +++
 title = "发布我的第一个 Crate: django-auth"
 date = 2024-01-14T19:37:00+08:00
-lastmod = 2024-01-14T19:37:41+08:00
+lastmod = 2024-09-04T18:39:13+08:00
 tags = ["rust", "django"]
 draft = false
 +++
@@ -66,7 +66,7 @@ Options:
 
     打开 [API Token](https://crates.io/settings/tokens) 页面，按照指示生成一个 API token, 复制 token, 然后到命令行运行：
     ```shell
-       cargo login
+    cargo login
     ```
     按照提示将 token 粘贴并回车即可。
 
@@ -93,12 +93,29 @@ Options:
 
     package 信息确认后，可以在你的 crate 项目根目录，先运行如下命令检查一下发布流程：
     ```shell
-       cargo publish --dry-run
+    cargo publish --dry-run
     ```
     该命令不会真正执行发布操作，但是会把提交到 crate.io 之前要做的事情都做一遍。
 
+    另外，可以执行如下命令，检查发布时将会打包上传的所有文件（注意检查是否包含一些可能泄漏私人信息的文件）：
+    ```shell
+    cargo package --list
+    ```
+
+    > ⚠️ \`cargo publish\` 命令会将当前目录下所有的 version controlled 文件 (即所有由版本管理器管理的文件) 都打包并上传。如果你有一些带有敏感信息的文件，例如密码、
+    > token 等私人配置文件，请一定记得从版本管理器中忽略掉这些敏感文件（使用 git 的话可以在 \`.gitignore\` 中配置）。
+
+    如果有些文件比较大，或者觉得没必要上传到 <https://crates.io/> （例如一些测试数据等），但确实需要进行版本管理的，可以在 \`Cargo.toml\` 文件中配置，例如：
+    ```toml
+    [package]
+    exclude = [
+    "testdata/*",
+    ]
+    ```
+    该配置会忽略掉 \`testdata\` 目录下所有文件。
+
     确认无误后，可以运行如下命令，真正将 crate 发布至 crate.io:
     ```shell
-       cargo publish
+    cargo publish
     ```
     ✅ 搞定！
