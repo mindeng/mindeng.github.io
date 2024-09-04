@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.128.2 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 05 Jul 2024 15:37:55 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Fri, 05 Jul 2024 08:33:46 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.134.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Wed, 04 Sep 2024 10:40:57 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>Rust Trait+ 系列</title><link>https://mincodes.com/posts/rust-trait-plus-series/</link><guid isPermaLink="true">https://mincodes.com/posts/rust-trait-plus-series/</guid><pubDate>Fri, 05 Jul 2024 08:33:46 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
 &lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>
 &lt;h2 id="trait-plus-类型转换">Trait + 类型转换&lt;/h2>
@@ -1079,41 +1079,41 @@ ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>文件类型&lt;/th>
-&lt;th>互联网媒体类型（MIME）&lt;/th>
-&lt;th>常用扩展名&lt;/th>
+&lt;th style="text-align: left">文件类型&lt;/th>
+&lt;th style="text-align: left">互联网媒体类型（MIME）&lt;/th>
+&lt;th style="text-align: left">常用扩展名&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>QuickTime&lt;/td>
-&lt;td>video/quicktime&lt;/td>
-&lt;td>.mov, .movie, .qt&lt;/td>
+&lt;td style="text-align: left">QuickTime&lt;/td>
+&lt;td style="text-align: left">video/quicktime&lt;/td>
+&lt;td style="text-align: left">.mov, .movie, .qt&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>HEIF&lt;/td>
-&lt;td>image/heif, image/heic&lt;/td>
-&lt;td>.heif, .heifs; .heic, .heics; .avci, .avcs; .HIF&lt;/td>
+&lt;td style="text-align: left">HEIF&lt;/td>
+&lt;td style="text-align: left">image/heif, image/heic&lt;/td>
+&lt;td style="text-align: left">.heif, .heifs; .heic, .heics; .avci, .avcs; .HIF&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>MP4&lt;/td>
-&lt;td>video/mp4, audio/mp4&lt;/td>
-&lt;td>.mp4, .m4a, .m4p, .m4b, .m4r, .m4v&lt;/td>
+&lt;td style="text-align: left">MP4&lt;/td>
+&lt;td style="text-align: left">video/mp4, audio/mp4&lt;/td>
+&lt;td style="text-align: left">.mp4, .m4a, .m4p, .m4b, .m4r, .m4v&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3GP&lt;/td>
-&lt;td>video/3gpp&lt;/td>
-&lt;td>.3gp, 3g2&lt;/td>
+&lt;td style="text-align: left">3GP&lt;/td>
+&lt;td style="text-align: left">video/3gpp&lt;/td>
+&lt;td style="text-align: left">.3gp, 3g2&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>JPEG 2000&lt;/td>
-&lt;td>image/jp2, image/jpx&lt;/td>
-&lt;td>.jp2, .j2k, .jpf, .jpm, .jpg2, .j2c, .jpc, .jpx, .mj2&lt;/td>
+&lt;td style="text-align: left">JPEG 2000&lt;/td>
+&lt;td style="text-align: left">image/jp2, image/jpx&lt;/td>
+&lt;td style="text-align: left">.jp2, .j2k, .jpf, .jpm, .jpg2, .j2c, .jpc, .jpx, .mj2&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Flash Video&lt;/td>
-&lt;td>video/x-flv&lt;/td>
-&lt;td>.flv, .fla, .f4v, .f4a, .f4b, .f4p&lt;/td>
+&lt;td style="text-align: left">Flash Video&lt;/td>
+&lt;td style="text-align: left">video/x-flv&lt;/td>
+&lt;td style="text-align: left">.flv, .fla, .f4v, .f4a, .f4b, .f4p&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1136,26 +1136,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size, 含自身&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size, 含自身&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 8&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">box_size - 8&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1164,26 +1164,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Major brand, 文件格式代码&lt;/td>
-&lt;td>&amp;ldquo;qt &amp;ldquo;: QuickTime, &amp;ldquo;heic&amp;rdquo;: HEIC&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">Major brand, 文件格式代码&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;qt &amp;ldquo;: QuickTime, &amp;ldquo;heic&amp;rdquo;: HEIC&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Minor version, 文件格式规范版本&lt;/td>
-&lt;td>目前很少使用&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">Minor version, 文件格式规范版本&lt;/td>
+&lt;td style="text-align: left">目前很少使用&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 8 - 8&lt;/td>
-&lt;td>Compatible brands, 兼容的文件格式，四字节一个，可能有多个&lt;/td>
-&lt;td>&amp;ldquo;mif1MiHEmiafMiHBheic&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">box_size - 8 - 8&lt;/td>
+&lt;td style="text-align: left">Compatible brands, 兼容的文件格式，四字节一个，可能有多个&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;mif1MiHEmiafMiHBheic&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1201,31 +1201,31 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 1&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 1&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>extended_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">8&lt;/td>
+&lt;td style="text-align: left">extended_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>extended_size - 16&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">extended_size - 16&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1235,26 +1235,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 0&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 0&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>*&lt;/td>
-&lt;td>box_data, 长度一直延伸到文件末尾&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">*&lt;/td>
+&lt;td style="text-align: left">box_data, 长度一直延伸到文件末尾&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1263,21 +1263,21 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 8&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 8&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type == &amp;ldquo;wide&amp;rdquo;&lt;/td>
-&lt;td>&amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type == &amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;wide&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1298,36 +1298,36 @@ Box。如果将来某一天，B 的长度不够，需要括容，则可以按照
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>version&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">1&lt;/td>
+&lt;td style="text-align: left">version&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>flags&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">3&lt;/td>
+&lt;td style="text-align: left">flags&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 12&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">box_size - 12&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1338,41 +1338,41 @@ Box。如果将来某一天，B 的长度不够，需要括容，则可以按照
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 1&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 1&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>extended_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">8&lt;/td>
+&lt;td style="text-align: left">extended_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>version&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">1&lt;/td>
+&lt;td style="text-align: left">version&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>flags&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">3&lt;/td>
+&lt;td style="text-align: left">flags&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>extended_size - 20&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">extended_size - 20&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -2778,7 +2778,7 @@ Organization，所以不确定没有行不行）。&lt;/li>
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo login
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo login
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>按照提示将 token 粘贴并回车即可。&lt;/p>
@@ -2810,17 +2810,46 @@ Organization，所以不确定没有行不行）。&lt;/li>
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo publish --dry-run
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo publish --dry-run
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>该命令不会真正执行发布操作，但是会把提交到 crate.io 之前要做的事情都做一遍。&lt;/p>
+&lt;p>另外，可以执行如下命令，检查发布时将会打包上传的所有文件（注意检查是否包含一些可能泄漏私人信息的文件）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo package --list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>⚠️ `cargo publish` 命令会将当前目录下所有的 version controlled 文件 (即所有由版本管理器管理的文件) 都打包并上传。如果你有一些带有敏感信息的文件，例如密码、
+token 等私人配置文件，请一定记得从版本管理器中忽略掉这些敏感文件（使用 git 的话可以在 `.gitignore` 中配置）。&lt;/p>
+&lt;/blockquote>
+&lt;p>如果有些文件比较大，或者觉得没必要上传到 &lt;a href="https://crates.io/">https://crates.io/&lt;/a> （例如一些测试数据等），但确实需要进行版本管理的，可以在 `Cargo.toml` 文件中配置，例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">package&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">exclude&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;testdata/*&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>该配置会忽略掉 `testdata` 目录下所有文件。&lt;/p>
 &lt;p>确认无误后，可以运行如下命令，真正将 crate 发布至 crate.io:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo publish
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo publish
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>✅ 搞定！&lt;/p>
@@ -5823,126 +5852,126 @@ Mediator 的存在。而子系统并不知道 Facade 的存在。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>目的&lt;/th>
-&lt;th>设计模式&lt;/th>
-&lt;th>可变的方面&lt;/th>
+&lt;th style="text-align: left">目的&lt;/th>
+&lt;th style="text-align: left">设计模式&lt;/th>
+&lt;th style="text-align: left">可变的方面&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>创建&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/a>&lt;/td>
-&lt;td>产品对象家族&lt;/td>
+&lt;td style="text-align: left">创建&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">产品对象家族&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#生成器--builder">生成器 (Builder)&lt;/a>&lt;/td>
-&lt;td>如何创建一个组合对象&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#生成器--builder">生成器 (Builder)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何创建一个组合对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#工厂方法--factory-method">工厂方法 (Factory Method)&lt;/a>&lt;/td>
-&lt;td>被实例化的子类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#工厂方法--factory-method">工厂方法 (Factory Method)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">被实例化的子类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#原型--prototype">原型 (Prototype)&lt;/a>&lt;/td>
-&lt;td>被实例化的类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#原型--prototype">原型 (Prototype)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">被实例化的类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#单例--singleton">单例 (Singleton)&lt;/a>&lt;/td>
-&lt;td>一个类的唯一实例&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#单例--singleton">单例 (Singleton)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个类的唯一实例&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>结构&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#适配器--adapter">适配器 (Adapter)&lt;/a>&lt;/td>
-&lt;td>对象的接口&lt;/td>
+&lt;td style="text-align: left">结构&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#适配器--adapter">适配器 (Adapter)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的接口&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#桥接--bridge">桥接 (Bridge)&lt;/a>&lt;/td>
-&lt;td>对象的实现&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#桥接--bridge">桥接 (Bridge)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的实现&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#组合--composite">组合 (Composite)&lt;/a>&lt;/td>
-&lt;td>一个对象的结构和组成&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#组合--composite">组合 (Composite)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个对象的结构和组成&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#装饰器--decorator">装饰器 (Decorator)&lt;/a>&lt;/td>
-&lt;td>对象的职责,不生成子类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#装饰器--decorator">装饰器 (Decorator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的职责,不生成子类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#外观--facade">外观 (Facade)&lt;/a>&lt;/td>
-&lt;td>一个子系统的接口&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#外观--facade">外观 (Facade)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个子系统的接口&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#享元--flyweight">享元 (Flyweight)&lt;/a>&lt;/td>
-&lt;td>对象的存储开销&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#享元--flyweight">享元 (Flyweight)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的存储开销&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#代理--proxy">代理 (Proxy)&lt;/a>&lt;/td>
-&lt;td>如何访问一个对象&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#代理--proxy">代理 (Proxy)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何访问一个对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>行为&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/a>&lt;/td>
-&lt;td>响应请求的对象&lt;/td>
+&lt;td style="text-align: left">行为&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">响应请求的对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#命令--command">命令 (Command)&lt;/a>&lt;/td>
-&lt;td>何时、怎样满足一个请求&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#命令--command">命令 (Command)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">何时、怎样满足一个请求&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#解释器--interpreter">解释器 (Interpreter)&lt;/a>&lt;/td>
-&lt;td>一个语言的文法及解释&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#解释器--interpreter">解释器 (Interpreter)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个语言的文法及解释&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#迭代器--iterator">迭代器 (Iterator)&lt;/a>&lt;/td>
-&lt;td>如何遍历、访问一个集合的各元素&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#迭代器--iterator">迭代器 (Iterator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何遍历、访问一个集合的各元素&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#中介者--mediator">中介者 (Mediator)&lt;/a>&lt;/td>
-&lt;td>对象间怎样交互、和谁交互&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#中介者--mediator">中介者 (Mediator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象间怎样交互、和谁交互&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#备忘录--memento">备忘录 (Memento)&lt;/a>&lt;/td>
-&lt;td>一个对象中哪些私有信息存放在该对象之外,以及何时进行存储&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#备忘录--memento">备忘录 (Memento)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个对象中哪些私有信息存放在该对象之外,以及何时进行存储&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#观察者--observer">观察者 (Observer)&lt;/a>&lt;/td>
-&lt;td>多个对象依赖于另一个对象,而这些对象又如何保持一致&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#观察者--observer">观察者 (Observer)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">多个对象依赖于另一个对象,而这些对象又如何保持一致&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#状态--state">状态 (State)&lt;/a>&lt;/td>
-&lt;td>对象的状态&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#状态--state">状态 (State)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的状态&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#策略--strategy">策略 (Strategy)&lt;/a>&lt;/td>
-&lt;td>算法&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#策略--strategy">策略 (Strategy)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">算法&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#模板方法--template-method">模板方法 (Template Method)&lt;/a>&lt;/td>
-&lt;td>算法中的某些步骤&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#模板方法--template-method">模板方法 (Template Method)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">算法中的某些步骤&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#访问者--visitor">访问者 (Visitor)&lt;/a>&lt;/td>
-&lt;td>某些可作用于一组对象上的操作，且无需修改这些对象的类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#访问者--visitor">访问者 (Visitor)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">某些可作用于一组对象上的操作，且无需修改这些对象的类&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table></description><category domain="https://mincodes.com/tags/architecture/">Architecture</category><category domain="https://mincodes.com/tags/design-pattern/">Design-Pattern</category><category domain="https://mincodes.com/tags/android/">Android</category></item><item><title>Android 的 Binder 机制</title><link>https://mincodes.com/posts/android-binder/</link><guid isPermaLink="true">https://mincodes.com/posts/android-binder/</guid><pubDate>Sat, 01 Jul 2023 23:41:00 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>&lt;h2 id="同步调用">同步调用&lt;/h2>
@@ -11422,82 +11451,82 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:center">快捷键&lt;/th>
-&lt;th style="text-align:center">动作&lt;/th>
+&lt;th style="text-align: center">快捷键&lt;/th>
+&lt;th style="text-align: center">动作&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+l&lt;/td>
-&lt;td style="text-align:center">清屏&lt;/td>
+&lt;td style="text-align: center">ctrl+l&lt;/td>
+&lt;td style="text-align: center">清屏&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+d&lt;/td>
-&lt;td style="text-align:center">退出shell&lt;/td>
+&lt;td style="text-align: center">ctrl+d&lt;/td>
+&lt;td style="text-align: center">退出shell&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+u&lt;/td>
-&lt;td style="text-align:center">清除光标之前&lt;/td>
+&lt;td style="text-align: center">ctrl+u&lt;/td>
+&lt;td style="text-align: center">清除光标之前&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+k&lt;/td>
-&lt;td style="text-align:center">清除光标之后&lt;/td>
+&lt;td style="text-align: center">ctrl+k&lt;/td>
+&lt;td style="text-align: center">清除光标之后&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+w&lt;/td>
-&lt;td style="text-align:center">清除光标之前的一个单词&lt;/td>
+&lt;td style="text-align: center">ctrl+w&lt;/td>
+&lt;td style="text-align: center">清除光标之前的一个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+y&lt;/td>
-&lt;td style="text-align:center">粘贴刚才ctrl+u/k/w的内容&lt;/td>
+&lt;td style="text-align: center">ctrl+y&lt;/td>
+&lt;td style="text-align: center">粘贴刚才ctrl+u/k/w的内容&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+t&lt;/td>
-&lt;td style="text-align:center">交换最后两个字符&lt;/td>
+&lt;td style="text-align: center">ctrl+t&lt;/td>
+&lt;td style="text-align: center">交换最后两个字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">esc+k&lt;/td>
-&lt;td style="text-align:center">交换最后两个单词&lt;/td>
+&lt;td style="text-align: center">esc+k&lt;/td>
+&lt;td style="text-align: center">交换最后两个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">alt+f/ctrl+b&lt;/td>
-&lt;td style="text-align:center">向前/后移动一个单词&lt;/td>
+&lt;td style="text-align: center">alt+f/ctrl+b&lt;/td>
+&lt;td style="text-align: center">向前/后移动一个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+f/ctrl+b&lt;/td>
-&lt;td style="text-align:center">向前/后移动一个字符&lt;/td>
+&lt;td style="text-align: center">ctrl+f/ctrl+b&lt;/td>
+&lt;td style="text-align: center">向前/后移动一个字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">alt+d/ctrl+d&lt;/td>
-&lt;td style="text-align:center">删除光标后的一个单词/字符&lt;/td>
+&lt;td style="text-align: center">alt+d/ctrl+d&lt;/td>
+&lt;td style="text-align: center">删除光标后的一个单词/字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-n/ctrl-p&lt;/td>
-&lt;td style="text-align:center">上一个/下一个命令&lt;/td>
+&lt;td style="text-align: center">ctrl-n/ctrl-p&lt;/td>
+&lt;td style="text-align: center">上一个/下一个命令&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-/&lt;/td>
-&lt;td style="text-align:center">undo&lt;/td>
+&lt;td style="text-align: center">ctrl-/&lt;/td>
+&lt;td style="text-align: center">undo&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-r&lt;/td>
-&lt;td style="text-align:center">reverse-i-search&lt;/td>
+&lt;td style="text-align: center">ctrl-r&lt;/td>
+&lt;td style="text-align: center">reverse-i-search&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!&lt;/td>
-&lt;td style="text-align:center">history substitution&lt;/td>
+&lt;td style="text-align: center">!&lt;/td>
+&lt;td style="text-align: center">history substitution&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!n&lt;/td>
-&lt;td style="text-align:center">Refer to command line n.&lt;/td>
+&lt;td style="text-align: center">!n&lt;/td>
+&lt;td style="text-align: center">Refer to command line n.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!-n&lt;/td>
-&lt;td style="text-align:center">Refer to the current command line minus n.&lt;/td>
+&lt;td style="text-align: center">!-n&lt;/td>
+&lt;td style="text-align: center">Refer to the current command line minus n.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!!&lt;/td>
-&lt;td style="text-align:center">Refer to the previous command. This is a synonym for `!-1'.&lt;/td>
+&lt;td style="text-align: center">!!&lt;/td>
+&lt;td style="text-align: center">Refer to the previous command. This is a synonym for `!-1'.&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table></description><category domain="https://mincodes.com/tags/tools/">Tools</category><category domain="https://mincodes.com/tags/linux/">Linux</category></item></channel></rss>

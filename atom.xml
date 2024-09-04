@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-07-05T15:37:55+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.128.2">Hugo</generator><entry><title type="text">Rust Trait+ 系列</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/rust-trait-plus-series/"/><id>https://mincodes.com/posts/rust-trait-plus-series/</id><updated>2024-07-05T08:33:46+08:00</updated><published>2024-07-05T08:33:46+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。 建议先阅读 Rust 中的特…</summary><content type="html">&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2024-09-04T10:40:56+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.134.0">Hugo</generator><entry><title type="text">Rust Trait+ 系列</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/rust-trait-plus-series/"/><id>https://mincodes.com/posts/rust-trait-plus-series/</id><updated>2024-07-05T08:33:46+08:00</updated><published>2024-07-05T08:33:46+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
+Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
+&lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>…</summary><content type="html">&lt;p>这篇文章介绍了一系列 Rust 中利用 trait 实现的通用能力或惯用法，这些内容也是
 Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之为“Trait+ 系列”。&lt;/p>
 &lt;p>建议先阅读 &lt;a href="https://mincodes.com/posts/traits-in-rust/">Rust 中的特征 (Trait)&lt;/a> 一文，配合食用效果更佳。&lt;/p>
 &lt;h2 id="trait-plus-类型转换">Trait + 类型转换&lt;/h2>
@@ -1069,7 +1071,7 @@ trait 的实现上。&lt;/p>
 &lt;/div>
 &lt;p>和 &lt;code>Send&lt;/code> 类似，几乎所有的原始类型都是 &lt;code>Sync&lt;/code>, 由 &lt;code>Sync&lt;/code> 类型组成的类型也是 &lt;code>Sync&lt;/code> 。&lt;/p>
 &lt;h3 id="unpin-unpin">&lt;code>Unpin&lt;/code>, &lt;code>!Unpin&lt;/code>&lt;/h3>
-&lt;p>参见 &lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/">Rust 中的 &lt;code>Pin&lt;/code>, &lt;code>Unpin&lt;/code> 和 &lt;code>!Unpin&lt;/code>​&lt;/a> 。&lt;/p></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-isobmff/"/><id>https://mincodes.com/posts/understanding-isobmff/</id><updated>2024-03-26T11:46:35+08:00</updated><published>2024-03-23T20:12:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">前段时间用 Rust 写了一个 Exif/Metadata 解析库 nom-exif，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。 ISOBMFF 英文全称 ISO Base Media File Format ，顾名思义主要用于封装多媒体文件。…</summary><content type="html">&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
+&lt;p>参见 &lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/">Rust 中的 &lt;code>Pin&lt;/code>, &lt;code>Unpin&lt;/code> 和 &lt;code>!Unpin&lt;/code>​&lt;/a> 。&lt;/p></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">理解 ISO 基本媒体文件格式 (ISOBMFF)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-isobmff/"/><id>https://mincodes.com/posts/understanding-isobmff/</id><updated>2024-03-26T11:46:35+08:00</updated><published>2024-03-23T20:12:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>…</summary><content type="html">&lt;p>前段时间用 Rust 写了一个 Exif/Metadata 解析库 &lt;a href="https://crates.io/crates/nom-exif">nom-exif&lt;/a>，里面涉及到对 ISOBMFF 的解析，趁着还有点印象，总结一下这种文件格式。&lt;/p>
 &lt;p>ISOBMFF 英文全称 &lt;em>ISO Base Media File Format&lt;/em> ，顾名思义主要用于封装多媒体文件。
 ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开发并标准化为
 &lt;a href="https://www.iso.org/standard/83102.html">ISO/IEC 14496-12&lt;/a> 。&lt;/p>
@@ -1079,41 +1081,41 @@ ISOBMFF 最初直接基于 Apple 的 QuickTime 容器格式，然后由 MPEG 开
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>文件类型&lt;/th>
-&lt;th>互联网媒体类型（MIME）&lt;/th>
-&lt;th>常用扩展名&lt;/th>
+&lt;th style="text-align: left">文件类型&lt;/th>
+&lt;th style="text-align: left">互联网媒体类型（MIME）&lt;/th>
+&lt;th style="text-align: left">常用扩展名&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>QuickTime&lt;/td>
-&lt;td>video/quicktime&lt;/td>
-&lt;td>.mov, .movie, .qt&lt;/td>
+&lt;td style="text-align: left">QuickTime&lt;/td>
+&lt;td style="text-align: left">video/quicktime&lt;/td>
+&lt;td style="text-align: left">.mov, .movie, .qt&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>HEIF&lt;/td>
-&lt;td>image/heif, image/heic&lt;/td>
-&lt;td>.heif, .heifs; .heic, .heics; .avci, .avcs; .HIF&lt;/td>
+&lt;td style="text-align: left">HEIF&lt;/td>
+&lt;td style="text-align: left">image/heif, image/heic&lt;/td>
+&lt;td style="text-align: left">.heif, .heifs; .heic, .heics; .avci, .avcs; .HIF&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>MP4&lt;/td>
-&lt;td>video/mp4, audio/mp4&lt;/td>
-&lt;td>.mp4, .m4a, .m4p, .m4b, .m4r, .m4v&lt;/td>
+&lt;td style="text-align: left">MP4&lt;/td>
+&lt;td style="text-align: left">video/mp4, audio/mp4&lt;/td>
+&lt;td style="text-align: left">.mp4, .m4a, .m4p, .m4b, .m4r, .m4v&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3GP&lt;/td>
-&lt;td>video/3gpp&lt;/td>
-&lt;td>.3gp, 3g2&lt;/td>
+&lt;td style="text-align: left">3GP&lt;/td>
+&lt;td style="text-align: left">video/3gpp&lt;/td>
+&lt;td style="text-align: left">.3gp, 3g2&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>JPEG 2000&lt;/td>
-&lt;td>image/jp2, image/jpx&lt;/td>
-&lt;td>.jp2, .j2k, .jpf, .jpm, .jpg2, .j2c, .jpc, .jpx, .mj2&lt;/td>
+&lt;td style="text-align: left">JPEG 2000&lt;/td>
+&lt;td style="text-align: left">image/jp2, image/jpx&lt;/td>
+&lt;td style="text-align: left">.jp2, .j2k, .jpf, .jpm, .jpg2, .j2c, .jpc, .jpx, .mj2&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Flash Video&lt;/td>
-&lt;td>video/x-flv&lt;/td>
-&lt;td>.flv, .fla, .f4v, .f4a, .f4b, .f4p&lt;/td>
+&lt;td style="text-align: left">Flash Video&lt;/td>
+&lt;td style="text-align: left">video/x-flv&lt;/td>
+&lt;td style="text-align: left">.flv, .fla, .f4v, .f4a, .f4b, .f4p&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1136,26 +1138,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size, 含自身&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size, 含自身&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 8&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">box_size - 8&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1164,26 +1166,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Major brand, 文件格式代码&lt;/td>
-&lt;td>&amp;ldquo;qt &amp;ldquo;: QuickTime, &amp;ldquo;heic&amp;rdquo;: HEIC&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">Major brand, 文件格式代码&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;qt &amp;ldquo;: QuickTime, &amp;ldquo;heic&amp;rdquo;: HEIC&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>Minor version, 文件格式规范版本&lt;/td>
-&lt;td>目前很少使用&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">Minor version, 文件格式规范版本&lt;/td>
+&lt;td style="text-align: left">目前很少使用&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 8 - 8&lt;/td>
-&lt;td>Compatible brands, 兼容的文件格式，四字节一个，可能有多个&lt;/td>
-&lt;td>&amp;ldquo;mif1MiHEmiafMiHBheic&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">box_size - 8 - 8&lt;/td>
+&lt;td style="text-align: left">Compatible brands, 兼容的文件格式，四字节一个，可能有多个&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;mif1MiHEmiafMiHBheic&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1201,31 +1203,31 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 1&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 1&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>extended_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">8&lt;/td>
+&lt;td style="text-align: left">extended_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>extended_size - 16&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">extended_size - 16&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1235,26 +1237,26 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 0&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 0&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>*&lt;/td>
-&lt;td>box_data, 长度一直延伸到文件末尾&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">*&lt;/td>
+&lt;td style="text-align: left">box_data, 长度一直延伸到文件末尾&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1263,21 +1265,21 @@ Box &lt;sup id="fnref:1">&lt;a href="https://mincodes.com/posts/understanding-i
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 8&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 8&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type == &amp;ldquo;wide&amp;rdquo;&lt;/td>
-&lt;td>&amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type == &amp;ldquo;wide&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;wide&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1298,36 +1300,36 @@ Box。如果将来某一天，B 的长度不够，需要括容，则可以按照
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>version&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">1&lt;/td>
+&lt;td style="text-align: left">version&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>flags&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">3&lt;/td>
+&lt;td style="text-align: left">flags&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>box_size - 12&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">box_size - 12&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1338,41 +1340,41 @@ Box。如果将来某一天，B 的长度不够，需要括容，则可以按照
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>bytes&lt;/th>
-&lt;th>description&lt;/th>
-&lt;th>example&lt;/th>
+&lt;th style="text-align: left">bytes&lt;/th>
+&lt;th style="text-align: left">description&lt;/th>
+&lt;th style="text-align: left">example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_size == 1&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_size == 1&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>box_type&lt;/td>
-&lt;td>&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">box_type&lt;/td>
+&lt;td style="text-align: left">&amp;ldquo;ftyp&amp;rdquo;, &amp;ldquo;meta&amp;rdquo;&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>extended_size&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">8&lt;/td>
+&lt;td style="text-align: left">extended_size&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>1&lt;/td>
-&lt;td>version&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">1&lt;/td>
+&lt;td style="text-align: left">version&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>3&lt;/td>
-&lt;td>flags&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">3&lt;/td>
+&lt;td style="text-align: left">flags&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>extended_size - 20&lt;/td>
-&lt;td>box_data&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">extended_size - 20&lt;/td>
+&lt;td style="text-align: left">box_data&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -1421,7 +1423,8 @@ version/flags 的复杂的行为控制，以及嵌套数据结构的处理，更
 &lt;p>这里其实有一个特例，从 iOS 实况图片中导出的 .mov 视频文件，第一个 Box 不是 ftyp, 需要稍微注意一下。&amp;#160;&lt;a href="https://mincodes.com/posts/understanding-isobmff/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></content><category scheme="https://mincodes.com/tags/parser/" term="Parser" label="Parser"/><category scheme="https://mincodes.com/tags/multimedia/" term="Multimedia" label="Multimedia"/><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">理解 Rust 异步编程</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-async-rust/"/><id>https://mincodes.com/posts/understanding-async-rust/</id><updated>2024-07-05T23:34:36+08:00</updated><published>2024-03-21T22:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 的异步特性很强大，相对也比较复杂。 为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向…</summary><content type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/parser/" term="Parser" label="Parser"/><category scheme="https://mincodes.com/tags/multimedia/" term="Multimedia" label="Multimedia"/><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">理解 Rust 异步编程</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-async-rust/"/><id>https://mincodes.com/posts/understanding-async-rust/</id><updated>2024-07-05T23:34:36+08:00</updated><published>2024-03-21T22:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
+&lt;p>为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向对比等多个方面进行阐述。&lt;/p>…</summary><content type="html">&lt;p>Rust 的异步特性很强大，相对也比较复杂。&lt;/p>
 &lt;p>为了更好的理解 Rust 的异步特性，本文分别从 Rust 异步的特点、与多线程的对比、异步的用法介绍及注意事项、内部实现机制、和其他语言的横向对比等多个方面进行阐述。&lt;/p>
 &lt;h2 id="rust-异步的特点">Rust 异步的特点&lt;/h2>
 &lt;h3 id="future-是惰性的--inert">&lt;code>Future&lt;/code> 是惰性的 (&lt;em>inert&lt;/em>)&lt;/h3>
@@ -1886,7 +1889,10 @@ Rust 的处理方式，但在细节上有所不同，最大的区别是 Kotlin �
 &lt;li>&lt;a href="https://kotlinlang.org/spec/asynchronous-programming-with-coroutines.html">Kotlin language specification&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://dart.dev/codelabs/async-await">Asynchronous Programming in Dart&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://mincodes.com/posts/pin-unpin-in-rust/">Rust 中的 &lt;code>Pin&lt;/code>, &lt;code>Unpin&lt;/code> 和 &lt;code>!Unpin&lt;/code> &lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/async/" term="Async" label="Async"/></entry><entry><title type="text">Rust 中的 Pin, Unpin 和 !Unpin</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/pin-unpin-in-rust/"/><id>https://mincodes.com/posts/pin-unpin-in-rust/</id><updated>2024-07-05T23:34:00+08:00</updated><published>2024-03-19T11:54:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">为什么需要 Pin? 引入 Pin 的目的主要是为了支持 自引用类型 (self-referential types) 。下面我们以 Future 为例，解释一下自引用类型以及引入 Pin 的必要性。 由于异步块/异步函数中可能包含对局部变量的引用，例…</summary><content type="html">&lt;h2 id="为什么需要-pin">为什么需要 &lt;code>Pin&lt;/code>?&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/async/" term="Async" label="Async"/></entry><entry><title type="text">Rust 中的 Pin, Unpin 和 !Unpin</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/pin-unpin-in-rust/"/><id>https://mincodes.com/posts/pin-unpin-in-rust/</id><updated>2024-07-05T23:34:00+08:00</updated><published>2024-03-19T11:54:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="为什么需要-pin">为什么需要 &lt;code>Pin&lt;/code>?&lt;/h2>
+&lt;p>引入 &lt;code>Pin&lt;/code> 的目的主要是为了支持 &lt;strong>自引用类型 (self-referential types)&lt;/strong> 。下面我们以
+&lt;code>Future&lt;/code> 为例，解释一下自引用类型以及引入 &lt;code>Pin&lt;/code> 的必要性。&lt;/p>
+&lt;p>由于异步块/异步函数中可能包含对局部变量的引用，例如下面的代码：&lt;/p>…</summary><content type="html">&lt;h2 id="为什么需要-pin">为什么需要 &lt;code>Pin&lt;/code>?&lt;/h2>
 &lt;p>引入 &lt;code>Pin&lt;/code> 的目的主要是为了支持 &lt;strong>自引用类型 (self-referential types)&lt;/strong> 。下面我们以
 &lt;code>Future&lt;/code> 为例，解释一下自引用类型以及引入 &lt;code>Pin&lt;/code> 的必要性。&lt;/p>
 &lt;p>由于异步块/异步函数中可能包含对局部变量的引用，例如下面的代码：&lt;/p>
@@ -2263,7 +2269,9 @@ trait, 则可以通过 Deref Coercion 自动获得 &lt;code>Pin&lt;/code> 对象
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Updated value: 11
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/async/" term="Async" label="Async"/></entry><entry><title type="text">理解 Rust 的生命周期 (Lifetime)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-lifetimes-in-rust/"/><id>https://mincodes.com/posts/understanding-lifetimes-in-rust/</id><updated>2024-07-05T23:33:11+08:00</updated><published>2024-03-06T16:01:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Lifetime 的主要目的是防止悬空引用 (dangling references) 下面的例子中， borrow checker 会检查 r 的生命周期 'a 比其引用的数据的生命周期 'b 要长，因此会拒绝编译通过。 1 2 3 4 5 6 7 8 9 10 11 // ❌ borrowed value does not live long enough…</summary><content type="html">&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/async/" term="Async" label="Async"/></entry><entry><title type="text">理解 Rust 的生命周期 (Lifetime)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understanding-lifetimes-in-rust/"/><id>https://mincodes.com/posts/understanding-lifetimes-in-rust/</id><updated>2024-07-05T23:33:11+08:00</updated><published>2024-03-06T16:01:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
+&lt;p>下面的例子中， &lt;em>borrow checker&lt;/em> 会检查 &lt;code>r&lt;/code> 的生命周期 &lt;code>'a&lt;/code> 比其引用的数据的生命周期 &lt;code>'b&lt;/code>
+要长，因此会拒绝编译通过。&lt;/p>…</summary><content type="html">&lt;h2 id="lifetime-的主要目的是防止悬空引用--dangling-references">Lifetime 的主要目的是防止悬空引用 (&lt;em>dangling references&lt;/em>)&lt;/h2>
 &lt;p>下面的例子中， &lt;em>borrow checker&lt;/em> 会检查 &lt;code>r&lt;/code> 的生命周期 &lt;code>'a&lt;/code> 比其引用的数据的生命周期 &lt;code>'b&lt;/code>
 要长，因此会拒绝编译通过。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -2655,7 +2663,28 @@ verified by the compiler to be valid at its current memory address.&lt;/p>
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Rust 的 move 和 C++ 的 std::move</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/move-in-rust-and-cpp/"/><id>https://mincodes.com/posts/move-in-rust-and-cpp/</id><updated>2024-07-05T23:34:12+08:00</updated><published>2024-03-06T12:19:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 的 move 和 C++ 的 std::move 在表面上看有些相似之处，因为它们都涉及到数据或资源的转移。然而，它们在设计理念、实现方式以及它们在各自语言中所扮演的角色上有着根本的区别。 Rust 中的 Move…</summary><content type="html">&lt;p>Rust 的 &lt;code>move&lt;/code> 和 C++ 的 &lt;code>std::move&lt;/code> 在表面上看有些相似之处，因为它们都涉及到数据或资源的转移。然而，它们在设计理念、实现方式以及它们在各自语言中所扮演的角色上有着根本的区别。&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Rust 的 move 和 C++ 的 std::move</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/move-in-rust-and-cpp/"/><id>https://mincodes.com/posts/move-in-rust-and-cpp/</id><updated>2024-07-05T23:34:12+08:00</updated><published>2024-03-06T12:19:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>Rust 的 &lt;code>move&lt;/code> 和 C++ 的 &lt;code>std::move&lt;/code> 在表面上看有些相似之处，因为它们都涉及到数据或资源的转移。然而，它们在设计理念、实现方式以及它们在各自语言中所扮演的角色上有着根本的区别。&lt;/p>
+&lt;h2 id="rust-中的-move-语义">Rust 中的 Move 语义&lt;/h2>
+&lt;dl>
+&lt;dt>所有权转移&lt;/dt>
+&lt;dd>Rust 中的 move 语义是其所有权系统的核心部分。当一个值从一个变量移动到另一个变量时，原始变量不再有权访问该值。这避免了悬垂指针和数据竞争等问题。&lt;/dd>
+&lt;dt>编译时检查&lt;/dt>
+&lt;dd>Rust 的编译器在编译时就会检查所有权、借用和生命周期规则，确保内存安全而无需运行时开销。&lt;/dd>
+&lt;dt>自动控制&lt;/dt>
+&lt;dd>Rust 的 move 语义是通过编译器自动实现的，不需要程序员提供特殊的代码来支持 move
+语义。&lt;/dd>
+&lt;/dl>
+&lt;h2 id="c-plus-plus-中的-move-语义">C++ 中的 Move 语义&lt;/h2>
+&lt;dl>
+&lt;dt>资源转移&lt;/dt>
+&lt;dd>C++11 引入了 move 语义，主要用于优化资源管理，减少不必要的对象复制。通过
+&lt;code>std::move&lt;/code> ，可以将一个对象的状态或资源转移到另一个对象，原对象则处于一个有效但未定义的状态。&lt;/dd>
+&lt;dt>标准库的支持&lt;/dt>
+&lt;dd>C++ 的 move 语义与其标准库紧密结合，许多容器和算法都对 move 语义进行了优化。&lt;/dd>
+&lt;dt>手动控制&lt;/dt>
+&lt;dd>与 Rust 的自动和严格的所有权模型不同，C++ 程序员需要更多地手动管理资源和使用
+move 语义，这提供了灵活性但也增加了错误的可能性。
+&lt;p>具体来讲，C++ 的 move 语义是通过类的『移动构造函数』和『移动赋值运算符』来提供支持的。&lt;/p>…</summary><content type="html">&lt;p>Rust 的 &lt;code>move&lt;/code> 和 C++ 的 &lt;code>std::move&lt;/code> 在表面上看有些相似之处，因为它们都涉及到数据或资源的转移。然而，它们在设计理念、实现方式以及它们在各自语言中所扮演的角色上有着根本的区别。&lt;/p>
 &lt;h2 id="rust-中的-move-语义">Rust 中的 Move 语义&lt;/h2>
 &lt;dl>
 &lt;dt>所有权转移&lt;/dt>
@@ -2706,7 +2735,8 @@ move 语义，这提供了灵活性但也增加了错误的可能性。
 &lt;p>这点可以通过生成 Rust 源码的 LLVM IR 来验证（命令： &lt;code>cargo rustc -- --emit=llvm-ir&lt;/code> ），例如这个&lt;a href="https://stackoverflow.com/a/30290070/1066512">案例&lt;/a>。&amp;#160;&lt;a href="https://mincodes.com/posts/move-in-rust-and-cpp/#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">发布我的第一个 Crate: django-auth</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/publish-crate-django-auth/"/><id>https://mincodes.com/posts/publish-crate-django-auth/</id><updated>2024-01-14T19:37:41+08:00</updated><published>2024-01-14T19:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">今天发布了我的第一个 crate: django-auth, 虽然是一个非常简单的 crate, 但麻雀虽小，五脏俱全，API 文档、测试用例、doc test 等一个都不能少 😎。 先简单介绍一下这个库，然后再介绍一下在 crates.io 上发…</summary><content type="html">&lt;p>今天发布了我的第一个 crate: &lt;a href="https://crates.io/crates/django-auth">django-auth&lt;/a>, 虽然是一个非常简单的 crate, 但麻雀虽小，五脏俱全，API 文档、测试用例、doc test 等一个都不能少 😎。&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">发布我的第一个 Crate: django-auth</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/publish-crate-django-auth/"/><id>https://mincodes.com/posts/publish-crate-django-auth/</id><updated>2024-09-04T18:39:13+08:00</updated><published>2024-01-14T19:37:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>今天发布了我的第一个 crate: &lt;a href="https://crates.io/crates/django-auth">django-auth&lt;/a>, 虽然是一个非常简单的 crate, 但麻雀虽小，五脏俱全，API 文档、测试用例、doc test 等一个都不能少 😎。&lt;/p>
+&lt;p>先简单介绍一下这个库，然后再介绍一下在 &lt;a href="https://crates.io/">crates.io&lt;/a> 上发布 crate 的流程。&lt;/p>…</summary><content type="html">&lt;p>今天发布了我的第一个 crate: &lt;a href="https://crates.io/crates/django-auth">django-auth&lt;/a>, 虽然是一个非常简单的 crate, 但麻雀虽小，五脏俱全，API 文档、测试用例、doc test 等一个都不能少 😎。&lt;/p>
 &lt;p>先简单介绍一下这个库，然后再介绍一下在 &lt;a href="https://crates.io/">crates.io&lt;/a> 上发布 crate 的流程。&lt;/p>
 &lt;h2 id="django-auth">django-auth&lt;/h2>
 &lt;p>&lt;a href="https://www.djangoproject.com/">Django&lt;/a> 是一个 Python 的 web framework, 若干年前用曾经 Django 写过一些 Web 应用。最近刚好在学习 Rust, 因此计划用 Rust 将其中一个应用重写一遍练练手。&lt;/p>
@@ -2778,7 +2808,7 @@ Organization，所以不确定没有行不行）。&lt;/li>
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo login
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo login
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>按照提示将 token 粘贴并回车即可。&lt;/p>
@@ -2810,22 +2840,61 @@ Organization，所以不确定没有行不行）。&lt;/li>
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo publish --dry-run
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo publish --dry-run
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>该命令不会真正执行发布操作，但是会把提交到 crate.io 之前要做的事情都做一遍。&lt;/p>
+&lt;p>另外，可以执行如下命令，检查发布时将会打包上传的所有文件（注意检查是否包含一些可能泄漏私人信息的文件）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo package --list
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>⚠️ `cargo publish` 命令会将当前目录下所有的 version controlled 文件 (即所有由版本管理器管理的文件) 都打包并上传。如果你有一些带有敏感信息的文件，例如密码、
+token 等私人配置文件，请一定记得从版本管理器中忽略掉这些敏感文件（使用 git 的话可以在 `.gitignore` 中配置）。&lt;/p>
+&lt;/blockquote>
+&lt;p>如果有些文件比较大，或者觉得没必要上传到 &lt;a href="https://crates.io/">https://crates.io/&lt;/a> （例如一些测试数据等），但确实需要进行版本管理的，可以在 `Cargo.toml` 文件中配置，例如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-toml" data-lang="toml">&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="nx">package&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">exclude&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;testdata/*&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>该配置会忽略掉 `testdata` 目录下所有文件。&lt;/p>
 &lt;p>确认无误后，可以运行如下命令，真正将 crate 发布至 crate.io:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl"> cargo publish
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo publish
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>✅ 搞定！&lt;/p>
 &lt;/li>
-&lt;/ol></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/django/" term="Django" label="Django"/></entry><entry><title type="text">Rust 中的特征 (Trait)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/traits-in-rust/"/><id>https://mincodes.com/posts/traits-in-rust/</id><updated>2024-07-05T22:08:51+08:00</updated><published>2023-12-19T20:46:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Trait 初探 trait 是 Rust 中用来定义共享行为的抽象机制，和 Java 的 interface, Swift 的 protocol 等接口抽象机制有点类似。 定义一个 trait 很简单： 1 2 3 trait Callable { fn call(&amp;amp;self); } 为 Rust 的 str 类型实现该 trait (impl​ements…</summary><content type="html">&lt;h2 id="trait-初探">Trait 初探&lt;/h2>
+&lt;/ol></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/><category scheme="https://mincodes.com/tags/django/" term="Django" label="Django"/></entry><entry><title type="text">Rust 中的特征 (Trait)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/traits-in-rust/"/><id>https://mincodes.com/posts/traits-in-rust/</id><updated>2024-07-05T22:08:51+08:00</updated><published>2023-12-19T20:46:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="trait-初探">Trait 初探&lt;/h2>
+&lt;p>&lt;em>trait&lt;/em> 是 Rust 中用来定义共享行为的抽象机制，和 Java 的 &lt;em>interface&lt;/em>, Swift 的
+&lt;em>protocol&lt;/em> 等接口抽象机制有点类似。&lt;/p>
+&lt;p>定义一个 trait 很简单：&lt;/p>
+&lt;p>&lt;a id="code-snippet--callable">&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;h2 id="trait-初探">Trait 初探&lt;/h2>
 &lt;p>&lt;em>trait&lt;/em> 是 Rust 中用来定义共享行为的抽象机制，和 Java 的 &lt;em>interface&lt;/em>, Swift 的
 &lt;em>protocol&lt;/em> 等接口抽象机制有点类似。&lt;/p>
 &lt;p>定义一个 trait 很简单：&lt;/p>
@@ -3713,7 +3782,9 @@ Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之
 &lt;li>&lt;a href="https://blog.rust-lang.org/2015/05/11/traits.html">Abstraction without overhead: traits in Rust&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://doc.rust-lang.org/book/appendix-03-derivable-traits.html">Derivable Traits&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://doc.rust-lang.org/book/ch15-02-deref.html">Treating Smart Pointers Like Regular References with the Deref Trait&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Rust 中的 | (竖线) 符号</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/rust-vertical-line/"/><id>https://mincodes.com/posts/rust-vertical-line/</id><updated>2023-12-19T20:46:40+08:00</updated><published>2023-12-18T21:20:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Rust 中的 | 用途比较多，这里做一个简单的整理。 模式匹配中的“或”模式 (Pattern Alternatives) 在模式匹配（如 match 语句或 if let 表达式）中， | 可以用来表示多个模式的组合： 1 2 3 4 5 6 7 8 9 10 11 12…</summary><content type="html">&lt;p>Rust 中的 &lt;code>|&lt;/code> 用途比较多，这里做一个简单的整理。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Rust 中的 | (竖线) 符号</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/rust-vertical-line/"/><id>https://mincodes.com/posts/rust-vertical-line/</id><updated>2023-12-19T20:46:40+08:00</updated><published>2023-12-18T21:20:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>Rust 中的 &lt;code>|&lt;/code> 用途比较多，这里做一个简单的整理。&lt;/p>
+&lt;h2 id="模式匹配中的-或-模式--pattern-alternatives">模式匹配中的“或”模式 (Pattern Alternatives)&lt;/h2>
+&lt;p>在模式匹配（如 &lt;code>match&lt;/code> 语句或 &lt;code>if let&lt;/code> 表达式）中， &lt;code>|&lt;/code> 可以用来表示多个模式的组合：&lt;/p>…</summary><content type="html">&lt;p>Rust 中的 &lt;code>|&lt;/code> 用途比较多，这里做一个简单的整理。&lt;/p>
 &lt;h2 id="模式匹配中的-或-模式--pattern-alternatives">模式匹配中的“或”模式 (Pattern Alternatives)&lt;/h2>
 &lt;p>在模式匹配（如 &lt;code>match&lt;/code> 语句或 &lt;code>if let&lt;/code> 表达式）中， &lt;code>|&lt;/code> 可以用来表示多个模式的组合：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -3822,7 +3893,19 @@ Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>在这个例子中， &lt;code>T&lt;/code> 类型参数必须实现 &lt;code>Display&lt;/code> 或 &lt;code>Debug&lt;/code> trait 中的至少一个。&lt;/p></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Doom Emacs 的基本用法</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/basic-usage-of-doom-emacs/"/><id>https://mincodes.com/posts/basic-usage-of-doom-emacs/</id><updated>2023-12-08T17:01:09+08:00</updated><published>2023-12-08T16:49:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">安装 1 2 git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs ~/.config/emacs/bin/doom install 环境变量 执行 doom env 命令，可以 dump 一份当前的 shell 环境变量，Doom 启动时会加载该环境变量。如果你的环境变量配置发生变化（例如修改了 PATH 配置），则应…</summary><content type="html">&lt;h2 id="安装">安装&lt;/h2>
+&lt;/div>&lt;p>在这个例子中， &lt;code>T&lt;/code> 类型参数必须实现 &lt;code>Display&lt;/code> 或 &lt;code>Debug&lt;/code> trait 中的至少一个。&lt;/p></content><category scheme="https://mincodes.com/tags/rust/" term="Rust" label="Rust"/></entry><entry><title type="text">Doom Emacs 的基本用法</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/basic-usage-of-doom-emacs/"/><id>https://mincodes.com/posts/basic-usage-of-doom-emacs/</id><updated>2023-12-08T17:01:09+08:00</updated><published>2023-12-08T16:49:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="安装">安装&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone --depth &lt;span class="m">1&lt;/span> https://github.com/doomemacs/doomemacs ~/.config/emacs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">~/.config/emacs/bin/doom install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="环境变量">环境变量&lt;/h3>
+&lt;p>执行 &lt;code>doom env&lt;/code> 命令，可以 dump 一份当前的 shell 环境变量，Doom 启动时会加载该环境变量。如果你的环境变量配置发生变化（例如修改了 PATH 配置），则应该重新执行一次该命令。&lt;/p>…</summary><content type="html">&lt;h2 id="安装">安装&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -3874,7 +3957,19 @@ Rust 编程中较常见的概念、方法和技巧，实用性很强，我称之
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/doomemacs/doomemacs">GitHub - doomemacs/doomemacs: An Emacs framework for the stubborn martian hacker&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/></entry><entry><title type="text">深度学习笔记：理论基础</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/deep-learning-notes-theory-foundation/"/><id>https://mincodes.com/posts/deep-learning-notes-theory-foundation/</id><updated>2024-04-28T18:16:19+08:00</updated><published>2023-12-07T16:34:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">深度学习和神经网络 深度学习是一种实现机器学习的技术，而神经网络是实现深度学习的基本结构。 具体来说： 神经网络: 神经网络是一种模仿人脑处理信息方式的计算系统。它由大…</summary><content type="html">&lt;h2 id="深度学习和神经网络">深度学习和神经网络&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/></entry><entry><title type="text">深度学习笔记：理论基础</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/deep-learning-notes-theory-foundation/"/><id>https://mincodes.com/posts/deep-learning-notes-theory-foundation/</id><updated>2024-04-28T18:16:19+08:00</updated><published>2023-12-07T16:34:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="深度学习和神经网络">深度学习和神经网络&lt;/h2>
+&lt;p>深度学习是一种实现机器学习的技术，而神经网络是实现深度学习的基本结构。&lt;/p>
+&lt;p>具体来说：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>神经网络&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>神经网络是一种模仿人脑处理信息方式的计算系统。它由大量的节点（神经元）组成，这些节点通过层次结构相互连接。&lt;/li>
+&lt;li>神经网络可以是浅层的（少数层），也可以是深层的（多层）。浅层神经网络常用于较简单的模式识别和数据分类任务。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>深度学习&lt;/strong>:&lt;/p>…</summary><content type="html">&lt;h2 id="深度学习和神经网络">深度学习和神经网络&lt;/h2>
 &lt;p>深度学习是一种实现机器学习的技术，而神经网络是实现深度学习的基本结构。&lt;/p>
 &lt;p>具体来说：&lt;/p>
 &lt;ol>
@@ -4285,7 +4380,11 @@ W_{new}=W_{old}−η⋅∇L(W_{old})
 &lt;ul>
 &lt;li>&lt;a href="https://www.coursera.org/learn/deep-neural-networks-with-pytorch/home/week/1">Deep Neural Networks with PyTorch&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://pytorch.org/tutorials/beginner/basics/intro.html">Learn the Basics — PyTorch Tutorials 2.3.0+cu121 documentation&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/ai/" term="Ai" label="Ai"/><category scheme="https://mincodes.com/tags/deep-learning/" term="Deep-Learning" label="Deep-Learning"/></entry><entry><title type="text">设计模式：行为型 (Behavioral)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-behavioral/"/><id>https://mincodes.com/posts/design-patterns-behavioral/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:36:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">设计模式总目录请参考：设计模式所支持的设计的可变方面。 责任链 (Chain of Responsibility) 意图 使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/ai/" term="Ai" label="Ai"/><category scheme="https://mincodes.com/tags/deep-learning/" term="Deep-Learning" label="Deep-Learning"/></entry><entry><title type="text">设计模式：行为型 (Behavioral)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-behavioral/"/><id>https://mincodes.com/posts/design-patterns-behavioral/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:36:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;h2 id="责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/h2>
+&lt;h3 id="意图">意图&lt;/h3>
+&lt;blockquote>
+&lt;p>使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。&lt;/p>…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
 &lt;h2 id="责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/h2>
 &lt;h3 id="意图">意图&lt;/h3>
 &lt;blockquote>
@@ -4683,7 +4782,11 @@ markdown 导出功能，只需新增一个 &lt;code>MarkdownExporterVisitor&lt;/
 &lt;li>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#组合--composite">组合 (Composite)&lt;/a>: Visitor 模式可以搭配 Composite 模式一起使用，用来对一个通过
 Composite 模式构建的对象层次结构进行遍历操作。上述的&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#%E6%A1%88%E4%BE%8B-%E5%AF%8C%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%E6%A8%A1%E5%9E%8B">富文本文档模型案例&lt;/a>，就是这样一个例子。&lt;/li>
 &lt;li>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#%E8%A7%A3%E9%87%8A%E5%99%A8--interpreter">解释器 (Interpreter)&lt;/a>: 访问者也可以在解释器模式中使用。&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">设计模式：创建型 (Creational)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-creational/"/><id>https://mincodes.com/posts/design-patterns-creational/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:35:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">设计模式总目录请参考：设计模式所支持的设计的可变方面。 抽象工厂 (Abstract Factory) 意图 提供一个接口以创建一系列相关或相互依赖的对象，而无须指定它们具体的类。 案例 前面在依赖倒置原…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">设计模式：创建型 (Creational)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-creational/"/><id>https://mincodes.com/posts/design-patterns-creational/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:35:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;h2 id="抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/h2>
+&lt;h3 id="意图">意图&lt;/h3>
+&lt;blockquote>
+&lt;p>提供一个接口以创建一系列相关或相互依赖的对象，而无须指定它们具体的类。&lt;/p>…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
 &lt;h2 id="抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/h2>
 &lt;h3 id="意图">意图&lt;/h3>
 &lt;blockquote>
@@ -5031,7 +5134,11 @@ Director + 不同 Builder 的方式来导出不同格式的文档。取决于你
 &lt;ul>
 &lt;li>从可测试性的角度，应该尽量减少 Singleton 的使用。因为 Singleton 难以被 mock。可以考虑用&lt;a href="https://mincodes.com/posts/design-patterns-creational/#%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82--abstract-factory">抽象工厂 (Abstract Factory)&lt;/a>来代替 Singleton, 并在工厂内部返回其唯一实例。&lt;/li>
 &lt;li>由于单例对象无法被垃圾回收，会导致部分内存或其他资源长期被占据。如果单例是一个占用较多资源的复杂对象，这可能会造成资源紧张的问题。&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">设计模式：结构型 (Structural)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-structural/"/><id>https://mincodes.com/posts/design-patterns-structural/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:35:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">设计模式总目录请参考：设计模式所支持的设计的可变方面。 适配器 (Adapter) 意图 将一个类的接口转换成客户希望的另外一个接口，使得原本不兼容的模块之间可以协同工作。 类图 相关模式…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">设计模式：结构型 (Structural)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns-structural/"/><id>https://mincodes.com/posts/design-patterns-structural/</id><updated>2023-07-24T21:16:06+08:00</updated><published>2023-07-07T18:35:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
+&lt;h2 id="适配器--adapter">适配器 (Adapter)&lt;/h2>
+&lt;h3 id="意图">意图&lt;/h3>
+&lt;blockquote>
+&lt;p>将一个类的接口转换成客户希望的另外一个接口，使得原本不兼容的模块之间可以协同工作。&lt;/p>…</summary><content type="html">&lt;p>设计模式总目录请参考：&lt;a href="https://mincodes.com/posts/design-patterns/#设计模式所支持的设计的可变方面">设计模式所支持的设计的可变方面&lt;/a>。&lt;/p>
 &lt;h2 id="适配器--adapter">适配器 (Adapter)&lt;/h2>
 &lt;h3 id="意图">意图&lt;/h3>
 &lt;blockquote>
@@ -5414,7 +5521,9 @@ Mediator 的存在。而子系统并不知道 Facade 的存在。&lt;/li>
 &lt;ul>
 &lt;li>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#%E9%80%82%E9%85%8D%E5%99%A8--adapter">Adapter 适配器&lt;/a>: 适配器为它所适配的对象提供一个不同的接口。相反，代理提供与它的实体相同的接口。&lt;/li>
 &lt;li>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#%E8%A3%85%E9%A5%B0%E5%99%A8--decorator">Decorator 装饰器&lt;/a>: 装饰的实现部分和代理有点类似，但是目的不同。装饰为对象添加一个或多个功能，而代理则控制对对象的访问。另外实现上虽然有相似之处，但还是有些细微的差异。例如，Remote Proxy 并不包含对实体的直接引用，而只是一个间接引用（例如 Android &lt;code>AIDL&lt;/code> 的例子）。&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">软件设计原则、设计模式总结</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns/"/><id>https://mincodes.com/posts/design-patterns/</id><updated>2023-07-24T21:16:07+08:00</updated><published>2023-07-03T16:40:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">前言 本文是笔者对软件设计原则、设计模式的一个梳理，很多内容参考自《设计模式：可复用面向对象软件的基础》一书（尤其是设计模式部分）。其中也包含了笔者个人的一些思考…</summary><content type="html">&lt;!-- weight = 200 -->
+&lt;/ul></content><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/></entry><entry><title type="text">软件设计原则、设计模式总结</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/design-patterns/"/><id>https://mincodes.com/posts/design-patterns/</id><updated>2023-07-24T21:16:07+08:00</updated><published>2023-07-03T16:40:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;!-- weight = 200 -->
+&lt;h2 id="前言">前言&lt;/h2>
+&lt;p>本文是笔者对软件设计原则、设计模式的一个梳理，很多内容参考自《设计模式：可复用面向对象软件的基础》一书（尤其是&lt;a href="https://mincodes.com/posts/design-patterns/#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式&lt;/a>部分）。其中也包含了笔者个人的一些思考和总结。&lt;/p>…</summary><content type="html">&lt;!-- weight = 200 -->
 &lt;h2 id="前言">前言&lt;/h2>
 &lt;p>本文是笔者对软件设计原则、设计模式的一个梳理，很多内容参考自《设计模式：可复用面向对象软件的基础》一书（尤其是&lt;a href="https://mincodes.com/posts/design-patterns/#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F">设计模式&lt;/a>部分）。其中也包含了笔者个人的一些思考和总结。&lt;/p>
 &lt;h2 id="概念和术语">概念和术语&lt;/h2>
@@ -5823,129 +5932,137 @@ Mediator 的存在。而子系统并不知道 Facade 的存在。&lt;/li>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>目的&lt;/th>
-&lt;th>设计模式&lt;/th>
-&lt;th>可变的方面&lt;/th>
+&lt;th style="text-align: left">目的&lt;/th>
+&lt;th style="text-align: left">设计模式&lt;/th>
+&lt;th style="text-align: left">可变的方面&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>创建&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/a>&lt;/td>
-&lt;td>产品对象家族&lt;/td>
+&lt;td style="text-align: left">创建&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#抽象工厂--abstract-factory">抽象工厂 (Abstract Factory)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">产品对象家族&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#生成器--builder">生成器 (Builder)&lt;/a>&lt;/td>
-&lt;td>如何创建一个组合对象&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#生成器--builder">生成器 (Builder)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何创建一个组合对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#工厂方法--factory-method">工厂方法 (Factory Method)&lt;/a>&lt;/td>
-&lt;td>被实例化的子类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#工厂方法--factory-method">工厂方法 (Factory Method)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">被实例化的子类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#原型--prototype">原型 (Prototype)&lt;/a>&lt;/td>
-&lt;td>被实例化的类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#原型--prototype">原型 (Prototype)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">被实例化的类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-creational/#单例--singleton">单例 (Singleton)&lt;/a>&lt;/td>
-&lt;td>一个类的唯一实例&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-creational/#单例--singleton">单例 (Singleton)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个类的唯一实例&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>结构&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#适配器--adapter">适配器 (Adapter)&lt;/a>&lt;/td>
-&lt;td>对象的接口&lt;/td>
+&lt;td style="text-align: left">结构&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#适配器--adapter">适配器 (Adapter)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的接口&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#桥接--bridge">桥接 (Bridge)&lt;/a>&lt;/td>
-&lt;td>对象的实现&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#桥接--bridge">桥接 (Bridge)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的实现&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#组合--composite">组合 (Composite)&lt;/a>&lt;/td>
-&lt;td>一个对象的结构和组成&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#组合--composite">组合 (Composite)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个对象的结构和组成&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#装饰器--decorator">装饰器 (Decorator)&lt;/a>&lt;/td>
-&lt;td>对象的职责,不生成子类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#装饰器--decorator">装饰器 (Decorator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的职责,不生成子类&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#外观--facade">外观 (Facade)&lt;/a>&lt;/td>
-&lt;td>一个子系统的接口&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#外观--facade">外观 (Facade)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个子系统的接口&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#享元--flyweight">享元 (Flyweight)&lt;/a>&lt;/td>
-&lt;td>对象的存储开销&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#享元--flyweight">享元 (Flyweight)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的存储开销&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-structural/#代理--proxy">代理 (Proxy)&lt;/a>&lt;/td>
-&lt;td>如何访问一个对象&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-structural/#代理--proxy">代理 (Proxy)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何访问一个对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>行为&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/a>&lt;/td>
-&lt;td>响应请求的对象&lt;/td>
+&lt;td style="text-align: left">行为&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#责任链--chain-of-responsibility">责任链 (Chain of Responsibility)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">响应请求的对象&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#命令--command">命令 (Command)&lt;/a>&lt;/td>
-&lt;td>何时、怎样满足一个请求&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#命令--command">命令 (Command)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">何时、怎样满足一个请求&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#解释器--interpreter">解释器 (Interpreter)&lt;/a>&lt;/td>
-&lt;td>一个语言的文法及解释&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#解释器--interpreter">解释器 (Interpreter)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个语言的文法及解释&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#迭代器--iterator">迭代器 (Iterator)&lt;/a>&lt;/td>
-&lt;td>如何遍历、访问一个集合的各元素&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#迭代器--iterator">迭代器 (Iterator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">如何遍历、访问一个集合的各元素&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#中介者--mediator">中介者 (Mediator)&lt;/a>&lt;/td>
-&lt;td>对象间怎样交互、和谁交互&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#中介者--mediator">中介者 (Mediator)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象间怎样交互、和谁交互&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#备忘录--memento">备忘录 (Memento)&lt;/a>&lt;/td>
-&lt;td>一个对象中哪些私有信息存放在该对象之外,以及何时进行存储&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#备忘录--memento">备忘录 (Memento)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">一个对象中哪些私有信息存放在该对象之外,以及何时进行存储&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#观察者--observer">观察者 (Observer)&lt;/a>&lt;/td>
-&lt;td>多个对象依赖于另一个对象,而这些对象又如何保持一致&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#观察者--observer">观察者 (Observer)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">多个对象依赖于另一个对象,而这些对象又如何保持一致&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#状态--state">状态 (State)&lt;/a>&lt;/td>
-&lt;td>对象的状态&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#状态--state">状态 (State)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">对象的状态&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#策略--strategy">策略 (Strategy)&lt;/a>&lt;/td>
-&lt;td>算法&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#策略--strategy">策略 (Strategy)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">算法&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#模板方法--template-method">模板方法 (Template Method)&lt;/a>&lt;/td>
-&lt;td>算法中的某些步骤&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#模板方法--template-method">模板方法 (Template Method)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">算法中的某些步骤&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>&lt;/td>
-&lt;td>&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#访问者--visitor">访问者 (Visitor)&lt;/a>&lt;/td>
-&lt;td>某些可作用于一组对象上的操作，且无需修改这些对象的类&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">&lt;a href="https://mincodes.com/posts/design-patterns-behavioral/#访问者--visitor">访问者 (Visitor)&lt;/a>&lt;/td>
+&lt;td style="text-align: left">某些可作用于一组对象上的操作，且无需修改这些对象的类&lt;/td>
 &lt;/tr>
 &lt;/tbody>
-&lt;/table></content><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Android 的 Binder 机制</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/android-binder/"/><id>https://mincodes.com/posts/android-binder/</id><updated>2023-07-11T14:02:01+08:00</updated><published>2023-07-01T23:41:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">同步调用 IBinder 接口相关的关键 API 主要有两个： IBinder.transact() 用来向一个 IBinder 对象发起调用请求。 Binder.onTransact() 用于处理 Binder 对象收到的调用。 请注意，这套 transaction API 是一套 同步 API, 即一个 transact() 调用会一直阻塞，直到对面的…</summary><content type="html">&lt;h2 id="同步调用">同步调用&lt;/h2>
+&lt;/table></content><category scheme="https://mincodes.com/tags/architecture/" term="Architecture" label="Architecture"/><category scheme="https://mincodes.com/tags/design-pattern/" term="Design-Pattern" label="Design-Pattern"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Android 的 Binder 机制</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/android-binder/"/><id>https://mincodes.com/posts/android-binder/</id><updated>2023-07-11T14:02:01+08:00</updated><published>2023-07-01T23:41:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="同步调用">同步调用&lt;/h2>
+&lt;p>&lt;code>IBinder&lt;/code> 接口相关的关键 API 主要有两个：&lt;/p>
+&lt;dl>
+&lt;dt>&lt;strong>&lt;code>IBinder.transact()&lt;/code>&lt;/strong>&lt;/dt>
+&lt;dd>用来向一个 &lt;code>IBinder&lt;/code> 对象发起调用请求。&lt;/dd>
+&lt;dt>&lt;strong>&lt;code>Binder.onTransact()&lt;/code>&lt;/strong>&lt;/dt>
+&lt;dd>用于处理 &lt;code>Binder&lt;/code> 对象收到的调用。&lt;/dd>
+&lt;/dl>
+&lt;p>请注意，这套 transaction API 是一套 &lt;strong>同步&lt;/strong> API, 即一个 &lt;code>transact()&lt;/code> 调用会一直阻塞，直到对面的 &lt;code>Binder.onTransact()&lt;/code> 方法返回之后， &lt;code>transact()&lt;/code> 调用才会返回。&lt;/p>…</summary><content type="html">&lt;h2 id="同步调用">同步调用&lt;/h2>
 &lt;p>&lt;code>IBinder&lt;/code> 接口相关的关键 API 主要有两个：&lt;/p>
 &lt;dl>
 &lt;dt>&lt;strong>&lt;code>IBinder.transact()&lt;/code>&lt;/strong>&lt;/dt>
@@ -6005,7 +6122,10 @@ process A 发起 IPC 请求时，这两个进程可能就被卡死了。&lt;/p>
 &lt;ul>
 &lt;li>&lt;em>IBinder.java&lt;/em> 源码&lt;/li>
 &lt;li>&lt;em>Binder.java&lt;/em> 源码&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">动态绑定（Dynamic Binding）和词法绑定（Lexical Binding）</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/dynamic-lexical-binding-in-elisp/"/><id>https://mincodes.com/posts/dynamic-lexical-binding-in-elisp/</id><updated>2023-06-26T15:24:47+08:00</updated><published>2023-06-26T14:42:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">今天读了一篇讲 dynamic binding 和 lexical binding 的文章： Dynamic Binding Vs Lexical Binding，讲的挺清楚的，这里大致翻译如下。 绑定 binding 的概念 绑定是名字和值的一种对应关系。在 Lisp 中，可以用 let 来创建绑定： 1…</summary><content type="html">&lt;p>今天读了一篇讲 dynamic binding 和 lexical binding 的文章： &lt;a href="https://www.emacswiki.org/emacs/DynamicBindingVsLexicalBinding">Dynamic Binding Vs
+&lt;/ul></content><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">动态绑定（Dynamic Binding）和词法绑定（Lexical Binding）</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/dynamic-lexical-binding-in-elisp/"/><id>https://mincodes.com/posts/dynamic-lexical-binding-in-elisp/</id><updated>2023-06-26T15:24:47+08:00</updated><published>2023-06-26T14:42:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>今天读了一篇讲 dynamic binding 和 lexical binding 的文章： &lt;a href="https://www.emacswiki.org/emacs/DynamicBindingVsLexicalBinding">Dynamic Binding Vs
+Lexical Binding&lt;/a>，讲的挺清楚的，这里大致翻译如下。&lt;/p>
+&lt;h2 id="绑定-binding-的概念">绑定 binding 的概念&lt;/h2>
+&lt;p>绑定是名字和值的一种对应关系。在 Lisp 中，可以用 &lt;code>let&lt;/code> 来创建绑定：&lt;/p>…</summary><content type="html">&lt;p>今天读了一篇讲 dynamic binding 和 lexical binding 的文章： &lt;a href="https://www.emacswiki.org/emacs/DynamicBindingVsLexicalBinding">Dynamic Binding Vs
 Lexical Binding&lt;/a>，讲的挺清楚的，这里大致翻译如下。&lt;/p>
 &lt;h2 id="绑定-binding-的概念">绑定 binding 的概念&lt;/h2>
 &lt;p>绑定是名字和值的一种对应关系。在 Lisp 中，可以用 &lt;code>let&lt;/code> 来创建绑定：&lt;/p>
@@ -6169,7 +6289,8 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-emacs-lisp" data-lang="emacs-lisp">&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">;;; -*- lexical-binding: t -*-&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/></entry><entry><title type="text">Bash: set 命令用法介绍</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/bash-set/"/><id>https://mincodes.com/posts/bash-set/</id><updated>2023-06-26T14:47:47+08:00</updated><published>2023-06-26T12:49:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Bash 在执行脚本的时候，会创建一个新的 shell, 每个 shell 都有自己独立的执行环境，这个环境会有一些默认行为，而这些默认行为可以通过 set 命令来修改。 这里介绍几种常用的 set 命令。 注： set…</summary><content type="html">&lt;p>&lt;em>Bash&lt;/em> 在执行脚本的时候，会创建一个新的 &lt;em>shell&lt;/em>, 每个 &lt;em>shell&lt;/em> 都有自己独立的执行环境，这个环境会有一些默认行为，而这些默认行为可以通过 &lt;code>set&lt;/code> 命令来修改。&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/></entry><entry><title type="text">Bash: set 命令用法介绍</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/bash-set/"/><id>https://mincodes.com/posts/bash-set/</id><updated>2023-06-26T14:47:47+08:00</updated><published>2023-06-26T12:49:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>&lt;em>Bash&lt;/em> 在执行脚本的时候，会创建一个新的 &lt;em>shell&lt;/em>, 每个 &lt;em>shell&lt;/em> 都有自己独立的执行环境，这个环境会有一些默认行为，而这些默认行为可以通过 &lt;code>set&lt;/code> 命令来修改。&lt;/p>
+&lt;p>这里介绍几种常用的 &lt;code>set&lt;/code> 命令。&lt;/p>…</summary><content type="html">&lt;p>&lt;em>Bash&lt;/em> 在执行脚本的时候，会创建一个新的 &lt;em>shell&lt;/em>, 每个 &lt;em>shell&lt;/em> 都有自己独立的执行环境，这个环境会有一些默认行为，而这些默认行为可以通过 &lt;code>set&lt;/code> 命令来修改。&lt;/p>
 &lt;p>这里介绍几种常用的 &lt;code>set&lt;/code> 命令。&lt;/p>
 &lt;blockquote>
 &lt;p>注： &lt;code>set&lt;/code> 命令在不带参数执行时，会显示当前 shell 的所有环境变量、函数。&lt;/p>
@@ -6392,7 +6513,10 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;ul>
 &lt;li>&lt;a href="https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html">The Set Builtin (Bash Reference Manual)&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.ruanyifeng.com/blog/2017/11/bash-set.html">Bash 脚本 set 命令教程 - 阮一峰的网络日志&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/bash/" term="Bash" label="Bash"/></entry><entry><title type="text">用 Emacs 分析日志文件</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/use-emacs-to-analyse-log-files/"/><id>https://mincodes.com/posts/use-emacs-to-analyse-log-files/</id><updated>2023-03-15T03:32:00+00:00</updated><published>2023-03-14T11:47:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">日常开发工作中，经常会需要分析日志文件，有一件趁手的工具会高效很多。 Emacs 正是这样一个工具。 Vim 也有类似的功能（参考 Vim Tips），但就分析日志来说，似乎没有 Emacs 来得方便…</summary><content type="html">&lt;p>日常开发工作中，经常会需要分析日志文件，有一件趁手的工具会高效很多。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/bash/" term="Bash" label="Bash"/></entry><entry><title type="text">用 Emacs 分析日志文件</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/use-emacs-to-analyse-log-files/"/><id>https://mincodes.com/posts/use-emacs-to-analyse-log-files/</id><updated>2023-03-15T03:32:00+00:00</updated><published>2023-03-14T11:47:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>日常开发工作中，经常会需要分析日志文件，有一件趁手的工具会高效很多。&lt;/p>
+&lt;p>Emacs 正是这样一个工具。&lt;/p>
+&lt;blockquote>
+&lt;p>Vim 也有类似的功能（参考 &lt;a href="https://mincodes.com/posts/vim-tips/">Vim Tips&lt;/a>），但就分析日志来说，似乎没有 Emacs 来得方便。&lt;/p>…</summary><content type="html">&lt;p>日常开发工作中，经常会需要分析日志文件，有一件趁手的工具会高效很多。&lt;/p>
 &lt;p>Emacs 正是这样一个工具。&lt;/p>
 &lt;blockquote>
 &lt;p>Vim 也有类似的功能（参考 &lt;a href="https://mincodes.com/posts/vim-tips/">Vim Tips&lt;/a>），但就分析日志来说，似乎没有 Emacs 来得方便。&lt;/p>
@@ -6410,7 +6534,8 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;p>&lt;code>keep-lines&lt;/code> 仅保留匹配的行&lt;/p>
 &lt;p>&lt;code>flush-lines&lt;/code> 剔除匹配的行&lt;/p>
 &lt;h2 id="提取">提取&lt;/h2>
-&lt;p>&lt;code>C-u M-s o pattern RET&lt;/code> 将所有匹配的文本，导出到 *&lt;em>Occur&lt;/em> buffer *中。这个功能挺方便的，可以快速将匹配项提取到另一个 buffer 中。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/regexp/" term="Regexp" label="Regexp"/></entry><entry><title type="text">经历八年后，我是如何用 Go 写 HTTP 服务的</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/how-i-write-http-services-in-go/"/><id>https://mincodes.com/posts/how-i-write-http-services-in-go/</id><updated>2023-02-22T08:49:00+00:00</updated><published>2023-02-22T03:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">今天读到一篇不错的文章，讲如何用 Go 写 HTTP 服务的，很有同感，翻译如下。 原文链接 A Server struct 一个 Server struct 是一个代表服务的对象，持有所有依赖。 每个组件都有一个唯一的 server struct…</summary><content type="html">&lt;p>今天读到一篇不错的文章，讲如何用 Go 写 HTTP 服务的，很有同感，翻译如下。&lt;/p>
+&lt;p>&lt;code>C-u M-s o pattern RET&lt;/code> 将所有匹配的文本，导出到 *&lt;em>Occur&lt;/em> buffer *中。这个功能挺方便的，可以快速将匹配项提取到另一个 buffer 中。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/regexp/" term="Regexp" label="Regexp"/></entry><entry><title type="text">经历八年后，我是如何用 Go 写 HTTP 服务的</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/how-i-write-http-services-in-go/"/><id>https://mincodes.com/posts/how-i-write-http-services-in-go/</id><updated>2023-02-22T08:49:00+00:00</updated><published>2023-02-22T03:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>今天读到一篇不错的文章，讲如何用 Go 写 HTTP 服务的，很有同感，翻译如下。&lt;/p>
+&lt;p>&lt;a href="https://pace.dev/blog/2018/05/09/how-I-write-http-services-after-eight-years.html">原文链接&lt;/a>&lt;/p>…</summary><content type="html">&lt;p>今天读到一篇不错的文章，讲如何用 Go 写 HTTP 服务的，很有同感，翻译如下。&lt;/p>
 &lt;p>&lt;a href="https://pace.dev/blog/2018/05/09/how-I-write-http-services-after-eight-years.html">原文链接&lt;/a>&lt;/p>
 &lt;h2 id="a-server-struct">A Server struct&lt;/h2>
 &lt;p>一个 Server struct 是一个代表服务的对象，持有所有依赖。&lt;/p>
@@ -6739,7 +6864,9 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;li>通过调用 server 的 &lt;code>ServeHTTP&lt;/code> 方法，包括路由、中间件等整个栈都可以被测到。当然，如果你不希望测试整个栈，也可以直接调用 handler 方法&lt;/li>
 &lt;li>使用 &lt;code>httptest.NewRequest&lt;/code> 和 &lt;code>httptest.NewRecorder&lt;/code> 来记录 handlers 都做了什么&lt;/li>
 &lt;li>代码中使用了 &lt;code>is&lt;/code> 测试框架，Testify 的一个迷你替代版本：&lt;a href="https://github.com/matryer/is">is&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/server/" term="Server" label="Server"/></entry><entry><title type="text">Padding Oracle Attack</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/padding-oracle-attack/"/><id>https://mincodes.com/posts/padding-oracle-attack/</id><updated>2022-12-04T13:02:00+00:00</updated><published>2022-12-04T12:22:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">原理阐述 Padding 在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般需要额外增加 padding 字段来…</summary><content type="html">&lt;h2 id="原理阐述">原理阐述&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/server/" term="Server" label="Server"/></entry><entry><title type="text">Padding Oracle Attack</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/padding-oracle-attack/"/><id>https://mincodes.com/posts/padding-oracle-attack/</id><updated>2022-12-04T13:02:00+00:00</updated><published>2022-12-04T12:22:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="原理阐述">原理阐述&lt;/h2>
+&lt;h3 id="padding">Padding&lt;/h3>
+&lt;p>在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般需要额外增加 padding 字段来满足块对齐以便进行加密。&lt;/p>…</summary><content type="html">&lt;h2 id="原理阐述">原理阐述&lt;/h2>
 &lt;h3 id="padding">Padding&lt;/h3>
 &lt;p>在密码学中，由于底层加密算法往往是针对固定长度的块来设计的（例如 AES 的 CBC 模式的块大小为 16），所以在对可变长度的明文进行加密时，一般需要额外增加 padding 字段来满足块对齐以便进行加密。&lt;/p>
 &lt;p>Padding 方法可能有多种，为简单起见，这里只讨论常用的 PKCS7Padding 方法。在 PKCS7Padding 方法中，padding 字段填充的每个字节的值都是相同的，其值均为需要填充的字节个数，例如：如果块大小是 16， 那么明文 &amp;ldquo;aaaa&amp;rdquo; 的 padding 就是 [12]*12。如果明文长度刚好是块大小的整数倍，则需要额外加上一个块的 padding，即 [16]*16 。&lt;/p>
@@ -7152,8 +7279,36 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">plaintext&lt;/span>&lt;span class="p">[:&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">padding_len&lt;/span>&lt;span class="p">]&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/><category scheme="https://mincodes.com/tags/algorithm/" term="Algorithm" label="Algorithm"/></entry><entry><title type="text">Create Ramdisk on macOS</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/create-ramdisk-on-macos/"/><id>https://mincodes.com/posts/create-ramdisk-on-macos/</id><updated>2022-12-04T12:18:00+00:00</updated><published>2022-12-04T12:17:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Creating a 1000MB ramdisk:
-1 2 3 4 5 6 7 8 9 10 11 12 $ hdiutil attach -nomount ram://$((2048 * 1000)) /dev/disk3 $ diskutil eraseVolume HFS+ RAMDisk /dev/disk3 Started erase on disk3 Unmounting disk Erasing Initialized /dev/rdisk3 as a 1000 MB case-insensitive HFS Plus volume Mounting disk Finished erase on disk3 RAMDisk $ hdiutil detach /dev/disk3</summary><content type="html">&lt;p>Creating a 1000MB ramdisk:&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/><category scheme="https://mincodes.com/tags/algorithm/" term="Algorithm" label="Algorithm"/></entry><entry><title type="text">Create Ramdisk on macOS</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/create-ramdisk-on-macos/"/><id>https://mincodes.com/posts/create-ramdisk-on-macos/</id><updated>2022-12-04T12:18:00+00:00</updated><published>2022-12-04T12:17:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>Creating a 1000MB ramdisk:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ hdiutil attach -nomount ram://&lt;span class="k">$((&lt;/span>&lt;span class="m">2048&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="m">1000&lt;/span>&lt;span class="k">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">/dev/disk3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ diskutil eraseVolume HFS+ RAMDisk /dev/disk3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Started erase on disk3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Unmounting disk
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Erasing
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Initialized /dev/rdisk3 as a &lt;span class="m">1000&lt;/span> MB &lt;span class="k">case&lt;/span>-insensitive HFS Plus volume
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Mounting disk
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Finished erase on disk3 RAMDisk
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ hdiutil detach /dev/disk3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</summary><content type="html">&lt;p>Creating a 1000MB ramdisk:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -7184,10 +7339,39 @@ binding，通过 &lt;code>defvar&lt;/code> 或 &lt;code>declare&lt;/code> 创建
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ hdiutil detach /dev/disk3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/macos/" term="Macos" label="Macos"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Linux Security Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-security-tips/"/><id>https://mincodes.com/posts/linux-security-tips/</id><updated>2022-12-04T13:37:00+00:00</updated><published>2022-12-04T12:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">ssh Modify /etc/ssh/sshd_config:
-1 2 3 4 5 6 7 8 9 10 11 12 13 # Disable root login PermitRootLogin no # Change the default port Port 12345 # Enable login with key RSAAuthentication yes PubkeyAuthentication yes # Disable login with password UsePAM no PasswordAuthentication no After that, remember to restart sshd: sudo /etc/init.d/ssh restart (for Debian/Ubuntu) or sudo service sshd restart (for CentOS).
-iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptables.test.rules, and enter rules:
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 *filter # Allows all loopback (lo0) traffic and drop all traffic to 127/8 that doesn&amp;#39;t use lo0 -A INPUT -i lo -j ACCEPT -A INPUT !</summary><content type="html">&lt;h2 id="ssh">ssh&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/macos/" term="Macos" label="Macos"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Linux Security Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-security-tips/"/><id>https://mincodes.com/posts/linux-security-tips/</id><updated>2022-12-04T13:37:00+00:00</updated><published>2022-12-04T12:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="ssh">ssh&lt;/h2>
+&lt;p>Modify &lt;code>/etc/ssh/sshd_config&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Disable root login&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PermitRootLogin no
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Change the default port&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Port &lt;span class="m">12345&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Enable login with key&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RSAAuthentication yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PubkeyAuthentication yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Disable login with password&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">UsePAM no
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PasswordAuthentication no
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr</summary><content type="html">&lt;h2 id="ssh">ssh&lt;/h2>
 &lt;p>Modify &lt;code>/etc/ssh/sshd_config&lt;/code>:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7390,7 +7574,14 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/></entry><entry><title type="text">Security Tips：ELF 破解及几点启示</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/security-tips-elf-hack/"/><id>https://mincodes.com/posts/security-tips-elf-hack/</id><updated>2022-12-04T13:02:00+00:00</updated><published>2022-12-04T11:44:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">如何破解一个 ELF 文件：hackme: Deconstructing an ELF File 几点启示： 编译时要使用 strip 选项 避免在代码中使用字符串常量存放敏感信息，strings 工具可以轻易 dump 出来 在调用库函数、系统…</summary><content type="html">&lt;p>如何破解一个 ELF 文件：&lt;a href="http://manoharvanga.com/hackme/">hackme: Deconstructing an ELF File&lt;/a>&lt;/p>
+&lt;/div></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/></entry><entry><title type="text">Security Tips：ELF 破解及几点启示</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/security-tips-elf-hack/"/><id>https://mincodes.com/posts/security-tips-elf-hack/</id><updated>2022-12-04T13:02:00+00:00</updated><published>2022-12-04T11:44:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>如何破解一个 ELF 文件：&lt;a href="http://manoharvanga.com/hackme/">hackme: Deconstructing an ELF File&lt;/a>&lt;/p>
+&lt;p>几点启示：&lt;/p>
+&lt;ul>
+&lt;li>编译时要使用 strip 选项&lt;/li>
+&lt;li>避免在代码中使用字符串常量存放敏感信息，&lt;code>strings&lt;/code> 工具可以轻易 dump 出来&lt;/li>
+&lt;li>在调用库函数、系统函数时，避免在参数中传递明文的敏感信息， &lt;code>ltrace&lt;/code>, &lt;code>strace&lt;/code> 等工具可以轻易调试出来&lt;/li>
+&lt;/ul>
+&lt;p>另外，在Java代码中，也要避免使用明文字符串保存敏感信息，尤其是不要用 &lt;code>String&lt;/code> 来保存密码，原因主要有以下几点：&lt;/p>…</summary><content type="html">&lt;p>如何破解一个 ELF 文件：&lt;a href="http://manoharvanga.com/hackme/">hackme: Deconstructing an ELF File&lt;/a>&lt;/p>
 &lt;p>几点启示：&lt;/p>
 &lt;ul>
 &lt;li>编译时要使用 strip 选项&lt;/li>
@@ -7402,7 +7593,12 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;li>String 在 java 中是不可变的，而且会一直保留在内存中，直到垃圾收集器将其回收。而由于字符串被放在字符串缓冲池中以方便重复使用，所以它就可能在内存中被保留很长时间；&lt;/li>
 &lt;li>如果使用 char [] 来保存密码，在用完之后可以立即将其中所有的元素清空。所以将密码保存到字符数组中很明显的降低了密码被窃取的风险；&lt;/li>
 &lt;/ul>
-&lt;p>参考 &lt;a href="http://my.oschina.net/jasonultimate/blog/166968">为什么使用字符数组保存密码比使用String保存密码更好？&lt;/a>。&lt;/p></content><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/></entry><entry><title type="text">Bloom Filter 布隆过滤器</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/bloom-filter/"/><id>https://mincodes.com/posts/bloom-filter/</id><updated>2022-12-04T13:05:00+00:00</updated><published>2022-12-04T11:11:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Bloom Filter 是由 Bloom 在 1970 年提出的一种多哈希函数映射的快速查找算法。 通常应用在一些需要快速判断某个元素是否属于集合，但是并不严格要求 100% 正确的场合。 HashMap 的问题 HashMap 具有 O(1) 的查找复杂…</summary><content type="html">&lt;blockquote>
+&lt;p>参考 &lt;a href="http://my.oschina.net/jasonultimate/blog/166968">为什么使用字符数组保存密码比使用String保存密码更好？&lt;/a>。&lt;/p></content><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/></entry><entry><title type="text">Bloom Filter 布隆过滤器</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/bloom-filter/"/><id>https://mincodes.com/posts/bloom-filter/</id><updated>2022-12-04T13:05:00+00:00</updated><published>2022-12-04T11:11:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;blockquote>
+&lt;p>Bloom Filter 是由 Bloom 在 1970 年提出的一种多哈希函数映射的快速查找算法。&lt;br>
+通常应用在一些需要快速判断某个元素是否属于集合，但是并不严格要求 100% 正确的场合。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="hashmap-的问题">HashMap 的问题&lt;/h2>
+&lt;p>HashMap 具有 O(1) 的查找复杂度，但缺点也很明显：内存利用率不高。&lt;/p>…</summary><content type="html">&lt;blockquote>
 &lt;p>Bloom Filter 是由 Bloom 在 1970 年提出的一种多哈希函数映射的快速查找算法。&lt;br>
 通常应用在一些需要快速判断某个元素是否属于集合，但是并不严格要求 100% 正确的场合。&lt;/p>
 &lt;/blockquote>
@@ -7437,7 +7633,10 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;li>浏览器用来快速确定某个 URL 是否存在本地缓存；&lt;/li>
 &lt;li>爬虫程序用来快速确定某个 URL 是否被爬取过；&lt;/li>
 &lt;li>搜索引擎用来快速确定某个 URL 是否被索引过。&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/algorithm/" term="Algorithm" label="Algorithm"/></entry><entry><title type="text">Python Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/python-tips/"/><id>https://mincodes.com/posts/python-tips/</id><updated>2022-12-04T13:38:00+00:00</updated><published>2022-12-03T10:40:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">函数工具 functools 缓存类装饰器 @cache 用于自动缓存函数的返回结果（即其他语言常见的 memoize）。 使用起来非常简单，给函数增加 @cache 装饰器（Decorator）即可： 1 2 3 4 5…</summary><content type="html">&lt;h2 id="函数工具-functools">函数工具 functools&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/algorithm/" term="Algorithm" label="Algorithm"/></entry><entry><title type="text">Python Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/python-tips/"/><id>https://mincodes.com/posts/python-tips/</id><updated>2022-12-04T13:38:00+00:00</updated><published>2022-12-03T10:40:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="函数工具-functools">函数工具 functools&lt;/h2>
+&lt;h3 id="缓存类装饰器">缓存类装饰器&lt;/h3>
+&lt;p>&lt;strong>&lt;code>@cache&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>用于自动缓存函数的返回结果（即其他语言常见的 &lt;em>memoize&lt;/em>）。&lt;/p>…</summary><content type="html">&lt;h2 id="函数工具-functools">函数工具 functools&lt;/h2>
 &lt;h3 id="缓存类装饰器">缓存类装饰器&lt;/h3>
 &lt;p>&lt;strong>&lt;code>@cache&lt;/code>&lt;/strong>&lt;/p>
 &lt;p>用于自动缓存函数的返回结果（即其他语言常见的 &lt;em>memoize&lt;/em>）。&lt;/p>
@@ -7682,7 +7881,27 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">join&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span>&lt;span class="si">{0:02x}&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">ord&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">c&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">c&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">binstr&lt;/span>&lt;span class="p">))&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/python/" term="Python" label="Python"/></entry><entry><title type="text">Linux Tips: 只读文件 Immutable files</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-immutable-files/"/><id>https://mincodes.com/posts/linux-tips-immutable-files/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:28:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">查看文件属性 1 2 $ lsattr filename ----i-------- filename 字母 i 意味着该文件是一个 Immutable （只读）文件。 设置只读属性： 1 $ chattr +i filename 去掉只读属性： 1 $ chattr -i filename</summary><content type="html">&lt;ul>
+&lt;/div></content><category scheme="https://mincodes.com/tags/python/" term="Python" label="Python"/></entry><entry><title type="text">Linux Tips: 只读文件 Immutable files</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-immutable-files/"/><id>https://mincodes.com/posts/linux-tips-immutable-files/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:28:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;ul>
+&lt;li>
+&lt;p>查看文件属性&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ lsattr filename
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">----i-------- filename
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>字母 &lt;code>i&lt;/code> 意味着该文件是一个 Immutable （只读）文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>设置只读属性：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;ul>
 &lt;li>
 &lt;p>查看文件属性&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -7719,7 +7938,12 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Git Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/git-tips/"/><id>https://mincodes.com/posts/git-tips/</id><updated>2023-03-28T02:03:00+00:00</updated><published>2022-12-03T10:18:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">安全的强推 push —froce-with-lease 推荐使用更安全的 force push 命令： 1 git push --force-with-lease 该版本可以确保，不会覆盖其他人的提交。如果有尚未 fetch 的远程提交，该命令会提示并中止…</summary><content type="html">&lt;h2 id="安全的强推-push-froce-with-lease">安全的强推 push —froce-with-lease&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Git Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/git-tips/"/><id>https://mincodes.com/posts/git-tips/</id><updated>2023-03-28T02:03:00+00:00</updated><published>2022-12-03T10:18:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="安全的强推-push-froce-with-lease">安全的强推 push —froce-with-lease&lt;/h2>
+&lt;p>推荐使用更安全的 force push 命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;h2 id="安全的强推-push-froce-with-lease">安全的强推 push —froce-with-lease&lt;/h2>
 &lt;p>推荐使用更安全的 force push 命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -7830,7 +8054,7 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;p>// TODO&lt;/p>
 &lt;h2 id="git-branching-model">Git branching model&lt;/h2>
 &lt;p>&lt;img src="https://mincodes.com/uploads/images/8cb29db0-8c81-41c8-a5ac-0e85e3cddca0/Untitled.png" alt="">&lt;/p>
-&lt;p>参考：&lt;a href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/&lt;/a>&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/git/" term="Git" label="Git"/></entry><entry><title type="text">Linux Tips: 安装新字体</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-setup-fonts/"/><id>https://mincodes.com/posts/linux-tips-setup-fonts/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Debian 上安装字体，就这么简单： 1 2 3 mkdir ~/.fonts cp simsun.ttf ~/.fonts/ sudo fc-cache -fv 搞定！优雅～</summary><content type="html">&lt;p>Debian 上安装字体，就这么简单：&lt;/p>
+&lt;p>参考：&lt;a href="https://nvie.com/posts/a-successful-git-branching-model/">https://nvie.com/posts/a-successful-git-branching-model/&lt;/a>&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/git/" term="Git" label="Git"/></entry><entry><title type="text">Linux Tips: 安装新字体</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-setup-fonts/"/><id>https://mincodes.com/posts/linux-tips-setup-fonts/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:15:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>Debian 上安装字体，就这么简单：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -7843,7 +8067,20 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo fc-cache -fv
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>搞定！优雅～&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Linux Tips: 任务完成后自动关机</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-auto-shutdown-after-task-done/"/><id>https://mincodes.com/posts/linux-tips-auto-shutdown-after-task-done/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:09:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">有时希望计算机在完成某项任务后自动关机，例如，正在使用 git 下载较大的代码仓库，又或者正用 wget 下载大文件，如果此时需要离开，又不想中断任务，最好的办法就是设置其完成后…</summary><content type="html">&lt;p>有时希望计算机在完成某项任务后自动关机，例如，正在使用 &lt;code>git&lt;/code> 下载较大的代码仓库，又或者正用 &lt;code>wget&lt;/code> 下载大文件，如果此时需要离开，又不想中断任务，最好的办法就是设置其完成后自动关机了。&lt;/p>
+&lt;/div>&lt;p>搞定！优雅～&lt;/p></summary><content type="html">&lt;p>Debian 上安装字体，就这么简单：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">mkdir ~/.fonts
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cp simsun.ttf ~/.fonts/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo fc-cache -fv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>搞定！优雅～&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Linux Tips: 任务完成后自动关机</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips-auto-shutdown-after-task-done/"/><id>https://mincodes.com/posts/linux-tips-auto-shutdown-after-task-done/</id><updated>2022-12-04T13:09:00+00:00</updated><published>2022-12-03T10:09:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>有时希望计算机在完成某项任务后自动关机，例如，正在使用 &lt;code>git&lt;/code> 下载较大的代码仓库，又或者正用 &lt;code>wget&lt;/code> 下载大文件，如果此时需要离开，又不想中断任务，最好的办法就是设置其完成后自动关机了。&lt;/p>…</summary><content type="html">&lt;p>有时希望计算机在完成某项任务后自动关机，例如，正在使用 &lt;code>git&lt;/code> 下载较大的代码仓库，又或者正用 &lt;code>wget&lt;/code> 下载大文件，如果此时需要离开，又不想中断任务，最好的办法就是设置其完成后自动关机了。&lt;/p>
 &lt;p>这里介绍一种办法，利用 &lt;code>cron&lt;/code> 机制监控任务的完成情况，并在任务结束后，执行关机指令。&lt;/p>
 &lt;ol>
 &lt;li>
@@ -7891,7 +8128,14 @@ iptables Refer to https://wiki.debian.org/iptables* Create the file /etc/iptable
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;/li>
-&lt;/ol></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Emacs Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-tips/"/><id>https://mincodes.com/posts/emacs-tips/</id><updated>2023-04-25T13:43:00+00:00</updated><published>2022-12-03T09:59:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Macro 宏录制 &amp;amp; 回放 开始录制： C-x ( 结束录制： C-x ) 回放宏： C-x e Regexp 相关 M-x count-matches 统计正则匹配到的次数 C-M-s 正则搜索 M-x replace-regexp 正则替换 1 2 3 4 # 示例：在每行后面追加文本 xyz M-x replace-regexp RET $ RET xyz RET mauth\([^-]\) →…</summary><content type="html">&lt;h2 id="macro-宏录制--回放">Macro 宏录制 &amp;amp; 回放&lt;/h2>
+&lt;/ol></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Emacs Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-tips/"/><id>https://mincodes.com/posts/emacs-tips/</id><updated>2023-04-25T13:43:00+00:00</updated><published>2022-12-03T09:59:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="macro-宏录制--回放">Macro 宏录制 &amp;amp; 回放&lt;/h2>
+&lt;ol>
+&lt;li>开始录制： &lt;code>C-x (&lt;/code>&lt;/li>
+&lt;li>结束录制： &lt;code>C-x )&lt;/code>&lt;/li>
+&lt;li>回放宏： &lt;code>C-x e&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;h2 id="regexp-相关">Regexp 相关&lt;/h2>
+&lt;p>&lt;code>M-x&lt;/code> &lt;code>count-matches&lt;/code> 统计正则匹配到的次数&lt;/p>…</summary><content type="html">&lt;h2 id="macro-宏录制--回放">Macro 宏录制 &amp;amp; 回放&lt;/h2>
 &lt;ol>
 &lt;li>开始录制： &lt;code>C-x (&lt;/code>&lt;/li>
 &lt;li>结束录制： &lt;code>C-x )&lt;/code>&lt;/li>
@@ -8106,7 +8350,14 @@ Move point to where the mark was, and restore the mark from the ring of former m
 &lt;li>&lt;strong>&lt;code>C-h m&lt;/code>&lt;/strong> 描述当前的 mode&lt;/li>
 &lt;li>&lt;strong>&lt;code>C-h i&lt;/code>&lt;/strong> 查看 info 文档&lt;/li>
 &lt;li>&lt;strong>&lt;code>C-h C-h&lt;/code>&lt;/strong> 获取完整列表&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/editor/" term="Editor" label="Editor"/></entry><entry><title type="text">ssh 常见用法介绍</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/ssh-usage/"/><id>https://mincodes.com/posts/ssh-usage/</id><updated>2023-06-17T10:14:00+00:00</updated><published>2022-11-15T08:27:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">ssh 是平时十分常用的工具，这里记录一些常见用法。 一些花样玩法 通过 ssh 共享 tmux session remote machine: tmux -S /tmp/shared-tmux-socket new-session local machine: ssh -t remote-machine tmux -S /tmp/shared-tmux-socket attach 通过上面简单两步，就可以通过 ssh 远程远程共享 tmux session 了。 跟普通的…</summary><content type="html">&lt;p>ssh 是平时十分常用的工具，这里记录一些常见用法。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/editor/" term="Editor" label="Editor"/></entry><entry><title type="text">ssh 常见用法介绍</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/ssh-usage/"/><id>https://mincodes.com/posts/ssh-usage/</id><updated>2023-06-17T10:14:00+00:00</updated><published>2022-11-15T08:27:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>ssh 是平时十分常用的工具，这里记录一些常见用法。&lt;/p>
+&lt;h2 id="一些花样玩法">一些花样玩法&lt;/h2>
+&lt;h3 id="通过-ssh-共享-tmux-session">通过 ssh 共享 tmux session&lt;/h3>
+&lt;ul>
+&lt;li>remote machine: &lt;code>tmux -S /tmp/shared-tmux-socket new-session&lt;/code>&lt;/li>
+&lt;li>local machine: &lt;code>ssh -t remote-machine tmux -S /tmp/shared-tmux-socket attach&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>通过上面简单两步，就可以通过 ssh 远程远程共享 tmux session 了。&lt;/p>…</summary><content type="html">&lt;p>ssh 是平时十分常用的工具，这里记录一些常见用法。&lt;/p>
 &lt;h2 id="一些花样玩法">一些花样玩法&lt;/h2>
 &lt;h3 id="通过-ssh-共享-tmux-session">通过 ssh 共享 tmux session&lt;/h3>
 &lt;ul>
@@ -8677,7 +8928,47 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/div>
 &lt;/div>&lt;p>这在有些受限环境下非常有用（例如有些公司网络只能通过http代理访问外网）。&lt;/p>
 &lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/ssh/" term="Ssh" label="Ssh"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Network Tools 网络工具箱</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/network-tools/"/><id>https://mincodes.com/posts/network-tools/</id><updated>2023-05-08T11:08:00+00:00</updated><published>2022-10-07T11:49:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">在线小工具 查询 IP 可达性（是否可以 ping 通） https://ping.pe/198.211.12.133 网络端口 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 # 查看监听 1080 TCP 端口的应用 lsof -i TCP:1080 -sTCP:LISTEN # 查看网络端口监听情况 netstat…</summary><content type="html">&lt;h2 id="在线小工具">在线小工具&lt;/h2>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/ssh/" term="Ssh" label="Ssh"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Network Tools 网络工具箱</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/network-tools/"/><id>https://mincodes.com/posts/network-tools/</id><updated>2023-05-08T11:08:00+00:00</updated><published>2022-10-07T11:49:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="在线小工具">在线小工具&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>查询 IP 可达性（是否可以 ping 通）&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://ping.pe/198.211.12.133">https://ping.pe/198.211.12.133&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="网络端口">网络端口&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;h2 id="在线小工具">在线小工具&lt;/h2>
 &lt;ul>
 &lt;li>
 &lt;p>查询 IP 可达性（是否可以 ping 通）&lt;/p>
@@ -8965,7 +9256,28 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nmap -Pn 172.19.50.218
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Vim Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/vim-tips/"/><id>https://mincodes.com/posts/vim-tips/</id><updated>2023-02-28T11:43:00+00:00</updated><published>2022-09-26T10:59:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">regexp 相关 1 2 3 4 5 6 7 8 # 统计正则匹配到的次数 :%s/pattern//ng # 利用 global 把匹配到的行打印出来 :global/pattern/print # 或者 :global/pattern 日志过滤 global 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 # [d]elete all lines not(!) matching patterns :g!/pattern/d :v/pattern/d # 匹…</summary><content type="html">&lt;h2 id="regexp-相关">regexp 相关&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry><entry><title type="text">Vim Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/vim-tips/"/><id>https://mincodes.com/posts/vim-tips/</id><updated>2023-02-28T11:43:00+00:00</updated><published>2022-09-26T10:59:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="regexp-相关">regexp 相关&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 统计正则匹配到的次数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">:%s/pattern//ng
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 利用 global 把匹配到的行打印出来&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">:global/pattern/print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 或者&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">:global/pattern
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;h2 id="regexp-相关">regexp 相关&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -9104,7 +9416,31 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/div>
 &lt;/div>&lt;h2 id="配置相关">配置相关&lt;/h2>
 &lt;h3 id="重新加载-vimrc">重新加载 .vimrc&lt;/h3>
-&lt;p>配置修改后，执行 &lt;code>:source ~/.vimrc&lt;/code> 即可生效。&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/editor/" term="Editor" label="Editor"/></entry><entry><title type="text">Python Pandas</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/python-pandas/"/><id>https://mincodes.com/posts/python-pandas/</id><updated>2023-01-12T09:32:00+00:00</updated><published>2022-09-05T07:00:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">简单任务 数据读取 1 2 3 4 5 6 7 8 import pandas as pd df = pd.read_csv(&amp;#39;data/android/oom-sessions/oom.csv&amp;#39;) # thousands=&amp;#39;,&amp;#39; 可以自动将类似 &amp;#34;1,316&amp;#34; 格式的数字转换为整数 df = pd.read_csv(&amp;#39;ui-90.csv&amp;#39;, thousands=&amp;#39;,&amp;#39;) df.head() 数据过滤 1 2 3 4 5 6 7 8 9 10 11 12 13 df = df[df[&amp;#39;name&amp;#39;]==&amp;#39;ThreadPoolForeg&amp;#39;] # 组合多个条件 df = df[(df.p_date &amp;gt;= 20220830)…</summary><content type="html">&lt;h2 id="简单任务">简单任务&lt;/h2>
+&lt;p>配置修改后，执行 &lt;code>:source ~/.vimrc&lt;/code> 即可生效。&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/editor/" term="Editor" label="Editor"/></entry><entry><title type="text">Python Pandas</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/python-pandas/"/><id>https://mincodes.com/posts/python-pandas/</id><updated>2023-01-12T09:32:00+00:00</updated><published>2022-09-05T07:00:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="简单任务">简单任务&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>数据读取&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">import pandas as pd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">df&lt;/span> &lt;span class="o">=&lt;/span> pd.read_csv&lt;span class="o">(&lt;/span>&lt;span class="s1">&amp;#39;data/android/oom-sessions/oom.csv&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># thousands=&amp;#39;,&amp;#39; 可以自动将类似 &amp;#34;1,316&amp;#34; 格式的数字转换为整数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">df&lt;/span> &lt;span class="o">=&lt;/span> pd.read_csv&lt;span class="o">(&lt;/span>&lt;span class="s1">&amp;#39;ui-90.csv&amp;#39;&lt;/span>, &lt;span class="nv">thousands&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;,&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">df.head&lt;span class="o">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;h2 id="简单任务">简单任务&lt;/h2>
 &lt;ol>
 &lt;li>
 &lt;p>数据读取&lt;/p>
@@ -9421,7 +9757,24 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/div>&lt;p>变换前：&lt;/p>
 &lt;p>&lt;img src="https://mincodes.com/uploads/images/d1d7bf1e-c912-4cac-963b-748f8f3936b7/Untitled.png" alt="">&lt;/p>
 &lt;p>变换后：&lt;/p>
-&lt;p>&lt;img src="https://mincodes.com/uploads/images/a559b5cd-4102-4609-8ae4-6ddfdef70eef/Untitled.png" alt="">&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/data-analysis/" term="Data-Analysis" label="Data-Analysis"/><category scheme="https://mincodes.com/tags/python/" term="Python" label="Python"/></entry><entry><title type="text">Android Tools</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/android-tools/"/><id>https://mincodes.com/posts/android-tools/</id><updated>2023-02-05T10:44:00+00:00</updated><published>2022-06-27T06:19:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">常用工具 scrcpy：PC 端镜像手机端屏幕，可操作、截屏、录屏等 UI 分析工具 codeLocator：实时抓取 viewTree Android Studio：Android Device Monitor UIAutomatorViewer Appium Inspector Espresso adb flip…</summary><content type="html">&lt;h2 id="常用工具">常用工具&lt;/h2>
+&lt;p>&lt;img src="https://mincodes.com/uploads/images/a559b5cd-4102-4609-8ae4-6ddfdef70eef/Untitled.png" alt="">&lt;/p></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/data-analysis/" term="Data-Analysis" label="Data-Analysis"/><category scheme="https://mincodes.com/tags/python/" term="Python" label="Python"/></entry><entry><title type="text">Android Tools</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/android-tools/"/><id>https://mincodes.com/posts/android-tools/</id><updated>2023-02-05T10:44:00+00:00</updated><published>2022-06-27T06:19:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="常用工具">常用工具&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>scrcpy：PC 端镜像手机端屏幕，可操作、截屏、录屏等&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>UI 分析工具&lt;/p>
+&lt;ul>
+&lt;li>codeLocator：实时抓取 viewTree&lt;/li>
+&lt;li>Android Studio：Android Device Monitor&lt;/li>
+&lt;li>UIAutomatorViewer&lt;/li>
+&lt;li>Appium Inspector&lt;/li>
+&lt;li>Espresso&lt;/li>
+&lt;li>adb&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/facebook/flipper">flipper&lt;/a>：A desktop debugging platform for mobile developers.&lt;/p>…</summary><content type="html">&lt;h2 id="常用工具">常用工具&lt;/h2>
 &lt;ul>
 &lt;li>
 &lt;p>scrcpy：PC 端镜像手机端屏幕，可操作、截屏、录屏等&lt;/p>
@@ -9484,7 +9837,10 @@ ca-user 公钥。即服务器会信任由 TrustedUserCAKeys 指定的文件里�
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">adb&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">shell&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">am&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">start&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">android&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">browser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">BrowserActivity&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-07-05T15:37:52+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Emacs 中的变量 要解释本地变量，先解释一下 Emacs 里面变量的作用。 Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来 进行一些个性化的定制。 这里举几个例子加以…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
+&lt;/div></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2024-09-04T10:40:54+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
+&lt;p>要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p>
+&lt;p>Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
+进行一些个性化的定制。&lt;/p>…</summary><content type="html">&lt;h2 id="emacs-中的变量">Emacs 中的变量&lt;/h2>
 &lt;p>要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p>
 &lt;p>Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
 进行一些个性化的定制。&lt;/p>
@@ -9668,7 +10024,17 @@ lisp 代码来启用或关闭 minor mode。例如下面的例子，会打开 eld
 &lt;p>由于加载本地变量存在一定的安全隐患，所以除非是一些 Emacs 认为是安全的
 变量，否则 Emacs 将向你确认是否执行。&lt;/p>
 &lt;p>当然，你可以通过一些配置来指定你认为是安全的变量或者命令，详情请参考
-&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html">Safe-File-Variables&lt;/a> 。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Go 并发模式总结</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/go-concurrency-patterns/"/><id>https://mincodes.com/posts/go-concurrency-patterns/</id><updated>2023-12-16T09:35:38+08:00</updated><published>2022-03-11T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">Go 的并发哲学 Don&amp;rsquo;t Communicate by sharing memory, share memory by communicating. 不要通过共享内存来通信；相反，通过通信来共享内存。 Generator 发生器 Generator 指返回一个 chan 的函数。这是一种十分常见的使用 goroutine + chan 的方式，可以说是一种标…</summary><content type="html">&lt;h2 id="go-的并发哲学">Go 的并发哲学&lt;/h2>
+&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html">Safe-File-Variables&lt;/a> 。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Go 并发模式总结</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/go-concurrency-patterns/"/><id>https://mincodes.com/posts/go-concurrency-patterns/</id><updated>2023-12-16T09:35:38+08:00</updated><published>2022-03-11T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h2 id="go-的并发哲学">Go 的并发哲学&lt;/h2>
+&lt;blockquote>
+&lt;style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }&lt;/style>
+&lt;div class="org-center">
+&lt;p>Don&amp;rsquo;t Communicate by sharing memory, share memory by communicating.&lt;/p>
+&lt;p>不要通过共享内存来通信；相反，通过通信来共享内存。&lt;/p>
+&lt;/div>
+&lt;/blockquote>
+&lt;h2 id="generator-发生器">Generator 发生器&lt;/h2>
+&lt;p>Generator 指返回一个 chan 的函数。这是一种十分常见的使用 goroutine +
+chan 的方式，可以说是一种标准用法了。&lt;/p>…</summary><content type="html">&lt;h2 id="go-的并发哲学">Go 的并发哲学&lt;/h2>
 &lt;blockquote>
 &lt;style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }&lt;/style>
 &lt;div class="org-center">
@@ -10404,7 +10770,9 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://talks.golang.org/2012/concurrency.slide#1">Go Concurrency Patterns - slide&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://cs.opensource.google/go/x/website/+/master:_content/talks/2012/concurrency.slide">Go Concurrency Patterns - source code of slide&lt;/a>&lt;/li>
-&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-07-05T15:37:52+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。 这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉 起不同的 terminal，拉起的 terminal 路径和…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
+&lt;/ul></content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2024-09-04T10:40:54+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
+&lt;p>这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
+起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p>…</summary><content type="html">&lt;p>VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p>
 &lt;p>这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
 起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -10472,7 +10840,20 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>Emacs 最大的魅力，也许就是可以按照自己的喜好，随心定制各种功能吧！另外
-各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-07-05T15:37:52+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 git throught ssh 1 git remote add origin ssh://user@my.git.svr/path/to/repo 通过 crontab 实现开机自启动 # 每次系统重启时，都会运行 ss.sh @reboot ss.sh xxd 十六进制（二进制） dump xxd 以十六进制形式 dump 文件内容 xxd…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+各种文本编辑的快捷键，也是越用越顺手。&lt;/p></content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2024-09-04T10:40:54+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+&lt;h2 id="git-throught-ssh">git throught ssh&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git remote add origin ssh://user@my.git.svr/path/to/repo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="通过-crontab-实现开机自启动">通过 crontab 实现开机自启动&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-crontab" data-lang="crontab"># 每次系统重启时，都会运行 ss.sh
+@reboot ss.sh
+&lt;/code>&lt;/pr…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
 &lt;h2 id="git-throught-ssh">git throught ssh&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -10645,7 +11026,10 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;dd>-o 指定保存的文件路径，参数指定为 &lt;code>-&lt;/code> 则强制输出到 stdout&lt;/dd>
 &lt;dt>-L&lt;/dt>
 &lt;dd>跟随重定向&lt;/dd>
-&lt;/dl></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/command/" term="Command" label="Command"/><category scheme="https://mincodes.com/tags/scripts/" term="Scripts" label="Scripts"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/macos/" term="Macos" label="Macos"/></entry><entry><title type="text">网络安全 Network Security</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/network-security/"/><id>https://mincodes.com/posts/network-security/</id><updated>2022-12-30T07:37:00+00:00</updated><published>2022-01-23T22:54:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">踩点 DNS zone transfer 区域传送 https://digi.ninja/projects/zonetransferme.php https://www.mi1k7ea.com/2021/04/03/浅析DNS域传送漏洞/ 1 dig axfr @nsztm1.digi.ninja zonetransfer.me 网络拓扑 1 2 3 4 5 6 7 8 traceroute # -I: ICMP, -U: UDP, -T:…</summary><content type="html">&lt;h1 id="踩点">踩点&lt;/h1>
+&lt;/dl></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/command/" term="Command" label="Command"/><category scheme="https://mincodes.com/tags/scripts/" term="Scripts" label="Scripts"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/><category scheme="https://mincodes.com/tags/macos/" term="Macos" label="Macos"/></entry><entry><title type="text">网络安全 Network Security</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/network-security/"/><id>https://mincodes.com/posts/network-security/</id><updated>2022-12-30T07:37:00+00:00</updated><published>2022-01-23T22:54:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;h1 id="踩点">踩点&lt;/h1>
+&lt;h2 id="dns-zone-transfer-区域传送">DNS zone transfer 区域传送&lt;/h2>
+&lt;p>&lt;a href="https://digi.ninja/projects/zonetransferme.php">https://digi.ninja/projects/zonetransferme.php&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.mi1k7ea.com/2021/04/03/%E6%B5%85%E6%9E%90DNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/">https://www.mi1k7ea.com/2021/04/03/浅析DNS域传送漏洞/&lt;/a>&lt;/p>…</summary><content type="html">&lt;h1 id="踩点">踩点&lt;/h1>
 &lt;h2 id="dns-zone-transfer-区域传送">DNS zone transfer 区域传送&lt;/h2>
 &lt;p>&lt;a href="https://digi.ninja/projects/zonetransferme.php">https://digi.ninja/projects/zonetransferme.php&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.mi1k7ea.com/2021/04/03/%E6%B5%85%E6%9E%90DNS%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E/">https://www.mi1k7ea.com/2021/04/03/浅析DNS域传送漏洞/&lt;/a>&lt;/p>
@@ -10803,7 +11187,31 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;blockquote>
 &lt;p>Security Tips&lt;br>
 尽量不要设置 SUID 位。&lt;/p>
-&lt;/blockquote></content><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Linux Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips/"/><id>https://mincodes.com/posts/linux-tips/</id><updated>2023-05-09T09:32:00+00:00</updated><published>2022-01-23T04:24:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">记录一些常用的命令行工具，方便随时取用。 包管理 Ubuntu/Debian 上查看一个包的安装了哪些文件，安装到哪里了： 先用 dpkg -l | grep vim 找到要查看的包的完整包名； 再通过包名查看安装的文件： dpkg…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+&lt;/blockquote></content><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/security/" term="Security" label="Security"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">Linux Tips</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/linux-tips/"/><id>https://mincodes.com/posts/linux-tips/</id><updated>2023-05-09T09:32:00+00:00</updated><published>2022-01-23T04:24:00+00:00</published><author><name>Min Deng</name><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
+&lt;h2 id="包管理">包管理&lt;/h2>
+&lt;p>Ubuntu/Debian 上查看一个包的安装了哪些文件，安装到哪里了：&lt;/p>
+&lt;ol>
+&lt;li>先用 &lt;code>dpkg -l | grep vim&lt;/code> 找到要查看的包的完整包名；&lt;/li>
+&lt;li>再通过包名查看安装的文件： &lt;code>dpkg -L neovim&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;h2 id="小技巧">小技巧&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pr…</summary><content type="html">&lt;p>记录一些常用的命令行工具，方便随时取用。&lt;/p>
 &lt;h2 id="包管理">包管理&lt;/h2>
 &lt;p>Ubuntu/Debian 上查看一个包的安装了哪些文件，安装到哪里了：&lt;/p>
 &lt;ol>
@@ -11426,82 +11834,82 @@ json 文件通过 chan 吐出去。&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:center">快捷键&lt;/th>
-&lt;th style="text-align:center">动作&lt;/th>
+&lt;th style="text-align: center">快捷键&lt;/th>
+&lt;th style="text-align: center">动作&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+l&lt;/td>
-&lt;td style="text-align:center">清屏&lt;/td>
+&lt;td style="text-align: center">ctrl+l&lt;/td>
+&lt;td style="text-align: center">清屏&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+d&lt;/td>
-&lt;td style="text-align:center">退出shell&lt;/td>
+&lt;td style="text-align: center">ctrl+d&lt;/td>
+&lt;td style="text-align: center">退出shell&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+u&lt;/td>
-&lt;td style="text-align:center">清除光标之前&lt;/td>
+&lt;td style="text-align: center">ctrl+u&lt;/td>
+&lt;td style="text-align: center">清除光标之前&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+k&lt;/td>
-&lt;td style="text-align:center">清除光标之后&lt;/td>
+&lt;td style="text-align: center">ctrl+k&lt;/td>
+&lt;td style="text-align: center">清除光标之后&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+w&lt;/td>
-&lt;td style="text-align:center">清除光标之前的一个单词&lt;/td>
+&lt;td style="text-align: center">ctrl+w&lt;/td>
+&lt;td style="text-align: center">清除光标之前的一个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+y&lt;/td>
-&lt;td style="text-align:center">粘贴刚才ctrl+u/k/w的内容&lt;/td>
+&lt;td style="text-align: center">ctrl+y&lt;/td>
+&lt;td style="text-align: center">粘贴刚才ctrl+u/k/w的内容&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+t&lt;/td>
-&lt;td style="text-align:center">交换最后两个字符&lt;/td>
+&lt;td style="text-align: center">ctrl+t&lt;/td>
+&lt;td style="text-align: center">交换最后两个字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">esc+k&lt;/td>
-&lt;td style="text-align:center">交换最后两个单词&lt;/td>
+&lt;td style="text-align: center">esc+k&lt;/td>
+&lt;td style="text-align: center">交换最后两个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">alt+f/ctrl+b&lt;/td>
-&lt;td style="text-align:center">向前/后移动一个单词&lt;/td>
+&lt;td style="text-align: center">alt+f/ctrl+b&lt;/td>
+&lt;td style="text-align: center">向前/后移动一个单词&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl+f/ctrl+b&lt;/td>
-&lt;td style="text-align:center">向前/后移动一个字符&lt;/td>
+&lt;td style="text-align: center">ctrl+f/ctrl+b&lt;/td>
+&lt;td style="text-align: center">向前/后移动一个字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">alt+d/ctrl+d&lt;/td>
-&lt;td style="text-align:center">删除光标后的一个单词/字符&lt;/td>
+&lt;td style="text-align: center">alt+d/ctrl+d&lt;/td>
+&lt;td style="text-align: center">删除光标后的一个单词/字符&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-n/ctrl-p&lt;/td>
-&lt;td style="text-align:center">上一个/下一个命令&lt;/td>
+&lt;td style="text-align: center">ctrl-n/ctrl-p&lt;/td>
+&lt;td style="text-align: center">上一个/下一个命令&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-/&lt;/td>
-&lt;td style="text-align:center">undo&lt;/td>
+&lt;td style="text-align: center">ctrl-/&lt;/td>
+&lt;td style="text-align: center">undo&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">ctrl-r&lt;/td>
-&lt;td style="text-align:center">reverse-i-search&lt;/td>
+&lt;td style="text-align: center">ctrl-r&lt;/td>
+&lt;td style="text-align: center">reverse-i-search&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!&lt;/td>
-&lt;td style="text-align:center">history substitution&lt;/td>
+&lt;td style="text-align: center">!&lt;/td>
+&lt;td style="text-align: center">history substitution&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!n&lt;/td>
-&lt;td style="text-align:center">Refer to command line n.&lt;/td>
+&lt;td style="text-align: center">!n&lt;/td>
+&lt;td style="text-align: center">Refer to command line n.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!-n&lt;/td>
-&lt;td style="text-align:center">Refer to the current command line minus n.&lt;/td>
+&lt;td style="text-align: center">!-n&lt;/td>
+&lt;td style="text-align: center">Refer to the current command line minus n.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">!!&lt;/td>
-&lt;td style="text-align:center">Refer to the previous command. This is a synonym for `!-1'.&lt;/td>
+&lt;td style="text-align: center">!!&lt;/td>
+&lt;td style="text-align: center">Refer to the previous command. This is a synonym for `!-1'.&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table></content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/linux/" term="Linux" label="Linux"/></entry></feed>
