@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.150.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Mon, 22 Sep 2025 14:34:44 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
-一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</link><guid isPermaLink="true">https://mincodes.com/posts/understand-k8s-external-traffic-policy/</guid><pubDate>Mon, 22 Sep 2025 22:33:20 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.150.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Mon, 22 Sep 2025 15:39:59 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
+一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</link><guid isPermaLink="true">https://mincodes.com/posts/understand-k8s-external-traffic-policy/</guid><pubDate>Mon, 22 Sep 2025 23:37:45 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
 &lt;blockquote&gt;
 &lt;p style="text-indent:0"&gt;&lt;span class="drop-cap"&gt;关&lt;/span&gt;于 Service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt;, 官方文档的解释感觉有点模糊，看了网上其他人的解释也总感觉没有说到点子上。本文通过一个小实验，帮助你真正理解这个字段的含义和效果，以及相关注意事项。最后，本文总结了两种策略的优缺点。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;在 Kubernetes 中，针对 Service 的外部流量有两种分发策略：&lt;/p&gt;
@@ -40,7 +40,29 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;&lt;/div&gt;
-&lt;h2 id="实验步骤"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#实验步骤" class="anchor-link" aria-label="实验步骤"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:实验步骤" class="headings"&gt;实验步骤&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id="实验原理"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#实验原理" class="anchor-link" aria-label="实验原理"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:实验原理" class="headings"&gt;实验原理&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;服务部署：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;布署一个 NodePort 类型的 service, &lt;code&gt;externalTrafficPolicy&lt;/code&gt; 初始配置为 Cluster&lt;/li&gt;
+&lt;li&gt;后端仅布署一个 pod 为该 service 提供 endpoint。也就是说，只有一个 node 能够最终处理该 service 的流量。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;外部流量策略验证：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Cluster 策略测试：service 的外部流量策略初始为 Cluster 类型，可以直接测试。&lt;/p&gt;
+&lt;p&gt;测试方法：分别通过集群中的两个 node 的 IP 来访问该服务。&lt;/p&gt;
+&lt;p&gt;预期结果：两个 node 都能正确响应。这表明流量进行了集群范围内的转发，我们的结论得到验证。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Local 策略测试：将 service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt; 配置为 Local。&lt;/p&gt;
+&lt;p&gt;测试方法：和 Cluster 一样，分别通过集群中的两个 node 的 IP 来访问该服务。&lt;/p&gt;
+&lt;p&gt;预期结果：其中一个 node 可以正确响应，另一个无法正确响应。可以响应的 node 是布署了后端 pod 的 node。这表明流量要么发送到本地 pod, 要么丢弃, 不会转发给其他 node。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;externalTrafficPolicy&lt;/code&gt; 仅针对外部流量有意义，而只有 NodePort, LoadBalancer
+这两种类型的 Service 才会直接接收外部流量。简单起见，这里使用 NodePort 类型来测试。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="实验过程"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#实验过程" class="anchor-link" aria-label="实验过程"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:实验过程" class="headings"&gt;实验过程&lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id="创建-traffic-test-deployment"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#创建-traffic-test-deployment" class="anchor-link" aria-label="创建-traffic-test-deployment"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:创建-traffic-test-deployment" class="headings"&gt;创建 traffic-test deployment&lt;/a&gt;&lt;/h3&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -143,12 +165,9 @@
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Service 类型设置为 NodePort 类型&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;externalTrafficPolicy&lt;/code&gt; 仅针对外部流量有意义，而只有 NodePort, LoadBalancer
-这两种类型的 Service 才会直接接收外部流量。简单起见，这里使用 NodePort 类型来测试。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;code&gt;externalTrafficPolicy&lt;/code&gt; 设置为 Cluster&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;externalTrafficPolicy&lt;/code&gt; 初始设置为 Cluster&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;查看一下 Service 的 NodePort 端口号：&lt;/p&gt;
@@ -174,9 +193,11 @@
 &lt;code&gt;nodeIP:30316&lt;/code&gt; 来访问该服务。&lt;/p&gt;
 &lt;h3 id="测试-cluster-流量策略"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#测试-cluster-流量策略" class="anchor-link" aria-label="测试-cluster-流量策略"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:测试-cluster-流量策略" class="headings"&gt;测试 Cluster 流量策略&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;由于该服务为 NodePort 类型，且 &lt;code&gt;externalTrafficPolicy&lt;/code&gt; 设置为 Cluster, 那么按照 Cluster 的定义，我们应该可以在集群外部，通过集群中任意节点的 IP 访问到该服务。&lt;/p&gt;
-&lt;p&gt;我们测试一下。&lt;/p&gt;
-&lt;p&gt;首先尝试通过 xjp1 节点访问该 service (xjp1 即 pod 所在的节点，参考&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"&gt;实验环境&lt;/a&gt;,
-其 IP 为 172.17.26.70)：&lt;/p&gt;
+&lt;p&gt;我们通过测试来验证一下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;测试节点1: 通过 xjp1 节点访问该 service。&lt;/p&gt;
+&lt;p&gt;参考 &lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E5%88%9B%E5%BB%BA-traffic-test-deployment"&gt;创建 traffic-test deployment&lt;/a&gt; 一节，xjp1 正是 service 对应的 pod 所在的节点。参考&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"&gt;实验环境&lt;/a&gt;, 该节点 IP 为 172.17.26.70。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -211,8 +232,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Accept: */*
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;✅ xjp1 节点测试成功。&lt;/p&gt;
-&lt;p&gt;接下来尝试通过 gz1 访问，参考&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"&gt;实验环境&lt;/a&gt;, 其 IP 为 192.168.8.1：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;✅ xjp1 节点访问成功。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;测试节点2: 通过 gz1 节点访问服务。&lt;/p&gt;
+&lt;p&gt;该节点上没有布署 service 对应的 pod。参考&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"&gt;实验环境&lt;/a&gt;, 其 IP 为 192.168.8.1：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -247,15 +271,17 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Accept: */*
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;✅ gz1 节点测试成功。&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;✅ gz1 节点访问成功。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;有两点值得注意：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;gz1 节点上并未部署该 service 对应的后端 pod, 但仍然可以通过该节点将流量路由到其后端 endpoint, 说明 Cluster 策略生效了。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;两次测试返回的 RemoteAddr 都是集群内部的 IP, 而不是客户端 IP。这是因为流量可能需要经过 node 转发，所以会统一做一次 SNAT, 将流量的源 IP 地址修改为
-node 的 IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP 地址&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;两次测试返回的 RemoteAddr 都是集群内部的 IP, 而不是客户端 IP。这是因为流量可能需要经过 node 转发，所以会统一做一次 SNAT, 将流量的源 IP 地址修改为 node 的
+IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP 地址&lt;/strong&gt; 。这是 Cluster 模式的一个副作用。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id="测试-local-流量策略"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#测试-local-流量策略" class="anchor-link" aria-label="测试-local-流量策略"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:测试-local-流量策略" class="headings"&gt;测试 Local 流量策略&lt;/a&gt;&lt;/h3&gt;
@@ -276,7 +302,8 @@ node 的 IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP �
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;service/traffic-test patched
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;/div&gt;&lt;p&gt;确认一下修改是否成功：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
@@ -293,8 +320,11 @@ node 的 IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP �
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;确认已经修改成 Local 了。&lt;/p&gt;
-&lt;p&gt;重复上面两个测试。&lt;/p&gt;
-&lt;p&gt;测试 xjp1:&lt;/p&gt;
+&lt;p&gt;按照 Local 的定义，并结合我们的配置，应该只有一个节点 (xjp1) 可以正确相应请求，另一个节点会因为流量无法路由到服务对应的 pod 而超时失败。&lt;/p&gt;
+&lt;p&gt;我们通过重复 &lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#%E6%B5%8B%E8%AF%95-cluster-%E6%B5%81%E9%87%8F%E7%AD%96%E7%95%A5"&gt;测试 Cluster 流量策略&lt;/a&gt; 中的两个测试，来验证一下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;测试节点1: 通过 xjp1 访问服务:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -329,8 +359,11 @@ node 的 IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP �
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Accept: */*
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;✅ xjp1 节点测试成功。而且，RemoteAddr 获取正确，正是真实的客户端 IP 地址。&lt;/p&gt;
-&lt;p&gt;测试 gz1:&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;✅ xjp1 节点访问成功。&lt;/p&gt;
+&lt;p&gt;而且，RemoteAddr 获取正确，正是真实的客户端 IP 地址。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;测试节点2: 通过 gz1 访问服务:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -347,9 +380,12 @@ node 的 IP 地址。因此， &lt;strong&gt;会丢失原始客户端的源 IP �
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;timeout
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;❌ gz1 节点测试失败。&lt;/p&gt;
-&lt;p&gt;这是符合预期的，因为 gz1 上面没有 service traffic-test 对应的后端 endpoint, 在外部流量策略为 Local 的情况下，流量会被丢弃。这印证了我们文章开头的结论。&lt;/p&gt;
-&lt;h2 id="总结"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#总结" class="anchor-link" aria-label="总结"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:总结" class="headings"&gt;总结&lt;/a&gt;&lt;/h2&gt;
+&lt;/div&gt;&lt;p&gt;❌ gz1 节点访问失败。&lt;/p&gt;
+&lt;p&gt;这是符合预期的，因为 gz1 上面没有 service traffic-test 对应的后端 pod, 在外部流量策略为 Local 的情况下，流量会被丢弃。这印证了我们文章开头的结论，即：
+Local 模式不会将流量转发给其他 node。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="结论总结"&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#结论总结" class="anchor-link" aria-label="结论总结"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/#contents:结论总结" class="headings"&gt;结论总结&lt;/a&gt;&lt;/h2&gt;
 &lt;dl&gt;
 &lt;dt&gt;Cluster&lt;/dt&gt;
 &lt;dd&gt;节点在收到外部流量后，可以转发给集群中的任意节点（包括自己和其他节点）。
