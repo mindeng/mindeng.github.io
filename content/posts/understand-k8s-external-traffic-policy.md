@@ -1,6 +1,6 @@
 +++
 title = "一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)"
-lastmod = 2025-09-22T22:33:20+08:00
+lastmod = 2025-09-22T23:37:45+08:00
 tags = ["kubernetes"]
 draft = false
 +++
@@ -30,7 +30,31 @@ Local
 | xjp1 | Ready  | 3d8h | v1.33.4+k3s1 | 172.17.26.70 |
 
 
-## 实验步骤 {#实验步骤}
+## 实验原理 {#实验原理}
+
+服务部署：
+
+-   布署一个 NodePort 类型的 service, `externalTrafficPolicy` 初始配置为 Cluster
+-   后端仅布署一个 pod 为该 service 提供 endpoint。也就是说，只有一个 node 能够最终处理该 service 的流量。
+
+外部流量策略验证：
+
+-   Cluster 策略测试：service 的外部流量策略初始为 Cluster 类型，可以直接测试。
+
+    测试方法：分别通过集群中的两个 node 的 IP 来访问该服务。
+
+    预期结果：两个 node 都能正确响应。这表明流量进行了集群范围内的转发，我们的结论得到验证。
+-   Local 策略测试：将 service 的 `externalTrafficPolicy` 配置为 Local。
+
+    测试方法：和 Cluster 一样，分别通过集群中的两个 node 的 IP 来访问该服务。
+
+    预期结果：其中一个 node 可以正确响应，另一个无法正确响应。可以响应的 node 是布署了后端 pod 的 node。这表明流量要么发送到本地 pod, 要么丢弃, 不会转发给其他 node。
+
+> `externalTrafficPolicy` 仅针对外部流量有意义，而只有 NodePort, LoadBalancer
+> 这两种类型的 Service 才会直接接收外部流量。简单起见，这里使用 NodePort 类型来测试。
+
+
+## 实验过程 {#实验过程}
 
 
 ### 创建 traffic-test deployment {#创建-traffic-test-deployment}
@@ -93,10 +117,7 @@ metadata:
 
 -   Service 类型设置为 NodePort 类型
 
-    > `externalTrafficPolicy` 仅针对外部流量有意义，而只有 NodePort, LoadBalancer
-    > 这两种类型的 Service 才会直接接收外部流量。简单起见，这里使用 NodePort 类型来测试。
-
--   `externalTrafficPolicy` 设置为 Cluster
+-   `externalTrafficPolicy` 初始设置为 Cluster
 
 查看一下 Service 的 NodePort 端口号：
 
@@ -117,59 +138,58 @@ traffic-test   NodePort   10.43.203.41   <none>        80:30316/TCP   104m
 
 由于该服务为 NodePort 类型，且 `externalTrafficPolicy` 设置为 Cluster, 那么按照 Cluster 的定义，我们应该可以在集群外部，通过集群中任意节点的 IP 访问到该服务。
 
-我们测试一下。
+我们通过测试来验证一下。
 
-首先尝试通过 xjp1 节点访问该 service (xjp1 即 pod 所在的节点，参考[实验环境](#实验环境),
-其 IP 为 172.17.26.70)：
+-   测试节点1: 通过 xjp1 节点访问该 service。
 
-```shell
-curl -s 172.17.26.70:30316
-```
+    参考 [创建 traffic-test deployment](#创建-traffic-test-deployment) 一节，xjp1 正是 service 对应的 pod 所在的节点。参考[实验环境](#实验环境), 该节点 IP 为 172.17.26.70。
+    ```shell
+    curl -s 172.17.26.70:30316
+    ```
 
-```text
-Hostname: traffic-test-7787c8cc97-pm6k8
-IP: 127.0.0.1
-IP: ::1
-IP: 10.42.1.59
-IP: fe80::d496:16ff:fe3d:5e74
-RemoteAddr: 10.42.1.1:25389
-GET / HTTP/1.1
-Host: 172.17.26.70:30316
-User-Agent: curl/8.7.1
-Accept: */*
+    ```text
+    Hostname: traffic-test-7787c8cc97-pm6k8
+    IP: 127.0.0.1
+    IP: ::1
+    IP: 10.42.1.59
+    IP: fe80::d496:16ff:fe3d:5e74
+    RemoteAddr: 10.42.1.1:25389
+    GET / HTTP/1.1
+    Host: 172.17.26.70:30316
+    User-Agent: curl/8.7.1
+    Accept: */*
 
-```
+    ```
+    ✅ xjp1 节点访问成功。
 
-✅ xjp1 节点测试成功。
+-   测试节点2: 通过 gz1 节点访问服务。
 
-接下来尝试通过 gz1 访问，参考[实验环境](#实验环境), 其 IP 为 192.168.8.1：
+    该节点上没有布署 service 对应的 pod。参考[实验环境](#实验环境), 其 IP 为 192.168.8.1：
+    ```shell
+    curl -s 192.168.8.1:30316
+    ```
 
-```shell
-curl -s 192.168.8.1:30316
-```
+    ```text
+    Hostname: traffic-test-7787c8cc97-pm6k8
+    IP: 127.0.0.1
+    IP: ::1
+    IP: 10.42.1.59
+    IP: fe80::d496:16ff:fe3d:5e74
+    RemoteAddr: 10.42.0.0:18798
+    GET / HTTP/1.1
+    Host: 192.168.8.1:30316
+    User-Agent: curl/8.7.1
+    Accept: */*
 
-```text
-Hostname: traffic-test-7787c8cc97-pm6k8
-IP: 127.0.0.1
-IP: ::1
-IP: 10.42.1.59
-IP: fe80::d496:16ff:fe3d:5e74
-RemoteAddr: 10.42.0.0:18798
-GET / HTTP/1.1
-Host: 192.168.8.1:30316
-User-Agent: curl/8.7.1
-Accept: */*
-
-```
-
-✅ gz1 节点测试成功。
+    ```
+    ✅ gz1 节点访问成功。
 
 有两点值得注意：
 
 -   gz1 节点上并未部署该 service 对应的后端 pod, 但仍然可以通过该节点将流量路由到其后端 endpoint, 说明 Cluster 策略生效了。
 
--   两次测试返回的 RemoteAddr 都是集群内部的 IP, 而不是客户端 IP。这是因为流量可能需要经过 node 转发，所以会统一做一次 SNAT, 将流量的源 IP 地址修改为
-    node 的 IP 地址。因此， **会丢失原始客户端的源 IP 地址** 。
+-   两次测试返回的 RemoteAddr 都是集群内部的 IP, 而不是客户端 IP。这是因为流量可能需要经过 node 转发，所以会统一做一次 SNAT, 将流量的源 IP 地址修改为 node 的
+    IP 地址。因此， **会丢失原始客户端的源 IP 地址** 。这是 Cluster 模式的一个副作用。
 
 
 ### 测试 Local 流量策略 {#测试-local-流量策略}
@@ -184,6 +204,8 @@ kubectl patch svc traffic-test -p '{"spec": {"externalTrafficPolicy": "Local"}}'
 service/traffic-test patched
 ```
 
+确认一下修改是否成功：
+
 ```shell
 kubectl get svc traffic-test -o yaml | yq '.spec.externalTrafficPolicy'
 ```
@@ -194,46 +216,48 @@ Local
 
 确认已经修改成 Local 了。
 
-重复上面两个测试。
+按照 Local 的定义，并结合我们的配置，应该只有一个节点 (xjp1) 可以正确相应请求，另一个节点会因为流量无法路由到服务对应的 pod 而超时失败。
 
-测试 xjp1:
+我们通过重复 [测试 Cluster 流量策略](#测试-cluster-流量策略) 中的两个测试，来验证一下。
 
-```shell
-curl -s 172.17.26.70:30316
-```
+-   测试节点1: 通过 xjp1 访问服务:
+    ```shell
+    curl -s 172.17.26.70:30316
+    ```
 
-```text
-Hostname: traffic-test-7787c8cc97-pm6k8
-IP: 127.0.0.1
-IP: ::1
-IP: 10.42.1.59
-IP: fe80::d496:16ff:fe3d:5e74
-RemoteAddr: 192.168.22.2:61899
-GET / HTTP/1.1
-Host: 172.17.26.70:30316
-User-Agent: curl/8.7.1
-Accept: */*
+    ```text
+    Hostname: traffic-test-7787c8cc97-pm6k8
+    IP: 127.0.0.1
+    IP: ::1
+    IP: 10.42.1.59
+    IP: fe80::d496:16ff:fe3d:5e74
+    RemoteAddr: 192.168.22.2:61899
+    GET / HTTP/1.1
+    Host: 172.17.26.70:30316
+    User-Agent: curl/8.7.1
+    Accept: */*
 
-```
+    ```
+    ✅ xjp1 节点访问成功。
 
-✅ xjp1 节点测试成功。而且，RemoteAddr 获取正确，正是真实的客户端 IP 地址。
+    而且，RemoteAddr 获取正确，正是真实的客户端 IP 地址。
 
-测试 gz1:
+-   测试节点2: 通过 gz1 访问服务:
+    ```shell
+    curl -s --connect-timeout 1 192.168.8.1:30316 || echo timeout
+    ```
 
-```shell
-curl -s --connect-timeout 1 192.168.8.1:30316 || echo timeout
-```
+    ```text
+    timeout
+    ```
 
-```text
-timeout
-```
+    ❌ gz1 节点访问失败。
 
-❌ gz1 节点测试失败。
-
-这是符合预期的，因为 gz1 上面没有 service traffic-test 对应的后端 endpoint, 在外部流量策略为 Local 的情况下，流量会被丢弃。这印证了我们文章开头的结论。
+    这是符合预期的，因为 gz1 上面没有 service traffic-test 对应的后端 pod, 在外部流量策略为 Local 的情况下，流量会被丢弃。这印证了我们文章开头的结论，即：
+    Local 模式不会将流量转发给其他 node。
 
 
-## 总结 {#总结}
+## 结论总结 {#结论总结}
 
 Cluster
 : 节点在收到外部流量后，可以转发给集群中的任意节点（包括自己和其他节点）。
