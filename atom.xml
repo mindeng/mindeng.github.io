@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2025-09-22T15:39:59+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.150.0">Hugo</generator><entry><title type="text">
-一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/"/><id>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</id><updated>2025-09-22T23:37:45+08:00</updated><published>2025-09-22T23:37:45+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2025-09-23T01:24:12+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.150.0">Hugo</generator><entry><title type="text">
+一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/"/><id>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</id><updated>2025-09-23T09:23:33+08:00</updated><published>2025-09-23T09:23:33+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;blockquote&gt;
 &lt;p&gt;关于 Service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt;, 官方文档的解释感觉有点模糊，看了网上其他人的解释也总感觉没有说到点子上。本文通过一个小实验，帮助你真正理解这个字段的含义和效果，以及相关注意事项。最后，本文总结了两种策略的优缺点。&lt;/p&gt;</summary><content type="html">
 &lt;blockquote&gt;
@@ -430,9 +430,6 @@ endpoint, 便可以提供服务。&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;高可用性： 如果某个节点收到流量，但该节点没有部署对应的目标 pod，或者该 pod
 出现故障，则会导致服务不可用。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;丢失客户端IP：由于做了一次 SNAT, 后端 pod 无法获得客户端的真实 IP 地址。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/dd&gt;
@@ -10748,7 +10745,7 @@ Android Tools</title><link rel="alternate" type="text/html" href="https://mincod
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">
-Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2025-09-22T15:39:55+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2025-09-23T01:24:09+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;h2 id="emacs-中的变量"&gt;Emacs 中的变量&lt;/h2&gt;
 &lt;p&gt;要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p&gt;
 &lt;p&gt;Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
@@ -11686,7 +11683,7 @@ json 文件通过 chan 吐出去。&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://talks.golang.org/2012/concurrency.slide#1" target="_blank" rel="noopener"&gt;Go Concurrency Patterns - slide&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://cs.opensource.google/go/x/website/+/master:_content/talks/2012/concurrency.slide" target="_blank" rel="noopener"&gt;Go Concurrency Patterns - source code of slide&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">
-在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2025-09-22T15:39:55+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2025-09-23T01:24:09+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;p&gt;VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p&gt;
 &lt;p&gt;这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
 起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p&gt;</summary><content type="html">
@@ -11759,7 +11756,7 @@ json 文件通过 chan 吐出去。&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Emacs 最大的魅力，也许就是可以按照自己的喜好，随心定制各种功能吧！另外
 各种文本编辑的快捷键，也是越用越顺手。&lt;/p&gt;</content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">
-常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2025-09-22T15:39:55+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2025-09-23T01:24:09+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;p&gt;记录一些常用的命令行工具，方便随时取用。&lt;/p&gt;
 &lt;h2 id="git-throught-ssh"&gt;git throught ssh&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;

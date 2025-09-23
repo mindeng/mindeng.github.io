@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.150.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Mon, 22 Sep 2025 15:39:59 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
-一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</link><guid isPermaLink="true">https://mincodes.com/posts/understand-k8s-external-traffic-policy/</guid><pubDate>Mon, 22 Sep 2025 23:37:45 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.150.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Tue, 23 Sep 2025 01:24:13 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
+一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</link><guid isPermaLink="true">https://mincodes.com/posts/understand-k8s-external-traffic-policy/</guid><pubDate>Tue, 23 Sep 2025 09:23:33 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
 &lt;blockquote&gt;
 &lt;p style="text-indent:0"&gt;&lt;span class="drop-cap"&gt;关&lt;/span&gt;于 Service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt;, 官方文档的解释感觉有点模糊，看了网上其他人的解释也总感觉没有说到点子上。本文通过一个小实验，帮助你真正理解这个字段的含义和效果，以及相关注意事项。最后，本文总结了两种策略的优缺点。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;在 Kubernetes 中，针对 Service 的外部流量有两种分发策略：&lt;/p&gt;
@@ -428,9 +428,6 @@ endpoint, 便可以提供服务。&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;高可用性： 如果某个节点收到流量，但该节点没有部署对应的目标 pod，或者该 pod
 出现故障，则会导致服务不可用。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;丢失客户端IP：由于做了一次 SNAT, 后端 pod 无法获得客户端的真实 IP 地址。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/dd&gt;
