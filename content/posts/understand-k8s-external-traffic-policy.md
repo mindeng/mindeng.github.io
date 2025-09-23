@@ -1,6 +1,6 @@
 +++
 title = "一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)"
-lastmod = 2025-09-22T23:37:45+08:00
+lastmod = 2025-09-23T09:23:33+08:00
 tags = ["kubernetes"]
 draft = false
 +++
@@ -291,5 +291,3 @@ Local
 
     -   高可用性： 如果某个节点收到流量，但该节点没有部署对应的目标 pod，或者该 pod
         出现故障，则会导致服务不可用。
-
-    -   丢失客户端IP：由于做了一次 SNAT, 后端 pod 无法获得客户端的真实 IP 地址。
