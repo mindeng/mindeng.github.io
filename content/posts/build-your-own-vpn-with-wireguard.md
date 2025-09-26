@@ -1,6 +1,6 @@
 +++
 title = "利用 WireGuard 快速构建属于你自己的虚拟专用网络"
-lastmod = 2025-09-26T23:42:22+08:00
+lastmod = 2025-09-26T23:59:06+08:00
 tags = ["wireguard", "network", "tunnel", "vpn", "homelab"]
 draft = false
 +++
@@ -681,28 +681,34 @@ WireGuard 的配置文件如果没有特殊说明，路径统一为 `/etc/wiregu
 macOS 和 iOS/Android 比较特殊，有 UI 界面可以直接配置（Windows 没用过，想必应该也有界面可以配置）。
 
 
-### router 配置 {#router-配置}
+### 打开 IP 转发 {#打开-ip-转发}
 
+需要为如下节点打开 IP 转发功能：
 
-#### 打开 IP 转发 {#打开-ip-转发}
+-   router
+-   home-gw
+-   office-gw
 
-1.  修改 `/etc/syslog.conf` 文件，增加如下内容：
+打开步骤如下：
+
+-   修改 `/etc/syslog.conf` 文件，增加如下内容：
     ```cfg
     net.ipv4.ip_forward = 1
     ```
-2.  运行命令：
+-   运行命令：
     ```shell
     sysctl -p
     ```
 
-> 💡为何要为 router 打开 IP 转发？
+> 💡为何要为 router, home-gw 和 office-gw 打开 IP 转发？
 >
 > 如果不打开 IP 转发，服务器在发现目标地址不属于自己的 packet 时，会直接丢弃。
 >
-> 而我们的 router 服务器作为“星型”网络的中心节点，需要为所有的下级节点将数据转发给其他各个节点，起到中继的作用，所以必须打开这个功能。
+> 而这几个节点分别作为“星型”网络的中心节点，homelab 内网的网关节点，以及 office
+> 内网的网关节点，承担着为所有的下级节点中继数据的功能，所以必须打开这个功能。
 
 
-#### WireGuard 配置 {#wireguard-配置}
+### router 配置 {#router-配置}
 
 router wg0.conf 配置：
 
@@ -737,18 +743,6 @@ AllowedIPs = 10.9.9.2/32
 
 ### home-gw 配置 {#home-gw-配置}
 
-
-#### 打开 IP 转发 {#打开-ip-转发}
-
-参考[前面的方法](#打开-ip-转发)打开 IP 转发功能。
-
-> 💡为何要为 home-gw 打开 IP 转发？
->
-> 我们的 home-gw 服务器作为 homelab 网络的网关设备，需要为 homelab 网络中的其他所有设备提供网络穿透和数据转发服务，所以必须打开这个功能。
-
-
-#### WireGuard 配置 {#wireguard-配置}
-
 home-gw wg0.conf 配置：
 
 ```cfg
@@ -768,14 +762,6 @@ AllowedIPs = 10.9.9.0/24        # 和移动端设备（MacBook/Cellphone）互�
 
 
 ### office-gw 配置 {#office-gw-配置}
-
-
-#### 打开 IP 转发 {#打开-ip-转发}
-
-参考[前面的方法](#打开-ip-转发)打开 IP 转发功能。原因和前面说的[为 home-gw 打开 IP 转发](#打开-ip-转发)的原因一致。
-
-
-#### WireGuard 配置 {#wireguard-配置}
 
 office-gw wg0.conf 配置：
 
