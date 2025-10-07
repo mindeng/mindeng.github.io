@@ -1,6 +1,6 @@
 +++
 title = "利用 WireGuard 快速构建属于你自己的虚拟专用网络"
-lastmod = 2025-09-26T23:59:06+08:00
+lastmod = 2025-10-07T19:14:10+08:00
 tags = ["wireguard", "network", "tunnel", "vpn", "homelab"]
 draft = false
 +++
@@ -76,6 +76,9 @@ MacBook
 
 Cellphone
 : 手机，位置不固定，和 MacBook 类似。
+
+其中， home-gw 和 office-gw 所扮演的角色，其实就是 tailscale 中的 [subnet
+routers](https://tailscale.com/kb/1019/subnets) 。
 
 
 ### 网段划分 {#网段划分}
@@ -811,3 +814,44 @@ PrivateKey = <private key>
 PublicKey = xxx                                          # router's public key
 AllowedIPs = 10.9.0.0/16, 192.168.1.0/24, 172.19.50.0/24 # 和所有设备互通
 ```
+
+
+## 后记：网关自动转发的替代方案 {#后记-网关自动转发的替代方案}
+
+如果你不想让 home-gw/office-gw 无脑转发所有通向内网的流量，也可以按需手动转发。
+
+```artist
+                                        +--------------------------------------+
+                                        |            192.168.1.0/24            |
+                                        |                                      |
++---------+          +--------+         +----------+        +--------------+   |
+| MacBook |--------->| router |-------->| home-gw  |------->| home-server  |   |
+|         |          |        |         | 10.9.0.2 |        | 192.168.1.10 |   |
++---------+          +--------+         +----------+        +--------------+   |
+                                        |                                      |
+                                        +--------------------------------------+
+```
+
+如上图所示，假设现在 homelab LAN 中有一台服务器 home-server, 目标是 MacBook 可以直接访问 home-server （例如，可以 ssh 登录 home-server）。
+
+注意，这里有几个限制条件：
+
+-   home-server 本身并未接入 WireGuard。
+-   home-gw 未开启 iptables 转发（参考 [home-gw 配置](#home-gw-配置)）。
+
+    如果开启了 iptables 转发，就是走的无脑转发的方案，不需要其他操作，MacBook 直接就能访问 home-server。
+-   home-gw 上面安装有 sshd server, 且 MacBook 有 ssh 登录权限。
+
+下面我们来实现按需手动转发的方案。
+
+1.  在 MacBook 上 ssh 登录 home-gw
+2.  在第一步建立的 ssh 会话中，利用 ncat 打开通向 192.168.1.10:22 的转发隧道：
+    ```shell
+    ncat -v --sh-exec 'ncat -i 5m -v 192.168.1.10 22' -l 2222 --keep-open
+    ```
+    其实也可以改成直接利用 ssh 来进行端口转发，但是 ssh 转发不太稳定，很容易就断了。 ncat 转发实测十分的稳定。
+3.  现在可以在 MacBook 上通过 ssh 登录 home-server 了：
+    ```shell
+    ssh -p 2222 10.9.0.2
+    ```
+    在第二步中，我们将 home-gw 的 2222 端口映射到了 home-server 的 22 端口上，因此，上面的命令实际上会连接到 home-server 的 22 端口上。
