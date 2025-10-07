@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.150.1 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Fri, 26 Sep 2025 15:59:40 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
-利用 WireGuard 快速构建属于你自己的虚拟专用网络</title><link>https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</link><guid isPermaLink="true">https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</guid><pubDate>Fri, 26 Sep 2025 23:59:06 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
+<?xml version="1.0" encoding="utf-8"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>MinCodes</title><link>https://mincodes.com/</link><description>MinCodes, Minimal but useful Codes</description><generator>Hugo 0.151.0 https://gohugo.io/</generator><language>zh-cn</language><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><lastBuildDate>Tue, 07 Oct 2025 11:17:15 +0000</lastBuildDate><atom:link rel="self" type="application/rss+xml" href="https://mincodes.com/rss.xml"/><item><title>
+利用 WireGuard 快速构建属于你自己的虚拟专用网络</title><link>https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</link><guid isPermaLink="true">https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</guid><pubDate>Tue, 07 Oct 2025 19:14:10 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
 &lt;h2 id="引言"&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#引言" class="anchor-link" aria-label="引言"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#contents:引言" class="headings"&gt;引言&lt;/a&gt;&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p style="text-indent:0"&gt;&lt;span class="drop-cap"&gt;本&lt;/span&gt;文详细分析了 WireGuard 的数据收发、数据中继的基本原理，并介绍了一种利用
@@ -55,6 +55,8 @@ WireGuard 快速构建一个属于自己的虚拟专用网络的方法，可用�
 &lt;dt&gt;Cellphone&lt;/dt&gt;
 &lt;dd&gt;手机，位置不固定，和 MacBook 类似。&lt;/dd&gt;
 &lt;/dl&gt;
+&lt;p&gt;其中， home-gw 和 office-gw 所扮演的角色，其实就是 tailscale 中的 &lt;a href="https://tailscale.com/kb/1019/subnets" target="_blank" rel="noopener"&gt;subnet
+routers&lt;/a&gt; 。&lt;/p&gt;
 &lt;h3 id="网段划分"&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#网段划分" class="anchor-link" aria-label="网段划分"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#contents:网段划分" class="headings"&gt;网段划分&lt;/a&gt;&lt;/h3&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;code&gt;10.9.0.0/16&lt;/code&gt;&lt;/dt&gt;
@@ -997,7 +999,55 @@ macOS 和 iOS/Android 比较特殊，有 UI 界面可以直接配置（Windows �
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;AllowedIPs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;10.9.0.0/16, 192.168.1.0/24, 172.19.50.0/24 # 和所有设备互通&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category domain="https://mincodes.com/tags/wireguard/">Wireguard</category><category domain="https://mincodes.com/tags/network/">Network</category><category domain="https://mincodes.com/tags/tunnel/">Tunnel</category><category domain="https://mincodes.com/tags/vpn/">Vpn</category><category domain="https://mincodes.com/tags/homelab/">Homelab</category></item><item><title>
+&lt;/div&gt;&lt;h2 id="后记-网关自动转发的替代方案"&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#后记-网关自动转发的替代方案" class="anchor-link" aria-label="后记-网关自动转发的替代方案"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#contents:后记-网关自动转发的替代方案" class="headings"&gt;后记：网关自动转发的替代方案&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;如果你不想让 home-gw/office-gw 无脑转发所有通向内网的流量，也可以按需手动转发。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-artist" data-lang="artist"&gt; +--------------------------------------+
+| 192.168.1.0/24 |
+| |
++---------+ +--------+ +----------+ +--------------+ |
+| MacBook |---------&amp;gt;| router |--------&amp;gt;| home-gw |-------&amp;gt;| home-server | |
+| | | | | 10.9.0.2 | | 192.168.1.10 | |
++---------+ +--------+ +----------+ +--------------+ |
+| |
++--------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如上图所示，假设现在 homelab LAN 中有一台服务器 home-server, 目标是 MacBook 可以直接访问 home-server （例如，可以 ssh 登录 home-server）。&lt;/p&gt;
+&lt;p&gt;注意，这里有几个限制条件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;home-server 本身并未接入 WireGuard。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;home-gw 未开启 iptables 转发（参考 &lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#home-gw-%E9%85%8D%E7%BD%AE"&gt;home-gw 配置&lt;/a&gt;）。&lt;/p&gt;
+&lt;p&gt;如果开启了 iptables 转发，就是走的无脑转发的方案，不需要其他操作，MacBook 直接就能访问 home-server。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;home-gw 上面安装有 sshd server, 且 MacBook 有 ssh 登录权限。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面我们来实现按需手动转发的方案。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 MacBook 上 ssh 登录 home-gw&lt;/li&gt;
+&lt;li&gt;在第一步建立的 ssh 会话中，利用 ncat 打开通向 192.168.1.10:22 的转发隧道：
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ncat -v --sh-exec &lt;span class="s1"&gt;&amp;#39;ncat -i 5m -v 192.168.1.10 22&amp;#39;&lt;/span&gt; -l &lt;span class="m"&gt;2222&lt;/span&gt; --keep-open
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;其实也可以改成直接利用 ssh 来进行端口转发，但是 ssh 转发不太稳定，很容易就断了。 ncat 转发实测十分的稳定。&lt;/li&gt;
+&lt;li&gt;现在可以在 MacBook 上通过 ssh 登录 home-server 了：
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ssh -p &lt;span class="m"&gt;2222&lt;/span&gt; 10.9.0.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;在第二步中，我们将 home-gw 的 2222 端口映射到了 home-server 的 22 端口上，因此，上面的命令实际上会连接到 home-server 的 22 端口上。&lt;/li&gt;
+&lt;/ol&gt;</description><category domain="https://mincodes.com/tags/wireguard/">Wireguard</category><category domain="https://mincodes.com/tags/network/">Network</category><category domain="https://mincodes.com/tags/tunnel/">Tunnel</category><category domain="https://mincodes.com/tags/vpn/">Vpn</category><category domain="https://mincodes.com/tags/homelab/">Homelab</category></item><item><title>
 一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</link><guid isPermaLink="true">https://mincodes.com/posts/understand-k8s-external-traffic-policy/</guid><pubDate>Tue, 23 Sep 2025 09:23:33 +0800</pubDate><copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright><description>
 &lt;blockquote&gt;
 &lt;p style="text-indent:0"&gt;&lt;span class="drop-cap"&gt;关&lt;/span&gt;于 Service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt;, 官方文档的解释感觉有点模糊，看了网上其他人的解释也总感觉没有说到点子上。本文通过一个小实验，帮助你真正理解这个字段的含义和效果，以及相关注意事项。最后，本文总结了两种策略的优缺点。&lt;/p&gt;&lt;/blockquote&gt;

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2025-09-26T15:59:40+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.150.1">Hugo</generator><entry><title type="text">
-利用 WireGuard 快速构建属于你自己的虚拟专用网络</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/"/><id>https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</id><updated>2025-09-26T23:59:06+08:00</updated><published>2025-09-26T23:59:06+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><title type="text">MinCodes</title><subtitle type="html">MinCodes, Minimal but useful Codes</subtitle><updated>2025-10-07T11:17:15+00:00</updated><id>https://mincodes.com/</id><link rel="alternate" type="text/html" href="https://mincodes.com/"/><link rel="self" type="application/atom+xml" href="https://mincodes.com/atom.xml"/><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><generator uri="https://gohugo.io/" version="0.151.0">Hugo</generator><entry><title type="text">
+利用 WireGuard 快速构建属于你自己的虚拟专用网络</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/"/><id>https://mincodes.com/posts/build-your-own-vpn-with-wireguard/</id><updated>2025-10-07T19:14:10+08:00</updated><published>2025-10-07T19:14:10+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;h2 id="引言"&gt;引言&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本文详细分析了 WireGuard 的数据收发、数据中继的基本原理，并介绍了一种利用
@@ -59,6 +59,8 @@ WireGuard 快速构建一个属于自己的虚拟专用网络的方法，可用�
 &lt;dt&gt;Cellphone&lt;/dt&gt;
 &lt;dd&gt;手机，位置不固定，和 MacBook 类似。&lt;/dd&gt;
 &lt;/dl&gt;
+&lt;p&gt;其中， home-gw 和 office-gw 所扮演的角色，其实就是 tailscale 中的 &lt;a href="https://tailscale.com/kb/1019/subnets" target="_blank" rel="noopener"&gt;subnet
+routers&lt;/a&gt; 。&lt;/p&gt;
 &lt;h3 id="网段划分"&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#网段划分" class="anchor-link" aria-label="网段划分"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#contents:网段划分" class="headings"&gt;网段划分&lt;/a&gt;&lt;/h3&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;code&gt;10.9.0.0/16&lt;/code&gt;&lt;/dt&gt;
@@ -1001,7 +1003,55 @@ macOS 和 iOS/Android 比较特殊，有 UI 界面可以直接配置（Windows �
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="na"&gt;AllowedIPs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;10.9.0.0/16, 192.168.1.0/24, 172.19.50.0/24 # 和所有设备互通&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><category scheme="https://mincodes.com/tags/wireguard/" term="Wireguard" label="Wireguard"/><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/tunnel/" term="Tunnel" label="Tunnel"/><category scheme="https://mincodes.com/tags/vpn/" term="Vpn" label="Vpn"/><category scheme="https://mincodes.com/tags/homelab/" term="Homelab" label="Homelab"/></entry><entry><title type="text">
+&lt;/div&gt;&lt;h2 id="后记-网关自动转发的替代方案"&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#后记-网关自动转发的替代方案" class="anchor-link" aria-label="后记-网关自动转发的替代方案"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#contents:后记-网关自动转发的替代方案" class="headings"&gt;后记：网关自动转发的替代方案&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;如果你不想让 home-gw/office-gw 无脑转发所有通向内网的流量，也可以按需手动转发。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code class="language-artist" data-lang="artist"&gt; +--------------------------------------+
+| 192.168.1.0/24 |
+| |
++---------+ +--------+ +----------+ +--------------+ |
+| MacBook |---------&amp;gt;| router |--------&amp;gt;| home-gw |-------&amp;gt;| home-server | |
+| | | | | 10.9.0.2 | | 192.168.1.10 | |
++---------+ +--------+ +----------+ +--------------+ |
+| |
++--------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如上图所示，假设现在 homelab LAN 中有一台服务器 home-server, 目标是 MacBook 可以直接访问 home-server （例如，可以 ssh 登录 home-server）。&lt;/p&gt;
+&lt;p&gt;注意，这里有几个限制条件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;home-server 本身并未接入 WireGuard。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;home-gw 未开启 iptables 转发（参考 &lt;a href="https://mincodes.com/posts/build-your-own-vpn-with-wireguard/#home-gw-%E9%85%8D%E7%BD%AE"&gt;home-gw 配置&lt;/a&gt;）。&lt;/p&gt;
+&lt;p&gt;如果开启了 iptables 转发，就是走的无脑转发的方案，不需要其他操作，MacBook 直接就能访问 home-server。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;home-gw 上面安装有 sshd server, 且 MacBook 有 ssh 登录权限。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面我们来实现按需手动转发的方案。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 MacBook 上 ssh 登录 home-gw&lt;/li&gt;
+&lt;li&gt;在第一步建立的 ssh 会话中，利用 ncat 打开通向 192.168.1.10:22 的转发隧道：
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ncat -v --sh-exec &lt;span class="s1"&gt;&amp;#39;ncat -i 5m -v 192.168.1.10 22&amp;#39;&lt;/span&gt; -l &lt;span class="m"&gt;2222&lt;/span&gt; --keep-open
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;其实也可以改成直接利用 ssh 来进行端口转发，但是 ssh 转发不太稳定，很容易就断了。 ncat 转发实测十分的稳定。&lt;/li&gt;
+&lt;li&gt;现在可以在 MacBook 上通过 ssh 登录 home-server 了：
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;div class="table-container"&gt;&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ssh -p &lt;span class="m"&gt;2222&lt;/span&gt; 10.9.0.2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;在第二步中，我们将 home-gw 的 2222 端口映射到了 home-server 的 22 端口上，因此，上面的命令实际上会连接到 home-server 的 22 端口上。&lt;/li&gt;
+&lt;/ol&gt;</content><category scheme="https://mincodes.com/tags/wireguard/" term="Wireguard" label="Wireguard"/><category scheme="https://mincodes.com/tags/network/" term="Network" label="Network"/><category scheme="https://mincodes.com/tags/tunnel/" term="Tunnel" label="Tunnel"/><category scheme="https://mincodes.com/tags/vpn/" term="Vpn" label="Vpn"/><category scheme="https://mincodes.com/tags/homelab/" term="Homelab" label="Homelab"/></entry><entry><title type="text">
 一个小实验理解 Kubernetes 的外部流量策略 (externalTrafficPolicy)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/understand-k8s-external-traffic-policy/"/><id>https://mincodes.com/posts/understand-k8s-external-traffic-policy/</id><updated>2025-09-23T09:23:33+08:00</updated><published>2025-09-23T09:23:33+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;blockquote&gt;
 &lt;p&gt;关于 Service 的 &lt;code&gt;externalTrafficPolicy&lt;/code&gt;, 官方文档的解释感觉有点模糊，看了网上其他人的解释也总感觉没有说到点子上。本文通过一个小实验，帮助你真正理解这个字段的含义和效果，以及相关注意事项。最后，本文总结了两种策略的优缺点。&lt;/p&gt;</summary><content type="html">
@@ -11748,7 +11798,7 @@ Android Tools</title><link rel="alternate" type="text/html" href="https://mincod
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</content><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/><category scheme="https://mincodes.com/tags/android/" term="Android" label="Android"/></entry><entry><title type="text">
-Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2025-09-26T15:59:37+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+Emacs 的本地变量 (Local Variables)</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-local-variables/"/><id>https://mincodes.com/posts/emacs-local-variables/</id><updated>2025-10-07T11:17:12+00:00</updated><published>2022-03-12T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;h2 id="emacs-中的变量"&gt;Emacs 中的变量&lt;/h2&gt;
 &lt;p&gt;要解释本地变量，先解释一下 Emacs 里面变量的作用。&lt;/p&gt;
 &lt;p&gt;Emacs 中有很多功能（内置的或者插件提供的）都可以通过设置一些变量的值来
@@ -12686,7 +12736,7 @@ json 文件通过 chan 吐出去。&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://talks.golang.org/2012/concurrency.slide#1" target="_blank" rel="noopener"&gt;Go Concurrency Patterns - slide&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://cs.opensource.google/go/x/website/+/master:_content/talks/2012/concurrency.slide" target="_blank" rel="noopener"&gt;Go Concurrency Patterns - source code of slide&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content><category scheme="https://mincodes.com/tags/golang/" term="Golang" label="Golang"/><category scheme="https://mincodes.com/tags/concurrency/" term="Concurrency" label="Concurrency"/></entry><entry><title type="text">
-在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2025-09-26T15:59:37+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+在 Emacs 中实现 VSCode 的 terminal 快捷键功能</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/emacs-vscode-terminal/"/><id>https://mincodes.com/posts/emacs-vscode-terminal/</id><updated>2025-10-07T11:17:12+00:00</updated><published>2022-03-09T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;p&gt;VSCode 有一个比较方便的快捷键：Ctrl-` ，可以一键拉起 terminal 。&lt;/p&gt;
 &lt;p&gt;这里在 Emacs 中模拟一下这个功能，而且还是增强版本，可以在不同文件中拉
 起不同的 terminal，拉起的 terminal 路径和当前文件的目录一致。&lt;/p&gt;</summary><content type="html">
@@ -12759,7 +12809,7 @@ json 文件通过 chan 吐出去。&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;Emacs 最大的魅力，也许就是可以按照自己的喜好，随心定制各种功能吧！另外
 各种文本编辑的快捷键，也是越用越顺手。&lt;/p&gt;</content><category scheme="https://mincodes.com/tags/emacs/" term="Emacs" label="Emacs"/><category scheme="https://mincodes.com/tags/elisp/" term="Elisp" label="Elisp"/><category scheme="https://mincodes.com/tags/terminal/" term="Terminal" label="Terminal"/><category scheme="https://mincodes.com/tags/vscode/" term="Vscode" label="Vscode"/><category scheme="https://mincodes.com/tags/tools/" term="Tools" label="Tools"/></entry><entry><title type="text">
-常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2025-09-26T15:59:37+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
+常用命令行工具</title><link rel="alternate" type="text/html" href="https://mincodes.com/posts/cmd-line-tools/"/><id>https://mincodes.com/posts/cmd-line-tools/</id><updated>2025-10-07T11:17:12+00:00</updated><published>2022-02-22T00:00:00+08:00</published><author><uri>https://mincodes.com/</uri></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights><summary type="html">
 &lt;p&gt;记录一些常用的命令行工具，方便随时取用。&lt;/p&gt;
 &lt;h2 id="git-throught-ssh"&gt;git throught ssh&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
