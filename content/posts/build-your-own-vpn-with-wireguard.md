@@ -1,6 +1,6 @@
 +++
 title = "利用 WireGuard 快速构建属于你自己的虚拟专用网络"
-lastmod = 2025-10-07T19:14:10+08:00
+lastmod = 2026-02-03T11:14:47+08:00
 tags = ["wireguard", "network", "tunnel", "vpn", "homelab"]
 draft = false
 +++
@@ -153,27 +153,31 @@ Public IP:  1.1.1.A                 1.1.1.B
 WG IP:      10.0.0.A                10.0.0.B
 ```
 
-其配置分别见下方。
+上图中，"Public IP" 指公网 IP，"WG IP" 指我们为 WireGuard 指定的虚拟局域网 IP。
 
-Node A 的配置清单：
+经过上述最简单的 WG 组网，我们可以通过 `10.0.0.A` 和 `10.0.0.B` 这两个 IP 地址，实现节点 A 和节点 B 之间的安全加密通信。
+
+两个节点的配置分别见下方（其中 A 和 B 为占位符，实际使用时，请自行修改）。
+
+Node A 的配置清单（Endpoint 中节点 B 的公网 IP 请按照实际情况进行修改）：
 
 ```cfg
 [Interface]
-Address = 10.0.0.A              # A 是 1~254 之间的任意数字
+Address = 10.0.0.A
 PrivateKey = <private key>
 
 # Node B
 [Peer]
 PublicKey = <B`s public key>
 AllowedIPs = 10.0.0.B/32
-Endpoint = 1.1.1.B:51820        # 假设 B 的公网 IP 为 1.1.1.B
+Endpoint = 1.1.1.B:51820
 ```
 
 Node B 的配置清单：
 
 ```cfg
 [Interface]
-Address = 10.0.0.B              # B 是和 A 不相同的 1~254 之间的任意数字
+Address = 10.0.0.B
 PrivateKey = <private key>
 
 # Node A
